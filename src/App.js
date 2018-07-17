@@ -5,6 +5,7 @@ import Content from './components/Content.js';
 import Sidemenu from './components/Sidemenu.js';
 import Data from './data.js';
 import axios from 'axios';
+import ReactModal from 'react-modal';
 
 class App extends Component {
   constructor(props) {
@@ -56,7 +57,8 @@ class App extends Component {
   }
 
   componentWillMount() {
-    document.title = 'Red Hat Partner Fusion'
+    document.title = 'Red Hat Partner Fusion';
+    ReactModal.setAppElement('body');
   }
 
   //Getting all the data required
