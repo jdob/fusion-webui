@@ -1,0 +1,24 @@
+.partner-section{
+    min-height: 200px;
+    width: 100%;
+    /*margin-left: -2%;*/
+}
+.partner-header{
+    height: 50px;
+    width: 100%;
+    vertical-align: middle;
+    background-color: #ddd;
+}
+.partner-div{
+   height: 200px;
+   width: 200px;
+   border: 1px solid gray;
+   border-radius: 25px;
+   border: 1px solid;
+   box-shadow: 5px 5px #888888;
+   background-color: white;
+   padding: 22px;
+}
+.hidden{
+    display: hidden;
+}

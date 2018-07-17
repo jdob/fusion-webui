@@ -1,0 +1,20 @@
+.modal-left-side{
+    float: left;
+    width: 25%;
+    height: 100%;
+}
+
+.modal-right-side{
+    width: 75%;
+    height: 100%;
+    float: right;
+}
+
+.inline-divs{
+    display:inline-block;
+    margin:2%;
+}
+
+.partner-names{
+    margin-top:5%;
+}

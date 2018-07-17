@@ -1,0 +1,26 @@
+.partners-sidemenu
+{
+    background-color: #eee;
+    height:100%;
+}
+.text-input
+{
+    border: 0;
+    outline: 0;
+    background: transparent;
+    border-bottom: 1px solid black;
+}
+.sidemenu-heading
+{
+    color: #ddd;
+    font-size: 8px;
+}
+.adjust-nav
+{
+    text-indent: -5px;
+}
+.button-adjust
+{
+    border: none;
+    background: none;
+}
