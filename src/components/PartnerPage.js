@@ -11,7 +11,7 @@ export default class PartnerPage extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-            state:this.props.location.state,
+            state:(this.props.location.state === undefined) ? true : this.props.location.state,
             partnerData:{},
             hasLoadedData : false
         };
