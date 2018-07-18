@@ -50,31 +50,31 @@ export default class PartnerPage extends React.Component {
             return (
                 <div>
                     <Row>
-                            <Col xs={12} md={12} lg={12}>
-                                <Contact state={this.state.partnerData.state}
-                                        contacts={this.state.partnerData.contacts}
+                        <Col xs={12} md={12} lg={12}>
+                            <Contact state={this.state.state}
+                                    contacts={this.state.partnerData.contacts}
+                                    partnerId={this.state.partnerData.id}
+                                    callbackParent={this.contactsChange.bind(this)}/>
+                        </Col>
+                    </Row>
+                    <hr/>
+                    <Row>
+                        <Col xs={12} md={12} lg={12}>
+                            <Comment state={this.state.partnerData.state}
+                                    comments={this.state.partnerData.comments}
+                                    partnerId={this.state.partnerData.id}
+                                    callbackParent={this.commentsChange.bind(this)}/>
+                        </Col>
+                    </Row>
+                    <hr/>
+                    <Row>
+                        <Col xs={12} md={12} lg={12}>
+                            <Engagement state={this.state.partnerData.state}
+                                        engagements={this.state.partnerData.engagements}
                                         partnerId={this.state.partnerData.id}
-                                        callbackParent={this.contactsChange.bind(this)}/>
-                            </Col>
-                        </Row>
-                        <hr/>
-                        <Row>
-                            <Col xs={12} md={12} lg={12}>
-                                <Comment state={this.state.partnerData.state}
-                                        comments={this.state.partnerData.comments}
-                                        partnerId={this.state.partnerData.id}
-                                        callbackParent={this.commentsChange.bind(this)}/>
-                            </Col>
-                        </Row>
-                        <hr/>
-                        <Row>
-                            <Col xs={12} md={12} lg={12}>
-                                <Engagement state={this.state.partnerData.state}
-                                            engagements={this.state.partnerData.engagements}
-                                            partnerId={this.state.partnerData.id}
-                                            callbackParent={this.engagementsChange.bind(this)} />
-                            </Col>
-                        </Row>
+                                        callbackParent={this.engagementsChange.bind(this)} />
+                        </Col>
+                    </Row>
                 </div>
             );
         }

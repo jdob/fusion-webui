@@ -2,18 +2,38 @@ import React from 'react';
 import { Row, Col } from 'react-bootstrap';
 import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
 import '../css/Contact.css';
+import ContactModal from './ContactModal.js';
+import ReactModal from 'react-modal';
 
 export default class Contact extends React.Component {
     constructor(props) {
         super(props);
-        super(props);
         this.changes = {};
         this.previousId;
-        this.state = {contacts : this.props.contacts};
+        this.state = {
+            contacts : this.props.contacts,
+            showModal: false
+        };
         this.cellEditProp = {
             mode: 'click',
             beforeSaveCell: this.onBeforeSaveCell.bind(this) // a hook for before saving cell
         };
+        this.handleOpenModal = this.handleOpenModal.bind(this);
+        this.handleCloseModal = this.handleCloseModal.bind(this);
+    }
+
+    componentWillMount(){
+        ReactModal.setAppElement('body');
+    }
+
+    //opens modal
+    handleOpenModal () {
+        this.setState({ showModal: true });
+    }
+    
+    //closes modal
+    handleCloseModal () {
+        this.setState({ showModal: false });
     }
 
     //Sends request to add contact
@@ -167,6 +187,16 @@ export default class Contact extends React.Component {
         )
     }
 
+    callbackParent(newContact){
+        if(newContact !== 'undefined')
+        {
+            this.setState(prevState => ({
+                contacts: prevState.contacts.concat(newContact),
+            }));
+            this.props.callbackParent(this.state.contacts);
+        }
+    }
+
     render(){
         return (
             <div>
@@ -182,6 +212,15 @@ export default class Contact extends React.Component {
                     <TableHeaderColumn width ='20px' editable={false} dataField="button" dataFormat={this.deleteButtonFormatter.bind(this)}>Delete</TableHeaderColumn>
                 </BootstrapTable>
                 <Row className="add-contact">
+                        <Col xs={12} md={12} lg={12}>
+                            <form>
+                                <div className="form-group">
+                                    <button disabled={this.props.state} onClick={this.handleOpenModal} type="button" className="btn btn-primary">Add Contact</button>
+                                </div>
+                            </form>
+                        </Col> 
+                    </Row>
+                {/*<Row className="add-contact">
                     <Col xs={12} md={12} lg={12}>
                         <div className="form-group">
                             <label><h5>Add Contact:</h5></label>
@@ -201,7 +240,16 @@ export default class Contact extends React.Component {
                             </form>
                         </div>
                     </Col> 
-                </Row>
+        </Row>*/}
+                <ReactModal
+                    isOpen={this.state.showModal}
+                    contentLabel="Red Hat tracking partners"
+                    onRequestClose={this.handleCloseModal}
+                >
+                    <div>
+                        <ContactModal state={this.props.state} callbackParent={this.callbackParent.bind(this)} partnerId={this.props.partnerId}/>
+                    </div>
+                </ReactModal>
             </div>
         );
     }
