@@ -211,15 +211,15 @@ export default class Contact extends React.Component {
                     <TableHeaderColumn width ='50px' editable={false} dataField="button" dataFormat={this.updateButtonFormatter.bind(this)}>Update</TableHeaderColumn>
                     <TableHeaderColumn width ='20px' editable={false} dataField="button" dataFormat={this.deleteButtonFormatter.bind(this)}>Delete</TableHeaderColumn>
                 </BootstrapTable>
-                <Row className="add-contact">
-                        <Col xs={12} md={12} lg={12}>
-                            <form>
-                                <div className="form-group">
-                                    <button disabled={this.props.state} onClick={this.handleOpenModal} type="button" className="btn btn-primary">Add Contact</button>
-                                </div>
-                            </form>
-                        </Col> 
-                    </Row>
+                <Row className="add-contact-button">
+                    <Col xs={12} md={12} lg={12}>
+                        <form>
+                            <div className="form-group">
+                                <button disabled={this.props.state} onClick={this.handleOpenModal} type="button" className="btn btn-primary">Add Contact</button>
+                            </div>
+                        </form>
+                    </Col> 
+                </Row>
                 {/*<Row className="add-contact">
                     <Col xs={12} md={12} lg={12}>
                         <div className="form-group">

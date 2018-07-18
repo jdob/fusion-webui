@@ -6,6 +6,7 @@ import '../css/ModalLeftSide.css';
 export default class ModalLeftSide extends React.Component {
     constructor(props) {
         super(props);
+        console.log(this.props);
     }
 
     //We will get the data for the image src and badges

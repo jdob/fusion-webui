@@ -3,17 +3,38 @@ import { Row, Col } from 'react-bootstrap';
 import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
 import 'react-bootstrap-table/dist/react-bootstrap-table-all.min.css';
 import '../css/Engagement.css';
+import ReactModal from 'react-modal';
+import EngagementModal from './EngagementModal.js';
 
 export default class Engagement extends React.Component {
     constructor(props) {
         super(props);
         this.changes = {};
         this.previousId;
-        this.state = {engagements : this.props.engagements};
+        this.state = {
+            engagements : this.props.engagements,
+            showModal: false
+        };
         this.cellEditProp = {
             mode: 'click',
             beforeSaveCell: this.onBeforeSaveCell.bind(this) // a hook for before saving cell
         };
+        this.handleOpenModal = this.handleOpenModal.bind(this);
+        this.handleCloseModal = this.handleCloseModal.bind(this);
+    }
+
+    componentWillMount(){
+        ReactModal.setAppElement('body');
+    }
+
+    //opens modal
+    handleOpenModal () {
+        this.setState({ showModal: true });
+    }
+    
+    //closes modal
+    handleCloseModal () {
+        this.setState({ showModal: false });
     }
 
     //Sends request to add comment
@@ -287,6 +308,16 @@ export default class Engagement extends React.Component {
         return rows;
     }
 
+    callbackParent(newEngagement){
+        if(newEngagement !== 'undefined')
+        {
+            this.setState(prevState => ({
+                engagements: prevState.engagements.concat(newEngagement),
+            }));
+            this.props.callbackParent(this.state.engagements);
+        }
+    }
+
     render(){
         return (
             <div>
@@ -304,7 +335,16 @@ export default class Engagement extends React.Component {
                 <div className="partner-engagements">
                     {this.populateEngagments.call(this)}
                 </div>
-                <Row className="add-engagement">
+                <Row className="add-engagement-button">
+                    <Col xs={12} md={12} lg={12}>
+                        <form>
+                            <div className="form-group">
+                                <button disabled={this.props.state} onClick={this.handleOpenModal} type="button" className="btn btn-primary">Add Engagement</button>
+                            </div>
+                        </form>
+                    </Col> 
+                </Row>
+                {/*<Row className="add-engagement">
                     <Col xs={12} md={12} lg={12}>
                         <div className="form-group">
                             <label><h5>Add Engagement:</h5></label>
@@ -324,7 +364,16 @@ export default class Engagement extends React.Component {
                             </form>
                         </div>
                     </Col> 
-                </Row>
+    </Row>*/}
+                <ReactModal
+                    isOpen={this.state.showModal}
+                    contentLabel="Red Hat tracking partners"
+                    onRequestClose={this.handleCloseModal}
+                >
+                    <div>
+                        <EngagementModal state={this.props.state} callbackParent={this.callbackParent.bind(this)} partnerId={this.props.partnerId}/>
+                    </div>
+                </ReactModal>
             </div>
         );
     }

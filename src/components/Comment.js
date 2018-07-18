@@ -1,16 +1,37 @@
 import React from 'react';
 import { Row, Col } from 'react-bootstrap';
 import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
+import ReactModal from 'react-modal';
+import CommentModal from './CommentModal.js';
 
 export default class Comment extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {comments : this.props.comments};
+        this.state = {
+            comments : this.props.comments,
+            showModal: false
+        };
         this.cellEditProp = {
             mode: 'click',
             beforeSaveCell: this.onBeforeSaveCell.bind(this), // a hook for before saving cell
             afterSaveCell: this.onAfterSaveCell.bind(this)  // a hook for after saving cell
         };
+        this.handleOpenModal = this.handleOpenModal.bind(this);
+        this.handleCloseModal = this.handleCloseModal.bind(this);
+    }
+
+    componentWillMount(){
+        ReactModal.setAppElement('body');
+    }
+
+    //opens modal
+    handleOpenModal () {
+        this.setState({ showModal: true });
+    }
+    
+    //closes modal
+    handleCloseModal () {
+        this.setState({ showModal: false });
     }
 
     //Add new comment, does not allow empty string or just spaces, to save
@@ -142,6 +163,16 @@ export default class Comment extends React.Component {
         )
     }
 
+    callbackParent(newComment){
+        if(newComment !== 'undefined')
+        {
+            this.setState(prevState => ({
+                comments: prevState.comments.concat(newComment),
+            }));
+            this.props.callbackParent(this.state.comments);
+        }
+    }
+
     render(){
         return (
             <div>
@@ -153,7 +184,16 @@ export default class Comment extends React.Component {
                     <TableHeaderColumn width='500px' editable={!this.props.state} dataField='text'>Text</TableHeaderColumn>
                     <TableHeaderColumn width='20px' editable={false} dataField="button" dataFormat={this.deleteButtonFormatter.bind(this)}>Delete</TableHeaderColumn>
                 </BootstrapTable>
-                <Row className="add-info">
+                <Row className="add-comment">
+                    <Col xs={12} md={12} lg={12}>
+                        <form>
+                            <div className="form-group">
+                                <button disabled={this.props.state} onClick={this.handleOpenModal} type="button" className="btn btn-primary">Add Comment</button>
+                            </div>
+                        </form>
+                    </Col> 
+                </Row>
+                {/*<Row className="add-info">
                     <Col xs={12} md={12} lg={12}>
                         <form>
                             <div className="form-group">
@@ -165,7 +205,16 @@ export default class Comment extends React.Component {
                             </div>
                         </form>
                     </Col> 
-                </Row>
+        </Row>*/}
+                <ReactModal
+                    isOpen={this.state.showModal}
+                    contentLabel="Red Hat tracking partners"
+                    onRequestClose={this.handleCloseModal}
+                >
+                    <div>
+                        <CommentModal state={this.props.state} callbackParent={this.callbackParent.bind(this)} partnerId={this.props.partnerId}/>
+                    </div>
+                </ReactModal>
             </div>
         );
     }

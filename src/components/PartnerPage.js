@@ -4,6 +4,8 @@ import Contact from './Contact.js';
 import Comment from './Comment.js';
 import { Row, Col } from 'react-bootstrap';
 import axios from 'axios';
+import ModalLeftSide from './ModalLeftSide.js';
+import '../css/PartnerPage.css';
 
 export default class PartnerPage extends React.Component {
     constructor(props){
@@ -49,32 +51,37 @@ export default class PartnerPage extends React.Component {
         {
             return (
                 <div>
-                    <Row>
-                        <Col xs={12} md={12} lg={12}>
-                            <Contact state={this.state.state}
-                                    contacts={this.state.partnerData.contacts}
-                                    partnerId={this.state.partnerData.id}
-                                    callbackParent={this.contactsChange.bind(this)}/>
-                        </Col>
-                    </Row>
-                    <hr/>
-                    <Row>
-                        <Col xs={12} md={12} lg={12}>
-                            <Comment state={this.state.partnerData.state}
-                                    comments={this.state.partnerData.comments}
-                                    partnerId={this.state.partnerData.id}
-                                    callbackParent={this.commentsChange.bind(this)}/>
-                        </Col>
-                    </Row>
-                    <hr/>
-                    <Row>
-                        <Col xs={12} md={12} lg={12}>
-                            <Engagement state={this.state.partnerData.state}
-                                        engagements={this.state.partnerData.engagements}
+                    <div className="left-div">   
+                        <ModalLeftSide state={this.state.state} data={this.state.partnerData}/>
+                    </div>
+                    <div className="right-div">
+                        <Row>
+                            <Col xs={12} md={12} lg={12}>
+                                <Contact state={this.state.state}
+                                        contacts={this.state.partnerData.contacts}
                                         partnerId={this.state.partnerData.id}
-                                        callbackParent={this.engagementsChange.bind(this)} />
-                        </Col>
-                    </Row>
+                                        callbackParent={this.contactsChange.bind(this)}/>
+                            </Col>
+                        </Row>
+                        <hr/>
+                        <Row>
+                            <Col xs={12} md={12} lg={12}>
+                                <Comment state={this.state.partnerData.state}
+                                        comments={this.state.partnerData.comments}
+                                        partnerId={this.state.partnerData.id}
+                                        callbackParent={this.commentsChange.bind(this)}/>
+                            </Col>
+                        </Row>
+                        <hr/>
+                        <Row>
+                            <Col xs={12} md={12} lg={12}>
+                                <Engagement state={this.state.partnerData.state}
+                                            engagements={this.state.partnerData.engagements}
+                                            partnerId={this.state.partnerData.id}
+                                            callbackParent={this.engagementsChange.bind(this)} />
+                            </Col>
+                        </Row>
+                    </div>
                 </div>
             );
         }
