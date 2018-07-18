@@ -247,7 +247,7 @@ export default class Contact extends React.Component {
                     onRequestClose={this.handleCloseModal}
                 >
                     <div>
-                        <ContactModal state={this.props.state} callbackParent={this.callbackParent.bind(this)} partnerId={this.props.partnerId}/>
+                        <ContactModal state={this.props.state} callbackParent={this.callbackParent.bind(this)} partnerId={this.props.partnerId} closeModalCallback={this.handleCloseModal.bind(this)}/>
                     </div>
                 </ReactModal>
             </div>

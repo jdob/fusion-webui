@@ -212,7 +212,7 @@ export default class Comment extends React.Component {
                     onRequestClose={this.handleCloseModal}
                 >
                     <div>
-                        <CommentModal state={this.props.state} callbackParent={this.callbackParent.bind(this)} partnerId={this.props.partnerId}/>
+                        <CommentModal state={this.props.state} callbackParent={this.callbackParent.bind(this)} partnerId={this.props.partnerId} closeModalCallback={this.handleCloseModal.bind(this)}/>
                     </div>
                 </ReactModal>
             </div>

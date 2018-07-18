@@ -44,9 +44,14 @@ export default class ContactModal extends React.Component {
                     {
                         self.props.callbackParent(newContact);
                     }
+                    self.props.closeModalCallback();
                 });
             });
         }
+    }
+
+    onCancelClick(){
+        this.props.closeModalCallback();
     }
 
     render(){
@@ -65,8 +70,11 @@ export default class ContactModal extends React.Component {
                             <div className="form-group">
                                 <input type = 'text'  placeholder='Role' readOnly={this.props.state} className="form-control" id="new-role"></input>
                             </div>
-                            <div className="form-group">
+                            <div className="form-group" style={{display : 'inline-block',marginRight:2 + '%'}}>
                                 <button disabled={this.props.state} onClick={this.onSubmitClick.bind(this)} type="button" className="btn btn-primary">Submit</button>
+                            </div>
+                            <div className="form-group" style={{display : 'inline-block'}}>
+                                <button disabled={this.props.state} onClick={this.onCancelClick.bind(this)} type="button" className="btn btn-default">Cancel</button>
                             </div>
                         </form>
                     </div>

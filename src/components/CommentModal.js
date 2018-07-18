@@ -37,9 +37,14 @@ export default class CommenttModal extends React.Component {
                     {
                         self.props.callbackParent(newComment);
                     }
+                    self.props.closeModalCallback();
                 });
             });
         }
+    }
+
+    onCancelClick(){
+        this.props.closeModalCallback();
     }
 
     render(){
@@ -49,10 +54,13 @@ export default class CommenttModal extends React.Component {
                     <form>
                         <div className="form-group">
                             <label><h5>Add Comment:</h5></label>
-                            <input type="text" placeholder="Comment" readOnly={this.props.state} className="form-control" id="new-comment"></input>
+                            <textarea rows='5' placeholder="Comment" readOnly={this.props.state} className="form-control" id="new-comment"></textarea>
                         </div>
-                        <div className="form-group">
+                        <div className="form-group" style={{display : 'inline-block',marginRight:2 + '%'}}>
                             <button disabled={this.props.state} onClick={this.onSubmitClick.bind(this)} type="button" className="btn btn-primary">Submit</button>
+                        </div>
+                        <div className="form-group" style={{display : 'inline-block'}}>
+                            <button disabled={this.props.state} onClick={this.onCancelClick.bind(this)} type="button" className="btn btn-default">Cancel</button>
                         </div>
                     </form>
                 </Col> 

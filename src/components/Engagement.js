@@ -374,7 +374,7 @@ export default class Engagement extends React.Component {
                     onRequestClose={this.handleCloseModal}
                 >
                     <div>
-                        <EngagementModal state={this.props.state} callbackParent={this.callbackParent.bind(this)} partnerId={this.props.partnerId}/>
+                        <EngagementModal state={this.props.state} callbackParent={this.callbackParent.bind(this)} partnerId={this.props.partnerId} closeModalCallback={this.handleCloseModal.bind(this)}/>
                     </div>
                 </ReactModal>
             </div>
