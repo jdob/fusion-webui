@@ -105,6 +105,9 @@ export default class Engagement extends React.Component {
         }).then(function(response){
             //we get the response text only like this
             response.text().then(function() {
+                /*var elementId = ''+engagementId;
+                var elem = document.getElementById(elementId);
+                elem.parentNode.removeChild(elem);*/
                 //appending new comment to the ui
                 var newEngagements = self.state.engagements.filter(function( obj ) {
                     return obj.id !== parseInt(engagementId, 10);
@@ -115,7 +118,7 @@ export default class Engagement extends React.Component {
                 if(self.props.callbackParent !== undefined)
                 {
                     self.props.callbackParent(self.state.engagements)
-                } 
+                }
             });
         });
     }
@@ -256,7 +259,7 @@ export default class Engagement extends React.Component {
         else
         {   
             for(let i=0; i<numberOfItems; i++) {
-                let key = "engagement-"+i;
+                let key = "engagement-"+engagements[i].id;
                 var engagementDate = new Date(engagements[i].timestamp); 
                 rows.push(
                     <div id={engagements[i].id} key={key} className="engagements">
