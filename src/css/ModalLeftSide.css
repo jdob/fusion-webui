@@ -1,7 +1,7 @@
 .image-adjust
 {
    height: 200px;
-   width: 200px;
+   width: 100%;
    background-color: white;
    padding: 22px;
 }
