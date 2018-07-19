@@ -4,6 +4,8 @@
     float: left;
     padding: 5%;
     background-color: white;
+    height: 100%;
+    position: absolute;
 }
 .right-div{
     display: inline;
