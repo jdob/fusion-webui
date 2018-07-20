@@ -11,10 +11,12 @@
 }
 
 .inline-divs{
-    display:inline-block;
-    margin:2%;
+    display: inline-block;
+    margin: 2%;
 }
 
 .partner-names{
-    margin-top:5%;
+    margin-top: 5%;
+    font-size: medium;
+    text-align: center;
 }

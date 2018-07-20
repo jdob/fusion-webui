@@ -11,7 +11,7 @@ class Section extends React.Component {
         let numberOfItems = parseInt(this.props.data.length,10); 
         for(let i=0; i<numberOfItems; i++) {
             //creates the image + popup for that image
-            rows.push(<Partner state = {this.props.state} data={this.props.data[i]} key={this.props.data[i].id}/>)
+            rows.push(<Partner state={this.props.state} data={this.props.data[i]} key={this.props.data[i].id}/>)
         }
         return rows;
     }
@@ -20,8 +20,7 @@ class Section extends React.Component {
         return (
           <div key ={this.props.id} className="partner-section">
               <Row className="partner-header">
-                        <Col xs={2} md={2} lg={2}>{this.props.type}</Col>
-                        <Col xs={1} md={1} lg={1}>({parseInt(this.props.data.length,10)})</Col> 
+                {this.props.type}
               </Row>
               <div className="partners">
                 {this.populateSection()}

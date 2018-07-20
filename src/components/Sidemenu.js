@@ -118,7 +118,6 @@ class Sidemenu extends React.Component {
               </button>
             </div>
           </form>
-
         </div>
       )
     }
