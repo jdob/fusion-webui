@@ -13,7 +13,12 @@ export default class ModalLeftSide extends React.Component {
         return(
             <div>
                 <Row className="modal-partner-image">
-                    <Col xs={12} md={12} lg={12}><img className="image-adjust" src={"data:image/jpg;base64," + this.props.data.logo} /></Col>
+                    <Col xs={12} md={12} lg={12}>
+                        <img height="200"
+                             width="200"
+                             src={"data:image/jpg;base64," + this.props.data.logo}
+                         />
+                    </Col>
                 </Row>
                 <Row className="modal-partner-summary">
                     <Col xs={12} md={12} lg={12}>{this.props.data.summary}</Col> 
