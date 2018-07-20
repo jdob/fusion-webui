@@ -64,7 +64,7 @@ class Partner extends React.Component {
               <ModalRightSide state={this.props.state} data={this.props.data}/>
             </span>
           </ReactModal>*/}
-          <div className="partner-names"><h5>{this.props.data.name}</h5></div>
+          <div className="partner-names">{this.props.data.name}</div>
       </div>
     );
   }
