@@ -347,7 +347,7 @@ export default class Engagement extends React.Component {
         return (
             <div>
                 <Row>
-                    <Col xs={12} md={12} lg={12}><div class="detail-header">Engagements</div></Col>
+                    <Col xs={12} md={12} lg={12}><div className="detail-header">Engagements</div></Col>
                 </Row>
                 <div className="partner-engagements">
                     {this.populateEngagements.call(this)}

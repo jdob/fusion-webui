@@ -6,6 +6,7 @@ import { Row, Col } from 'react-bootstrap';
 import axios from 'axios';
 import ModalLeftSide from './ModalLeftSide.js';
 import '../css/PartnerPage.css';
+import Links from './Links.js'
 
 export default class PartnerPage extends React.Component {
     constructor(props){
@@ -43,6 +44,10 @@ export default class PartnerPage extends React.Component {
         this.setState(this.state.partnerData.contacts=newContacts)
     }
 
+    linksChange(newLinks) {
+        this.setState(this.state.partnerData.links=newLinks)
+    }
+
     render() {
         if (!this.state.hasLoadedData) {
             return <p>Loading ...</p>;
@@ -61,6 +66,14 @@ export default class PartnerPage extends React.Component {
                                          contacts={this.state.partnerData.contacts}
                                          partnerId={this.state.partnerData.id}
                                          callbackParent={this.contactsChange.bind(this)}/>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col xs={12} md={12} lg={12}>
+                                <Links state={this.state.state}
+                                         links={this.state.partnerData.links}
+                                         partnerId={this.state.partnerData.id}
+                                         callbackParent={this.linksChange.bind(this)}/>
                             </Col>
                         </Row>
                         <Row>

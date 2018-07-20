@@ -201,7 +201,7 @@ export default class Contact extends React.Component {
         return (
             <div>
                 <Row>
-                    <Col xs={12} md={12} lg={12}><div class="detail-header">Contacts</div></Col>
+                    <Col xs={12} md={12} lg={12}><div className="detail-header">Contacts</div></Col>
                 </Row>
                 <BootstrapTable data={ this.state.contacts } bordered={true} cellEdit={ this.cellEditProp} containerStyle={{width:'100%'}}>
                     <TableHeaderColumn hidden={true} dataField='id' isKey>Id</TableHeaderColumn>
