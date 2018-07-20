@@ -6,6 +6,8 @@
 .partner-header{
     height: 50px;
     width: 100%;
+    font-size: x-large;
+    padding: 8px;
     vertical-align: middle;
     background-color: #ddd;
 }
