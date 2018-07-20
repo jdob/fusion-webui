@@ -20,7 +20,7 @@ export default class CreateRoutes extends React.Component {
     return(
       <Router history={newHistory}>
         <Switch>
-          <Route exact path="/" component={Login}/>
+          <Route exact path="/" component={App}/>
           <Route exact path="/login" component={Login}/>
           <Route exact path="/register" component={Register}/>
           <Route exact path="/home" component={App}/>

@@ -6,6 +6,7 @@ import TextField from 'material-ui/TextField';
 import './Login.css';
 import { combineReducers, createStore } from 'redux';
 import { sessionReducer, sessionService } from 'redux-react-session';
+import axios from 'axios';
 
 export default class Login extends React.Component {
     //properties are self explanatory
@@ -15,7 +16,8 @@ export default class Login extends React.Component {
         this.state={
             username:'',
             password:'',
-            isAdmin:false
+            isAdmin:false,
+            token:''
         }
     }
 
@@ -60,7 +62,7 @@ export default class Login extends React.Component {
     //admin user gets the edit view
     //normal user gets read only view
     handleSubmitClick(event){
-        if(document.getElementById('username').value === 'admin' && document.getElementById('password').value === 'admin')
+        /*if(document.getElementById('username').value === 'admin' && document.getElementById('password').value === 'admin')
         {
             this.setState({isAdmin:true});
             localStorage.setItem('isAdmin', true);
@@ -72,7 +74,23 @@ export default class Login extends React.Component {
             localStorage.setItem('isAdmin', false);
             this.redirect('/home');
             //this.createSession(this.redirect.bind(this,'/home'));
-        }
+        }*/
+        var self = this;
+        //auth token
+        axios({
+            method: 'post',
+            url: "http://127.0.0.1:8000/api-token-auth/",
+            data: {
+                username: self.state.username,
+                password: self.state.password
+            }
+        }).then(function(token) {
+            self.setState({token:token.data,isAdmin:true});
+            localStorage.setItem('isAdmin', true);
+            self.redirect('/edit');
+        }).catch((err) => {
+            console.log(err);
+        });
     }
 
     render() {
