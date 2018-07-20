@@ -243,7 +243,7 @@ export default class Engagement extends React.Component {
         )
     }
 
-    populateEngagments() {
+    populateEngagements() {
         let rows = [];
         let engagements = this.state.engagements;
         let numberOfItems = parseInt(engagements.length,10);
@@ -252,7 +252,7 @@ export default class Engagement extends React.Component {
         {
             rows.push(
                 <Row key="no-engagement">
-                    <Col xs={12} md={12} lg={12}>No Engaments with this partner</Col>
+                    <Col xs={12} md={12} lg={12}>No Engagements with this partner</Col>
                 </Row>
             )
         }
@@ -336,7 +336,7 @@ export default class Engagement extends React.Component {
                     <TableHeaderColumn editable={false} dataField="button" dataFormat={this.deleteButtonFormatter.bind(this)}>Delete</TableHeaderColumn>
         </BootstrapTable>*/}
                 <div className="partner-engagements">
-                    {this.populateEngagments.call(this)}
+                    {this.populateEngagements.call(this)}
                 </div>
                 <Row className="add-engagement-button">
                     <Col xs={12} md={12} lg={12}>
