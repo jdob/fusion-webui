@@ -10,14 +10,14 @@
     background-color: #ddd;
 }
 .partner-div{
-   height: 200px;
-   width: 200px;
-   border: 1px solid gray;
-   border-radius: 25px;
-   border: 1px solid;
-   box-shadow: 5px 5px #888888;
-   background-color: white;
-   padding: 22px;
+    height: 200px;
+    width: 200px;
+    border: 1px solid gray;
+    border-radius: 25px;
+    border: 1px solid;
+    box-shadow: 5px 5px #888888;
+    background-color: white;
+    padding: 22px;
 }
 .hidden{
     display: hidden;
