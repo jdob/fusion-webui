@@ -102,25 +102,6 @@ export default class Sidemenu extends React.Component {
                 </Nav>
               </Nav>
           </SideNav>
-          <form>
-            <div className="form-group">
-                <button disabled={this.props.state}
-                        onClick={this.handleOpenModal}
-                        type="button"
-                        className="btn btn-secondary button-adjust"
-                        >
-                        Add Partner
-                </button>
-                <ReactModal
-                    isOpen={this.state.showModal}
-                    contentLabel="Red Hat tracking partners"
-                    onRequestClose={this.handleCloseModal}
-                >
-                    <NewPartner categories={this.props.categories}/>
-                </ReactModal>
-            </div>
-          </form>
-
         </div>
       )
     }
