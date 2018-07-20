@@ -166,18 +166,6 @@ export default class Engagement extends React.Component {
     }
     
     onUpdateClick(event) {
-        /*if(!("attendees" in this.changes))
-        {
-            this.changes["attendees"] = row.attendees;
-        }
-        if(!("notes" in this.changes))
-        {
-            this.changes["notes"] = row.notes;
-        }
-        if(!("location" in this.changes))
-        {
-            this.changes["location"] = row.location;
-        }*/
         var self = this;
         var row = event.target;
         var engagementId = parseInt(row.id,10);
