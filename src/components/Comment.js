@@ -177,7 +177,7 @@ export default class Comment extends React.Component {
         return (
             <div>
                 <Row>
-                        <Col xs={12} md={12} lg={12}><h4>Comments</h4></Col>
+                        <Col xs={12} md={12} lg={12}><div class="detail-header">Comments</div></Col>
                 </Row>
                 <BootstrapTable data={ this.state.comments } bordered={true} cellEdit={ this.cellEditProp } containerStyle={{width:'100%'}}>
                     <TableHeaderColumn hidden={true} dataField='id' isKey>Id</TableHeaderColumn>

@@ -58,21 +58,19 @@ export default class PartnerPage extends React.Component {
                         <Row>
                             <Col xs={12} md={12} lg={12}>
                                 <Contact state={this.state.state}
-                                        contacts={this.state.partnerData.contacts}
-                                        partnerId={this.state.partnerData.id}
-                                        callbackParent={this.contactsChange.bind(this)}/>
+                                         contacts={this.state.partnerData.contacts}
+                                         partnerId={this.state.partnerData.id}
+                                         callbackParent={this.contactsChange.bind(this)}/>
                             </Col>
                         </Row>
-                        <hr/>
                         <Row>
                             <Col xs={12} md={12} lg={12}>
                                 <Comment state={this.state.state}
-                                        comments={this.state.partnerData.comments}
-                                        partnerId={this.state.partnerData.id}
-                                        callbackParent={this.commentsChange.bind(this)}/>
+                                         comments={this.state.partnerData.comments}
+                                         partnerId={this.state.partnerData.id}
+                                         callbackParent={this.commentsChange.bind(this)}/>
                             </Col>
                         </Row>
-                        <hr/>
                         <Row>
                             <Col xs={12} md={12} lg={12}>
                                 <Engagement state={this.state.state}
