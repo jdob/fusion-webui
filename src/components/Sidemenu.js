@@ -9,9 +9,10 @@ import { paragraphLeft } from 'react-icons-kit/icomoon/paragraphLeft';
 import { ic_business } from 'react-icons-kit/md/ic_business';
 import { ic_location_on } from 'react-icons-kit/md/ic_location_on';
 import '../App.css';
+import withRouter from 'react-router-dom/withRouter';
 
 //using the code provided by react-sidenav
-export default class Sidemenu extends React.Component {
+class Sidemenu extends React.Component {
 
     constructor(props) {
         super(props);
@@ -84,6 +85,10 @@ export default class Sidemenu extends React.Component {
       return navs;
     }
 
+    checkLogin() {
+      this.props.history.push('/login');
+    }
+
     render() {
       return (
         <div style={{background: '#eee', color: '#333', width: 220}}> 
@@ -102,7 +107,19 @@ export default class Sidemenu extends React.Component {
                 </Nav>
               </Nav>
           </SideNav>
+          <form>
+            <div className="form-group">
+              <button
+                onClick={this.checkLogin.bind(this)}
+                type="button"
+                className="btn btn-secondary button-adjust"
+                >
+                Login
+              </button>
+            </div>
+          </form>
         </div>
       )
     }
 }
+export default withRouter(Sidemenu)
