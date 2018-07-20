@@ -265,14 +265,28 @@ export default class Engagement extends React.Component {
                     <div id={engagements[i].id} key={key} className="engagements">
                         <Row>
                             <Col xs={10} md={10} lg={10}><b>{engagementDate.toDateString()}</b></Col>
-                            <Col xs={1} md={1} lg={1} className="delete-engagement"><button id={engagements[i].id} disabled= {self.props.state} onClick={self.onDeleteClick.bind(this)} className="delete-button">x</button></Col>
+                            <Col xs={1} md={1} lg={1} className="delete-engagement">
+                                <button id={engagements[i].id}
+                                        disabled= {self.props.state}
+                                        onClick={self.onDeleteClick.bind(this)}
+                                        className="delete-button">
+                                    x
+                                </button>
+                            </Col>
                         </Row>
                         <Row>
                             <Col xs={1} md={1} lg={1}>Location:</Col>
                             <Col xs={10} md={10} lg={10}>
                                 <form>
                                     <div className="form-group">
-                                        <input engagementid = {engagements[i].id} type = 'text' onChange = {this.storeUpdates.bind(this)} readOnly={self.props.state} className="form-control" defaultValue={engagements[i].location} attr="location"></input>
+                                        <input engagementid={engagements[i].id}
+                                               type='text'
+                                               onChange={this.storeUpdates.bind(this)}
+                                               readOnly={self.props.state}
+                                               className="form-control"
+                                               defaultValue={engagements[i].location}
+                                               attr="location">
+                                        </input>
                                     </div>
                                 </form>
                             </Col>
@@ -282,7 +296,14 @@ export default class Engagement extends React.Component {
                             <Col xs={10} md={10} lg={10}>
                                 <form>
                                     <div className="form-group">
-                                        <input engagementid = {engagements[i].id} onChange = {this.storeUpdates.bind(this)} type = 'text' readOnly={self.props.state} className="form-control" defaultValue={engagements[i].attendees} attr="attendees"></input>
+                                        <input engagementid={engagements[i].id}
+                                               onChange={this.storeUpdates.bind(this)}
+                                               type='text'
+                                               readOnly={self.props.state}
+                                               className="form-control"
+                                               defaultValue={engagements[i].attendees}
+                                               attr="attendees">
+                                        </input>
                                     </div>
                                 </form>
                             </Col>
@@ -292,7 +313,14 @@ export default class Engagement extends React.Component {
                             <Col xs={10} md={10} lg={10}>
                                 <form>
                                     <div className="form-group">
-                                        <textarea engagementid = {engagements[i].id} onChange = {this.storeUpdates.bind(this)} className="form-control" readOnly={self.props.state} attr="notes" rows="3" defaultValue={engagements[i].notes}></textarea>
+                                        <textarea engagementid={engagements[i].id}
+                                                  onChange={this.storeUpdates.bind(this)}
+                                                  className="form-control"
+                                                  readOnly={self.props.state}
+                                                  attr="notes"
+                                                  rows="3"
+                                                  defaultValue={engagements[i].notes}>
+                                        </textarea>
                                     </div>
                                 </form>
                             </Col>
@@ -300,7 +328,13 @@ export default class Engagement extends React.Component {
                         <Row>
                             <Col xs={12} md={12} lg={12} className="update-engagement">
                                 <div className="form-group">
-                                    <button id = {engagements[i].id} disabled={this.props.state} onClick={this.onUpdateClick.bind(this)} type="button" className="btn btn-primary">Update</button>
+                                    <button id={engagements[i].id}
+                                            disabled={this.props.state}
+                                            onClick={this.onUpdateClick.bind(this)}
+                                            type="button"
+                                            className="btn btn-primary">
+                                        Update
+                                    </button>
                                 </div>
                             </Col>
                         </Row>
@@ -327,14 +361,6 @@ export default class Engagement extends React.Component {
                 <Row>
                         <Col xs={12} md={12} lg={12}><h4>Engagements</h4></Col>
                 </Row>
-                {/*<BootstrapTable data={ this.state.engagements } bordered={true} cellEdit={ this.cellEditProp }>
-                    <TableHeaderColumn hidden={true} dataField='id' isKey>Id</TableHeaderColumn>
-                    <TableHeaderColumn editable={!this.props.state} onMouseOut={this.onMouseOut} dataField='attendees'>Attendees</TableHeaderColumn>
-                    <TableHeaderColumn editable={!this.props.state} dataField='notes'>Notes</TableHeaderColumn>
-                    <TableHeaderColumn editable={!this.props.state} dataField='location'>Location</TableHeaderColumn>
-                    <TableHeaderColumn editable={false} dataField="button" dataFormat={this.updateButtonFormatter.bind(this)}>Update</TableHeaderColumn>
-                    <TableHeaderColumn editable={false} dataField="button" dataFormat={this.deleteButtonFormatter.bind(this)}>Delete</TableHeaderColumn>
-        </BootstrapTable>*/}
                 <div className="partner-engagements">
                     {this.populateEngagements.call(this)}
                 </div>
@@ -342,39 +368,25 @@ export default class Engagement extends React.Component {
                     <Col xs={12} md={12} lg={12}>
                         <form>
                             <div className="form-group">
-                                <button disabled={this.props.state} onClick={this.handleOpenModal} type="button" className="btn btn-primary">Add Engagement</button>
+                                <button disabled={this.props.state}
+                                        onClick={this.handleOpenModal}
+                                        type="button"
+                                        className="btn btn-primary">
+                                    Add Engagement
+                                </button>
                             </div>
                         </form>
                     </Col> 
                 </Row>
-                {/*<Row className="add-engagement">
-                    <Col xs={12} md={12} lg={12}>
-                        <div className="form-group">
-                            <label><h5>Add Engagement:</h5></label>
-                            <form>
-                                <div className="form-group">
-                                    <input type = 'text' placeholder='Attendees' readOnly={this.props.state} className="form-control" id="new-attendees"></input>
-                                </div>
-                                <div className="form-group">
-                                    <input type = 'text'  placeholder='Notes' readOnly={this.props.state} className="form-control" id="new-notes"></input>
-                                </div>
-                                <div className="form-group">
-                                    <input type = 'text'  placeholder='Location' readOnly={this.props.state} className="form-control" id="new-location"></input>
-                                </div>
-                                <div className="form-group">
-                                    <button disabled={this.props.state} onClick={this.onSubmitClick.bind(this)} type="button" className="btn btn-primary">Submit</button>
-                                </div>
-                            </form>
-                        </div>
-                    </Col> 
-    </Row>*/}
                 <ReactModal
                     isOpen={this.state.showModal}
                     contentLabel="Red Hat tracking partners"
-                    onRequestClose={this.handleCloseModal}
-                >
+                    onRequestClose={this.handleCloseModal}>
                     <div>
-                        <EngagementModal state={this.props.state} callbackParent={this.callbackParent.bind(this)} partnerId={this.props.partnerId} closeModalCallback={this.handleCloseModal.bind(this)}/>
+                        <EngagementModal state={this.props.state}
+                                         callbackParent={this.callbackParent.bind(this)}
+                                         partnerId={this.props.partnerId}
+                                         closeModalCallback={this.handleCloseModal.bind(this)}/>
                     </div>
                 </ReactModal>
             </div>
