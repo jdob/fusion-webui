@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactModal from 'react-modal';
 import ModalLeftSide from './ModalLeftSide.js';
-import ModalRightSide from './ModalRightSide.js';
 import '../css/Image.css';
 import withRouter from 'react-router-dom/withRouter';
 
@@ -52,18 +51,6 @@ class Partner extends React.Component {
              id={this.props.data.id}
              alt="logo"
              className="partner-div" />
-          {/*<ReactModal
-            isOpen={this.state.showModal}
-            contentLabel="Red Hat tracking partners"
-            onRequestClose={this.handleCloseModal}
-          >
-            <span className="modal-left-side">
-              <ModalLeftSide state={this.props.state} data={this.props.data}/>
-            </span>
-            <span className="modal-right-side">
-              <ModalRightSide state={this.props.state} data={this.props.data}/>
-            </span>
-          </ReactModal>*/}
           <div className="partner-names">{this.props.data.name}</div>
       </div>
     );
