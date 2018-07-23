@@ -6,9 +6,10 @@ import { Row, Col } from 'react-bootstrap';
 import axios from 'axios';
 import ModalLeftSide from './ModalLeftSide.js';
 import '../css/PartnerPage.css';
-import Links from './Links.js'
+import Links from './Links.js';
+import withRouter from 'react-router-dom/withRouter';
 
-export default class PartnerPage extends React.Component {
+class PartnerPage extends React.Component {
     constructor(props){
         super(props);
         this.state = {
@@ -98,3 +99,4 @@ export default class PartnerPage extends React.Component {
         }
     }
 }
+export default withRouter(PartnerPage);

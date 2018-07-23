@@ -62,19 +62,6 @@ export default class Login extends React.Component {
     //admin user gets the edit view
     //normal user gets read only view
     handleSubmitClick(event){
-        /*if(document.getElementById('username').value === 'admin' && document.getElementById('password').value === 'admin')
-        {
-            this.setState({isAdmin:true});
-            localStorage.setItem('isAdmin', true);
-            this.redirect('/edit');
-            //this.createSession(this.redirect.bind(this,'/edit')); 
-        }
-        else
-        {
-            localStorage.setItem('isAdmin', false);
-            this.redirect('/home');
-            //this.createSession(this.redirect.bind(this,'/home'));
-        }*/
         var self = this;
         //auth token
         axios({
@@ -84,9 +71,11 @@ export default class Login extends React.Component {
                 username: self.state.username,
                 password: self.state.password
             }
-        }).then(function(token) {
-            self.setState({token:token.data,isAdmin:true});
+        }).then(function(authData) {
+            self.setState({token:authData.data.token,isAdmin:true});
             localStorage.setItem('isAdmin', true);
+            localStorage.setItem('isLoggedIn', true);
+            localStorage.setItem('authToken', authData.data.token);
             self.redirect('/edit');
         }).catch((err) => {
             console.log(err);

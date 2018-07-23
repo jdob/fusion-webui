@@ -10,8 +10,11 @@ import ReactModal from 'react-modal';
 class App extends Component {
   constructor(props) {
     super(props);
+    window.addEventListener('storage', this.storageChange.bind(this), false)
     //To check if we have to disable editable elements
-    this.stateReadOnly = (this.props.location.pathname === window.App.urlConstants.editURL) ? false : true; 
+    this.stateReadOnly = (localStorage.getItem('isAdmin') === 'false' || 
+                          localStorage.getItem('isAdmin') === null) ? true 
+                          : false; 
     this.state = {
       filters:[],
       categoryFilters:[],
@@ -19,6 +22,12 @@ class App extends Component {
       partners:{},
       categories:{}
     };
+  }
+
+  storageChange (event) {
+    if(localStorage.getItem('isLoggedIn')==='false') {
+        this.props.history.push('/home');
+    }
   }
 
   createRequest(url)

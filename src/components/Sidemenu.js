@@ -85,6 +85,14 @@ class Sidemenu extends React.Component {
       return navs;
     }
 
+    logout() {
+      // clear all items
+      localStorage.setItem('isAdmin',false);
+      localStorage.setItem('isLoggedIn',false);
+      localStorage.removeItem('authToken');
+      this.props.history.push('/login');
+    }
+
     checkLogin() {
       this.props.history.push('/login');
     }
@@ -115,6 +123,15 @@ class Sidemenu extends React.Component {
                 className="btn btn-secondary button-adjust"
                 >
                 Login
+              </button>
+            </div>
+            <div className="form-group">
+              <button
+                onClick={this.logout.bind(this)}
+                type="button"
+                className="btn btn-secondary button-adjust"
+                >
+                Logout
               </button>
             </div>
           </form>
