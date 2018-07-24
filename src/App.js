@@ -6,10 +6,12 @@ import Sidemenu from './components/Sidemenu.js';
 import Data from './data.js';
 import axios from 'axios';
 import ReactModal from 'react-modal';
+import Config from './Config';
 
 class App extends Component {
   constructor(props) {
     super(props);
+    console.log(Config.serviceHost);
     window.addEventListener('storage', this.storageChange.bind(this), false)
     //To check if we have to disable editable elements
     this.stateReadOnly = (localStorage.getItem('isAdmin') === 'false' || 
