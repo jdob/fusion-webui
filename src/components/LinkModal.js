@@ -12,7 +12,9 @@ export default class LinkModal extends React.Component {
         var name = document.getElementById("new-name").value;
         var url = document.getElementById("new-url").value;
         var description = document.getElementById("new-description").value;
-        var requestString = 'http://127.0.0.1:8000/partners/'+this.props.partnerId+'/links/';
+        var requestString = window.App.urlConstants.serviceHost + 
+                            window.App.urlConstants.partnersUrl+
+                            this.props.partnerId+'/links/';
         var request = new Request(requestString);
         var self = this;
         if (name.trim() !== "" || url.trim() !== "" || description.trim() !== "")

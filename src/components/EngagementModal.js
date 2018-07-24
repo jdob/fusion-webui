@@ -12,7 +12,9 @@ export default class ContactModal extends React.Component {
         var attendees = document.getElementById("new-attendees").value;
         var notes = document.getElementById("new-notes").value;
         var location = document.getElementById("new-location").value;
-        var requestString = 'http://127.0.0.1:8000/partners/'+this.props.partnerId+'/engagements/';
+        var requestString = window.App.urlConstants.serviceHost + 
+                            window.App.urlConstants.partnersUrl+
+                            this.props.partnerId+'/engagements/';
         var request = new Request(requestString);
         var self = this;
         if (attendees.trim() !== "" || notes.trim() !== "" || location.trim() !== "")

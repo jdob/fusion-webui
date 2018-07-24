@@ -39,7 +39,9 @@ export default class Comment extends React.Component {
     onSubmitClick(event){
         event.preventDefault();
         var textVal = document.getElementById("new-comment").value;
-        var requestString = 'http://127.0.0.1:8000/partners/'+this.props.partnerId+'/comments/';
+        var requestString = window.App.urlConstants.serviceHost + 
+                            window.App.urlConstants.partnersUrl+
+                            this.props.partnerId+'/comments/';
         var request = new Request(requestString);
         var self = this;
         if (textVal.trim() !== "")
@@ -77,7 +79,9 @@ export default class Comment extends React.Component {
     onDeleteClick(cell, row){
         var self = this;
         var commentId = parseInt(row.id,10);
-        var requestString = 'http://127.0.0.1:8000/partners/'+this.props.partnerId+'/comments/'+commentId+'/';
+        var requestString = window.App.urlConstants.serviceHost + 
+                            window.App.urlConstants.partnersUrl+
+                            this.props.partnerId+'/comments/'+commentId+'/';
         var request = new Request(requestString);
         //delete request to delete engagement with the partner_id
         fetch(request, {
@@ -115,7 +119,9 @@ export default class Comment extends React.Component {
     onBeforeSaveCell(row, cellName, cellValue) {
         var self = this;
         var commentId = parseInt(row.id,10);
-        var requestString = 'http://127.0.0.1:8000/partners/'+self.props.partnerId+'/comments/'+commentId+'/';
+        var requestString = window.App.urlConstants.serviceHost + 
+                            window.App.urlConstants.partnersUrl+
+                            self.props.partnerId+'/comments/'+commentId+'/';
         var request = new Request(requestString);
         var self = this;
         if (cellValue.trim() !== "" && row[cellName] !== cellValue)

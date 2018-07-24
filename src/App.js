@@ -11,7 +11,14 @@ import Config from './Config';
 class App extends Component {
   constructor(props) {
     super(props);
-    console.log(Config.serviceHost);
+    if(Config.serviceHost === 'localhost')
+    {
+      window.App.urlConstants.serviceHost = 'http://127.0.0.1:8000/';  
+    }
+    else
+    {
+      window.App.urlConstants.serviceHost = Config.serviceHost;
+    }
     window.addEventListener('storage', this.storageChange.bind(this), false)
     //To check if we have to disable editable elements
     this.stateReadOnly = (localStorage.getItem('isAdmin') === 'false' || 
@@ -75,10 +82,14 @@ class App extends Component {
   //Getting all the data required
   componentDidMount() {
     var self = this;
+    var categoriesUrl = window.App.urlConstants.serviceHost + 
+                        window.App.urlConstants.categoriesUrl;
+    var partnersUrl = window.App.urlConstants.serviceHost + 
+                      window.App.urlConstants.partnersUrl;
     Promise.all([
       //categories and partners
-      axios.get("http://127.0.0.1:8000/categories/"),
-      axios.get("http://127.0.0.1:8000/partners/")
+      axios.get(categoriesUrl),
+      axios.get(partnersUrl)
     ]).then(function([categories, partners]) {
         self.setState({partners:partners.data,categories:categories.data});
     }).catch((err) => {

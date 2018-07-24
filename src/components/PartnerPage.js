@@ -21,7 +21,9 @@ class PartnerPage extends React.Component {
 
     componentDidMount(){
         var self = this;
-        var     url = "http://127.0.0.1:8000/partners/"+parseInt(this.props.match.params.partnerId)+"/";
+        var url = window.App.urlConstants.serviceHost + 
+                    window.App.urlConstants.partnersUrl+
+                    parseInt(this.props.match.params.partnerId)+"/";
         axios.get(url)
         .then(function(partnerData) {
             self.setState({partnerData: partnerData.data, hasLoadedData: true});

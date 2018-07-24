@@ -43,7 +43,9 @@ export default class Links extends React.Component {
         var name = document.getElementById("new-name").value;
         var email = document.getElementById("new-email").value;
         var role = document.getElementById("new-role").value;
-        var requestString = 'http://127.0.0.1:8000/partners/'+this.props.partnerId+'/contacts/';
+        var requestString = window.App.urlConstants.serviceHost + 
+                            window.App.urlConstants.partnersUrl
+                            +this.props.partnerId+'/contacts/';
         var request = new Request(requestString);
         var self = this;
         if (name.trim() !== "" || email.trim() !== "" || role.trim() !== "")
@@ -87,7 +89,9 @@ export default class Links extends React.Component {
     onDeleteClick(cell, row){
         var self = this;
         var linkId = parseInt(row.id,10);
-        var requestString = 'http://127.0.0.1:8000/partners/'+this.props.partnerId+'/links/'+linkId+'/';
+        var requestString = window.App.urlConstants.serviceHost + 
+                            window.App.urlConstants.partnersUrl+
+                            this.props.partnerId+'/links/'+linkId+'/';
         var request = new Request(requestString);
         //delete request to delete contacts with the partner_id
         fetch(request, {
@@ -142,7 +146,9 @@ export default class Links extends React.Component {
     onUpdateClick(cell, row) {
         var self = this;
         var linkId = parseInt(row.id,10);
-        var requestString = 'http://127.0.0.1:8000/partners/'+this.props.partnerId+'/links/'+linkId+'/';
+        var requestString = window.App.urlConstants.serviceHost + 
+                            window.App.urlConstants.partnersUrl+
+                            this.props.partnerId+'/links/'+linkId+'/';
         var request = new Request(requestString);
         if(Object.keys(this.changes).length > 0) {
             //delete request to delete contact with the partner_id

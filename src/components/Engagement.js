@@ -43,7 +43,9 @@ export default class Engagement extends React.Component {
         var attendees = document.getElementById("new-attendees").value;
         var notes = document.getElementById("new-notes").value;
         var location = document.getElementById("new-location").value;
-        var requestString = 'http://127.0.0.1:8000/partners/'+this.props.partnerId+'/engagements/';
+        var requestString = window.App.urlConstants.serviceHost + 
+                            window.App.urlConstants.partnersUrl+
+                            this.props.partnerId+'/engagements/';
         var request = new Request(requestString);
         var self = this;
         if (attendees.trim() !== "" || notes.trim() !== "" || location.trim() !== "")
@@ -89,7 +91,10 @@ export default class Engagement extends React.Component {
     onDeleteClick(event){
         var self = this;
         var engagementId = parseInt(event.target.id,10);
-        var requestString = 'http://127.0.0.1:8000/partners/'+this.props.partnerId+'/engagements/'+engagementId+'/';
+        var requestString = window.App.urlConstants.serviceHost + 
+                            window.App.urlConstants.partnersUrl+
+                            this.props.partnerId+'/engagements/'+
+                            engagementId+'/';
         var request = new Request(requestString);
         //delete request to delete engagement with the partner_id
         fetch(request, {
@@ -169,7 +174,10 @@ export default class Engagement extends React.Component {
         var self = this;
         var row = event.target;
         var engagementId = parseInt(row.id,10);
-        var requestString = 'http://127.0.0.1:8000/partners/'+this.props.partnerId+'/engagements/'+engagementId+'/';
+        var requestString = window.App.urlConstants.serviceHost + 
+                            window.App.urlConstants.partnersUrl+
+                            this.props.partnerId+'/engagements/'+
+                            engagementId+'/';
         var request = new Request(requestString);
         if(Object.keys(this.changes).length > 0) {
             //delete request to delete engagement with the partner_id

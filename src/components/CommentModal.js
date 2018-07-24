@@ -11,7 +11,9 @@ export default class CommenttModal extends React.Component {
     onSubmitClick(event){
         event.preventDefault();
         var textVal = document.getElementById("new-comment").value;
-        var requestString = 'http://127.0.0.1:8000/partners/'+this.props.partnerId+'/comments/';
+        var requestString = window.App.urlConstants.serviceHost + 
+                            window.App.urlConstants.partnersUrl+
+                            this.props.partnerId+'/comments/';
         var request = new Request(requestString);
         var self = this;
         if (textVal.trim() !== "")
