@@ -86,6 +86,8 @@ class App extends Component {
                         window.App.urlConstants.categoriesUrl;
     var partnersUrl = window.App.urlConstants.serviceHost + 
                       window.App.urlConstants.partnersUrl;
+    console.log('Calling services for:',partnersUrl);
+    console.log('Calling services for:',categoriesUrl);
     Promise.all([
       //categories and partners
       axios.get(categoriesUrl),
