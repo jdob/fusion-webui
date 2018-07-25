@@ -11,13 +11,13 @@ import Config from './Config';
 class App extends Component {
   constructor(props) {
     super(props);
-    if(Config.serviceHost === 'localhost')
+    if(Config.serviceHost === 'localhost' || Config.serviceHost === undefined)
     {
       window.App.urlConstants.serviceHost = 'http://127.0.0.1:8000/';  
     }
     else
     {
-      window.App.urlConstants.serviceHost = Config.serviceHost;
+      window.App.urlConstants.serviceHost = 'http://'+ Config.serviceHost+':'+Config.servicePort+'/';
     }
     window.addEventListener('storage', this.storageChange.bind(this), false)
     //To check if we have to disable editable elements
