@@ -22,8 +22,5 @@ env | sort
 echo "===> User"
 id
 
-echo "===> Building ..."
-npm run build --production
-
 echo "===> Running ... "
 npm start
