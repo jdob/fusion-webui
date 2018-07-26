@@ -194,6 +194,7 @@ export default class Links extends React.Component {
         )
     }
 
+
     callbackParent(newLink){
         if(newLink !== 'undefined')
         {
@@ -213,7 +214,7 @@ export default class Links extends React.Component {
                 <BootstrapTable data={ this.state.links } bordered={true} cellEdit={ this.cellEditProp} containerStyle={{width:'100%'}}>
                     <TableHeaderColumn hidden={true} dataField='id' isKey>Id</TableHeaderColumn>
                     <TableHeaderColumn width ='125px' editable={!this.props.state} dataField='name'>Name</TableHeaderColumn>
-                    <TableHeaderColumn width ='200px' editable={!this.props.state} dataField='url'>url</TableHeaderColumn>
+                    <TableHeaderColumn width ='200px' editable={!this.props.state} dataField='url'>URL</TableHeaderColumn>
                     <TableHeaderColumn width ='200px' editable={!this.props.state} dataField='description'>Description</TableHeaderColumn>
                     <TableHeaderColumn width ='50px' editable={false} dataField="button" dataFormat={this.updateButtonFormatter.bind(this)}>Update</TableHeaderColumn>
                     <TableHeaderColumn width ='20px' editable={false} dataField="button" dataFormat={this.deleteButtonFormatter.bind(this)}>Delete</TableHeaderColumn>
