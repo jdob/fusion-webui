@@ -9,7 +9,7 @@ import PartnerPage from './components/PartnerPage';
 export default class CreateRoutes extends React.Component {
   //to protect against any user being able to edit partner details
   URLChange(){
-    /*if((localStorage.getItem('isAdmin') === 'false' || localStorage.getItem('isAdmin') === null) && window.location.pathname==='/edit')
+    if((localStorage.getItem('isAdmin') === 'false' || localStorage.getItem('isAdmin') === null) && window.location.pathname==='/edit')
     {
       window.location.pathname = '/login';
     }
@@ -17,8 +17,8 @@ export default class CreateRoutes extends React.Component {
     {
       localStorage.setItem('isAdmin',false);
       window.location.pathname = '/home';
-    }*/
-    var isAdmin = localStorage.getItem('isAdmin');
+    }
+    /*var isAdmin = localStorage.getItem('isAdmin');
     var isLoggedIn = localStorage.getItem('isLoggedIn');
     if(isLoggedIn === null)
     {
@@ -55,13 +55,13 @@ export default class CreateRoutes extends React.Component {
       {
         window.location.pathname = '/home';
       }
-    }
+    }*/
   }
   
   render(){
     const newHistory = createBrowserHistory();
     newHistory.listen((location, action) => {
-      /*if((localStorage.getItem('isAdmin') === 'false' || localStorage.getItem('isAdmin') === null) && window.location.pathname==='/edit')
+      if((localStorage.getItem('isAdmin') === 'false' || localStorage.getItem('isAdmin') === null) && window.location.pathname==='/edit')
       {
         window.location.pathname = '/login';
       }
@@ -69,43 +69,6 @@ export default class CreateRoutes extends React.Component {
       {
         localStorage.setItem('isAdmin',false);
         window.location.pathname = '/home';
-      }*/
-      var isAdmin = localStorage.getItem('isAdmin');
-      var isLoggedIn = localStorage.getItem('isLoggedIn');
-      if(isLoggedIn === null)
-      {
-        if(window.location.pathname==='/login')
-        {
-          localStorage.setItem('isLoggedIn',false);
-          localStorage.setItem('isAdmin',false);
-          window.location.pathname = '/login';
-        }
-        else if(window.location.pathname==='/edit')
-        {
-          window.location.pathname = '/login';
-        }  
-      }
-      else if(isLoggedIn === 'false')
-      {
-        if(window.location.pathname==='/edit')
-        {
-          window.location.pathname = '/login';
-        }
-        else if(window.location.pathname==='/partners')
-        {
-          window.location.pathname = '/home';
-        }
-      }
-      else if(isAdmin === 'false')
-      {
-        if(window.location.pathname==='/edit')
-        {
-          window.location.pathname = '/login';
-        }
-        else if(window.location.pathname.match('/partners'))
-        {
-          window.location.pathname = '/home';
-        }
       }
     })
     return(

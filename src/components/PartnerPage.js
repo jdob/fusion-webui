@@ -8,10 +8,19 @@ import ModalLeftSide from './ModalLeftSide.js';
 import '../css/PartnerPage.css';
 import Links from './Links.js';
 import withRouter from 'react-router-dom/withRouter';
+import Config from '../Config.js';
 
 class PartnerPage extends React.Component {
     constructor(props){
         super(props);
+        if(Config.serviceHost === 'localhost' || Config.serviceHost === undefined)
+        {
+            window.App.urlConstants.serviceHost = 'http://127.0.0.1:8000/';  
+        }
+        else
+        {
+            window.App.urlConstants.serviceHost = 'http://'+ Config.serviceHost+':'+Config.servicePort+'/';
+        }
         this.state = {
             state:(this.props.location.state === undefined) ? true : this.props.location.state,
             partnerData:{},

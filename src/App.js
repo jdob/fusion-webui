@@ -6,7 +6,7 @@ import Sidemenu from './components/Sidemenu.js';
 import Data from './data.js';
 import axios from 'axios';
 import ReactModal from 'react-modal';
-import Config from './Config';
+import Config from './Config.js';
 
 class App extends Component {
   constructor(props) {
