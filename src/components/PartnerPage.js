@@ -32,7 +32,7 @@ class PartnerPage extends React.Component {
         var self = this;
         var url = window.App.urlConstants.serviceHost + 
                     window.App.urlConstants.partnersUrl+
-                    parseInt(this.props.match.params.partnerId)+"/";
+                    parseInt(this.props.match.params.partnerId,10)+"/";
         axios.get(url)
         .then(function(partnerData) {
             self.setState({partnerData: partnerData.data, hasLoadedData: true});
@@ -44,20 +44,24 @@ class PartnerPage extends React.Component {
 
     //update the changes
     commentsChange(newComments) {
-        this.setState(this.state.partnerData.comments=newComments)
+        //this.setState(this.state.partnerData.comments=newComments)
+        console.log("Callback to handle anything after comments change");
     }
 
     //Same as above
     engagementsChange(newEngagements) {
-        this.setState(this.state.partnerData.engagements=newEngagements)
+        //this.setState(this.state.partnerData.engagements=newEngagements)
+        console.log("Callback to handle anything after engagements change");
     }
 
     contactsChange(newContacts) {
-        this.setState(this.state.partnerData.contacts=newContacts)
+        //this.setState(this.state.partnerData.contacts=newContacts)
+        console.log("Callback to handle anything after contacts change");
     }
 
     linksChange(newLinks) {
-        this.setState(this.state.partnerData.links=newLinks)
+        //this.setState(this.state.partnerData.links=newLinks)
+        console.log("Callback to handle anything after links change");
     }
 
     render() {

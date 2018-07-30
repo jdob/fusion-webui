@@ -2,7 +2,6 @@ import React from 'react';
 import { Row, Col } from 'react-bootstrap';
 import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
 import '../css/Contact.css';
-import ContactModal from './ContactModal.js';
 import ReactModal from 'react-modal';
 import LinkModal from './LinkModal.js';
 
@@ -10,7 +9,7 @@ export default class Links extends React.Component {
     constructor(props) {
         super(props);
         this.changes = {};
-        this.previousId;
+        this.previousId = undefined;
         this.state = {
             links : this.props.links,
             showModal: false

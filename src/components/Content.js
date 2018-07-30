@@ -1,6 +1,5 @@
 import React from 'react';
 import Section from './Section.js';
-import ReactModal from 'react-modal';
 import withRouter from 'react-router-dom/withRouter';
 
 class Content extends React.Component {

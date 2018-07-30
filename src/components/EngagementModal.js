@@ -2,10 +2,6 @@ import React from 'react';
 import { Row, Col } from 'react-bootstrap';
 
 export default class ContactModal extends React.Component {
-    constructor(props){
-        super(props);
-    }
-
     //Sends request to add comment
     onSubmitClick(event){
         event.preventDefault();

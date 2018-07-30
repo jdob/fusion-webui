@@ -1,13 +1,8 @@
 import React from 'react';
-import logo from '../logo.svg';
 import { Row, Col } from 'react-bootstrap';
 import '../css/ModalLeftSide.css';
 
 export default class ModalLeftSide extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-
     //We will get the data for the image src and badges
     render() {
         return(
@@ -16,6 +11,7 @@ export default class ModalLeftSide extends React.Component {
                     <Col xs={12} md={12} lg={12}>
                         <img height="200"
                              width="200"
+                             alt=""
                              src={"data:image/jpg;base64," + this.props.data.logo}
                          />
                     </Col>

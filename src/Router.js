@@ -9,7 +9,13 @@ import PartnerPage from './components/PartnerPage';
 export default class CreateRoutes extends React.Component {
   //to protect against any user being able to edit partner details
   URLChange(){
-    if((localStorage.getItem('isAdmin') === 'false' || localStorage.getItem('isAdmin') === null) && window.location.pathname==='/edit')
+    if(window.location.pathname==='/')
+    {
+      window.location.pathname = '/home';
+    }
+    if((localStorage.getItem('isAdmin') === 'false' || 
+      localStorage.getItem('isAdmin') === null) && 
+      window.location.pathname==='/edit')
     {
       window.location.pathname = '/login';
     }
@@ -61,7 +67,12 @@ export default class CreateRoutes extends React.Component {
   render(){
     const newHistory = createBrowserHistory();
     newHistory.listen((location, action) => {
-      if((localStorage.getItem('isAdmin') === 'false' || localStorage.getItem('isAdmin') === null) && window.location.pathname==='/edit')
+      if(window.location.pathname==='/')
+      {
+        window.location.pathname = '/home';
+      }
+      if((localStorage.getItem('isAdmin') === 'false' || 
+        localStorage.getItem('isAdmin') === null) && window.location.pathname==='/edit')
       {
         window.location.pathname = '/login';
       }

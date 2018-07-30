@@ -9,7 +9,7 @@ export default class Contact extends React.Component {
     constructor(props) {
         super(props);
         this.changes = {};
-        this.previousId;
+        this.previousId = undefined;
         this.state = {
             contacts : this.props.contacts,
             showModal: false

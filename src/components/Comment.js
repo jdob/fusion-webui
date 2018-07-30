@@ -123,7 +123,6 @@ export default class Comment extends React.Component {
                             window.App.urlConstants.partnersUrl+
                             self.props.partnerId+'/comments/'+commentId+'/';
         var request = new Request(requestString);
-        var self = this;
         if (cellValue.trim() !== "" && row[cellName] !== cellValue)
         {
             //post request to post the new comment with the partner_id

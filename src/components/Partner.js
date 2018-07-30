@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactModal from 'react-modal';
-import ModalLeftSide from './ModalLeftSide.js';
 import '../css/Image.css';
 import withRouter from 'react-router-dom/withRouter';
 

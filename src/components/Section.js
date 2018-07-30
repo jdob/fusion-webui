@@ -1,6 +1,6 @@
 import React from 'react';
 import '../css/Section.css';
-import { Row, Col } from 'react-bootstrap';
+import { Row } from 'react-bootstrap';
 import Partner from './Partner.js';
 import withRouter from 'react-router-dom/withRouter';
 

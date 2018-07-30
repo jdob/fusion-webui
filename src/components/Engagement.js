@@ -1,6 +1,5 @@
 import React from 'react';
 import { Row, Col } from 'react-bootstrap';
-import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
 import 'react-bootstrap-table/dist/react-bootstrap-table-all.min.css';
 import '../css/Engagement.css';
 import ReactModal from 'react-modal';
@@ -10,7 +9,7 @@ export default class Engagement extends React.Component {
     constructor(props) {
         super(props);
         this.changes = {};
-        this.previousId;
+        this.previousId = undefined;
         this.state = {
             engagements : this.props.engagements,
             showModal: false

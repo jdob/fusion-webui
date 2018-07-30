@@ -1,13 +1,8 @@
 import React from 'react';
-import ReactModal from 'react-modal';
-import NewPartner from './NewPartner.js'
 import SideNav, { Nav, NavIcon, NavText } from 'react-sidenav';
 import SvgIcon from 'react-icons-kit';
 import { ic_format_list_numbered } from 'react-icons-kit/md/ic_format_list_numbered';
 import { ic_apps } from 'react-icons-kit/md/ic_apps';
-import { paragraphLeft } from 'react-icons-kit/icomoon/paragraphLeft';
-import { ic_business } from 'react-icons-kit/md/ic_business';
-import { ic_location_on } from 'react-icons-kit/md/ic_location_on';
 import '../App.css';
 import withRouter from 'react-router-dom/withRouter';
 

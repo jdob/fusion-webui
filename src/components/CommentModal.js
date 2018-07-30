@@ -2,10 +2,6 @@ import React from 'react';
 import { Row, Col } from 'react-bootstrap';
 
 export default class CommenttModal extends React.Component {
-    constructor(props){
-        super(props);
-    }
-
     //Add new comment, does not allow empty string or just spaces, to save
     //server hits and db space in the future 
     onSubmitClick(event){
