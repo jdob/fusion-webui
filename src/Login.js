@@ -104,7 +104,6 @@ export default class Login extends React.Component {
                 />
                 <br/>
                 <RaisedButton label="Submit" primary={true} onClick={(event) => this.handleSubmitClick(event)}/>
-                <RaisedButton label="Register" primary={false} onClick={(event) => this.redirect('/register')}/>
             </div>
             </MuiThemeProvider>
         </div>
