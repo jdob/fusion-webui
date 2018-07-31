@@ -151,6 +151,7 @@ class Sidemenu extends React.Component {
           </SideNav>
           <form>
             <div>
+              {/* Change the two functions for any login logout changes */}
               {this.loginButton.call(this)}
             </div>
             <div>
