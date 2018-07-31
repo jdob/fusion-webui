@@ -74,6 +74,7 @@ export default class Login extends React.Component {
         }).then(function(authData) {
             self.setState({token:authData.data.token,isAdmin:true});
             localStorage.setItem('isAdmin', true);
+            localStorage.setItem('userName', self.state.username);
             localStorage.setItem('isLoggedIn', true);
             localStorage.setItem('authToken', authData.data.token);
             self.redirect('/edit');

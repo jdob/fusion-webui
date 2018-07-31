@@ -85,7 +85,46 @@ class Sidemenu extends React.Component {
       localStorage.setItem('isAdmin',false);
       localStorage.setItem('isLoggedIn',false);
       localStorage.removeItem('authToken');
+      localStorage.removeItem('userName');
       this.props.history.push('/login');
+    }
+
+    logoutButton() {
+      var logoutButton;
+      if(localStorage.getItem("isLoggedIn") === "true") {
+        logoutButton = <div className="form-group">
+                          <button
+                            onClick={this.logout.bind(this)}
+                            type="button"
+                            className="btn btn-secondary button-adjust"
+                            >
+                            Logout
+                          </button>
+                        </div>
+      }
+      return logoutButton;
+    }
+
+    loginButton() {
+      var loginButton;
+      if(localStorage.getItem("isLoggedIn") === "true") {
+        loginButton = <div className="form-group">
+                      Welcome {localStorage.getItem("userName")}
+                    </div>
+      }
+      else
+      {
+        loginButton = <div className="form-group">
+                        <button
+                          onClick={this.logout.bind(this)}
+                          type="button"
+                          className="btn btn-secondary button-adjust"
+                          >
+                          Login
+                        </button>
+                      </div>
+      }
+      return loginButton;
     }
 
     checkLogin() {
@@ -111,23 +150,11 @@ class Sidemenu extends React.Component {
               </Nav>
           </SideNav>
           <form>
-            <div className="form-group">
-              <button
-                onClick={this.checkLogin.bind(this)}
-                type="button"
-                className="btn btn-secondary button-adjust"
-                >
-                Login
-              </button>
+            <div>
+              {this.loginButton.call(this)}
             </div>
-            <div className="form-group">
-              <button
-                onClick={this.logout.bind(this)}
-                type="button"
-                className="btn btn-secondary button-adjust"
-                >
-                Logout
-              </button>
+            <div>
+              {this.logoutButton.call(this)}
             </div>
           </form>
         </div>
