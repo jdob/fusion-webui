@@ -86,12 +86,27 @@ class App extends Component {
                         window.App.urlConstants.categoriesUrl;
     var partnersUrl = window.App.urlConstants.serviceHost + 
                       window.App.urlConstants.partnersUrl;
+    var tokenString = "Token " + localStorage.getItem("authToken");
     console.log('Calling services for:',partnersUrl);
     console.log('Calling services for:',categoriesUrl);
     Promise.all([
       //categories and partners
-      axios.get(categoriesUrl),
-      axios.get(partnersUrl)
+      axios.get(
+        categoriesUrl,
+        {
+          headers: {
+            Authorization : tokenString
+          }
+        }
+      ),
+      axios.get(
+        partnersUrl,
+        {
+          headers: {
+            Authorization : tokenString
+          }
+        }
+      )
     ]).then(function([categories, partners]) {
         self.setState({partners:partners.data,categories:categories.data});
     }).catch((err) => {

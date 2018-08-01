@@ -12,6 +12,7 @@ export default class ContactModal extends React.Component {
                             window.App.urlConstants.partnersUrl+
                             this.props.partnerId+'/contacts/';
         var request = new Request(requestString);
+        var tokenString = "Token " + localStorage.getItem("authToken");
         var self = this;
         if (name.trim() !== "" || email.trim() !== "" || role.trim() !== "")
         {
@@ -21,6 +22,7 @@ export default class ContactModal extends React.Component {
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json',
+                    'Authorization': tokenString
                 },
                 //the data being sent
                 body: JSON.stringify({

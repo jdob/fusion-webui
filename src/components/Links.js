@@ -92,12 +92,14 @@ export default class Links extends React.Component {
                             window.App.urlConstants.partnersUrl+
                             this.props.partnerId+'/links/'+linkId+'/';
         var request = new Request(requestString);
+        var tokenString = "Token " + localStorage.getItem("authToken");
         //delete request to delete contacts with the partner_id
         fetch(request, {
             method: 'DELETE',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
+                'AUthorization': tokenString
             },
             //the data being sent
             body: JSON.stringify({
@@ -149,6 +151,7 @@ export default class Links extends React.Component {
                             window.App.urlConstants.partnersUrl+
                             this.props.partnerId+'/links/'+linkId+'/';
         var request = new Request(requestString);
+        var tokenString = "Token " + localStorage.getItem("authToken");
         if(Object.keys(this.changes).length > 0) {
             //delete request to delete contact with the partner_id
             fetch(request, {
@@ -156,6 +159,7 @@ export default class Links extends React.Component {
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json',
+                    'Authorization': tokenString
                 },
                 //the data being sent
                 body: JSON.stringify({
@@ -222,7 +226,9 @@ export default class Links extends React.Component {
     }
 
     rowStyleFormat(row, rowIdx) {
-        return { backgroundColor: this.previousId == row.id ? '#ffb296' : '' };
+        if(row!==undefined) {
+            return { backgroundColor: this.previousId == row.id ? '#ffb296' : '' };
+        }
     }
 
     render(){

@@ -33,7 +33,15 @@ class PartnerPage extends React.Component {
         var url = window.App.urlConstants.serviceHost + 
                     window.App.urlConstants.partnersUrl+
                     parseInt(this.props.match.params.partnerId,10)+"/";
-        axios.get(url)
+        var tokenString = "Token " + localStorage.getItem("authToken");
+        axios.get(
+            url,
+            {
+                headers: {
+                  Authorization : tokenString
+                }
+            }
+        )
         .then(function(partnerData) {
             self.setState({partnerData: partnerData.data, hasLoadedData: true});
         })

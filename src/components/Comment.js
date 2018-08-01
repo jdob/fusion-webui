@@ -44,6 +44,7 @@ export default class Comment extends React.Component {
                             this.props.partnerId+'/comments/';
         var request = new Request(requestString);
         var self = this;
+        var tokenString = "Token " + localStorage.getItem("authToken");
         if (textVal.trim() !== "")
         {
             //post request to post the new comment with the partner_id
@@ -52,6 +53,7 @@ export default class Comment extends React.Component {
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json',
+                    'Authorization': tokenString
                 },
                 //the data being sent
                 body: JSON.stringify({
@@ -83,12 +85,14 @@ export default class Comment extends React.Component {
                             window.App.urlConstants.partnersUrl+
                             this.props.partnerId+'/comments/'+commentId+'/';
         var request = new Request(requestString);
+        var tokenString = "Token " + localStorage.getItem("authToken");
         //delete request to delete engagement with the partner_id
         fetch(request, {
             method: 'DELETE',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
+                'Authorization': tokenString
             },
             //the data being sent
             body: JSON.stringify({
@@ -123,6 +127,7 @@ export default class Comment extends React.Component {
                             window.App.urlConstants.partnersUrl+
                             self.props.partnerId+'/comments/'+commentId+'/';
         var request = new Request(requestString);
+        var tokenString = "Token " + localStorage.getItem("authToken");
         if (cellValue.trim() !== "" && row[cellName] !== cellValue)
         {
             //post request to post the new comment with the partner_id
@@ -131,6 +136,7 @@ export default class Comment extends React.Component {
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json',
+                    'Authorization': tokenString
                 },
                 //the data being sent
                 body: JSON.stringify({

@@ -13,6 +13,7 @@ export default class LinkModal extends React.Component {
                             this.props.partnerId+'/links/';
         var request = new Request(requestString);
         var self = this;
+        var tokenString = "Token " + localStorage.getItem("authToken");
         if (name.trim() !== "" || url.trim() !== "" || description.trim() !== "")
         {
             //post request to post the new contact with the partner_id
@@ -21,6 +22,7 @@ export default class LinkModal extends React.Component {
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json',
+                    'Authorization': tokenString
                 },
                 //the data being sent
                 body: JSON.stringify({

@@ -12,6 +12,7 @@ export default class CommenttModal extends React.Component {
                             this.props.partnerId+'/comments/';
         var request = new Request(requestString);
         var self = this;
+        var tokenString = "Token " + localStorage.getItem("authToken");
         if (textVal.trim() !== "")
         {
             //post request to post the new comment with the partner_id
@@ -20,6 +21,7 @@ export default class CommenttModal extends React.Component {
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json',
+                    'Authorization': tokenString
                 },
                 //the data being sent
                 body: JSON.stringify({

@@ -13,6 +13,7 @@ export default class ContactModal extends React.Component {
                             this.props.partnerId+'/engagements/';
         var request = new Request(requestString);
         var self = this;
+        var tokenString = "Token " + localStorage.getItem("authToken");
         if (attendees.trim() !== "" || notes.trim() !== "" || location.trim() !== "")
         {
             //post request to post the new engagement with the partner_id
@@ -21,6 +22,7 @@ export default class ContactModal extends React.Component {
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json',
+                    'Authorization': tokenString
                 },
                 //the data being sent
                 body: JSON.stringify({
