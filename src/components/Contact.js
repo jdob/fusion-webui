@@ -10,6 +10,7 @@ export default class Contact extends React.Component {
         super(props);
         this.changes = {};
         this.previousId = undefined;
+        this.nameClass = undefined;
         this.state = {
             contacts : this.props.contacts,
             showModal: false
@@ -140,6 +141,10 @@ export default class Contact extends React.Component {
                 this.changes[cellName] = cellValue;
             }
         }
+        if(cellName === "name")
+        {
+            this.nameClass = "active";
+        }
     }
     
     onUpdateClick(cell, row) {
@@ -220,6 +225,10 @@ export default class Contact extends React.Component {
         return contactButton;
     }
 
+    rowStyleFormat(row, rowIdx) {
+        return { backgroundColor: this.previousId == row.id ? '#ffb296' : '' };
+    }
+
 
     render(){
         var className;
@@ -239,9 +248,9 @@ export default class Contact extends React.Component {
                 <Row>
                     <Col xs={12} md={12} lg={12}><div className="detail-header">Contacts</div></Col>
                 </Row>
-                <BootstrapTable data={ this.state.contacts } bordered={true} cellEdit={ this.cellEditProp} containerStyle={{width:'100%'}}>
+                <BootstrapTable data={ this.state.contacts } bordered={true} cellEdit={ this.cellEditProp} containerStyle={{width:'100%'}} trStyle={this.rowStyleFormat.bind(this)}>
                     <TableHeaderColumn hidden={true} dataField='id' isKey>Id</TableHeaderColumn>
-                    <TableHeaderColumn width ='125px' editable={!this.props.state} dataField='name'>Name</TableHeaderColumn>
+                    <TableHeaderColumn width ='125px' className={this.nameClass} columnClassName = {this.nameClass} editable={!this.props.state} dataField='name'>Name</TableHeaderColumn>
                     <TableHeaderColumn width ={width} editable={!this.props.state} dataField='email'>Email</TableHeaderColumn>
                     <TableHeaderColumn width ='125px' editable={!this.props.state} dataField='role'>Role</TableHeaderColumn>
                     <TableHeaderColumn width ={updateButtonWidth} className= {className} columnClassName= {columnClassName} editable={false} dataField="button" dataFormat={this.updateButtonFormatter.bind(this)}>Update</TableHeaderColumn>

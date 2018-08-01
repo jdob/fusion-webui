@@ -195,6 +195,10 @@ export default class Comment extends React.Component {
         return commentButton;
     }
 
+    /*multilineCell(cell, row) {
+        return "<textarea class='form-control cell' rows='3'>" + cell +"</textarea>";
+    }*/
+
     render(){
         var className;
         var columnClassName;

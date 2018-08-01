@@ -221,6 +221,10 @@ export default class Links extends React.Component {
         return linkButton;
     }
 
+    rowStyleFormat(row, rowIdx) {
+        return { backgroundColor: this.previousId == row.id ? '#ffb296' : '' };
+    }
+
     render(){
         var className;
         var columnClassName;
@@ -239,7 +243,7 @@ export default class Links extends React.Component {
                 <Row>
                     <Col xs={12} md={12} lg={12}><div className="detail-header">Links</div></Col>
                 </Row>
-                <BootstrapTable data={ this.state.links } bordered={true} cellEdit={ this.cellEditProp} containerStyle={{width:'100%'}}>
+                <BootstrapTable data={ this.state.links } bordered={true} cellEdit={ this.cellEditProp} containerStyle={{width:'100%'}} trStyle={this.rowStyleFormat.bind(this)}>
                     <TableHeaderColumn hidden={true} dataField='id' isKey>Id</TableHeaderColumn>
                     <TableHeaderColumn width ='125px' editable={!this.props.state} dataField='name'>Name</TableHeaderColumn>
                     <TableHeaderColumn width ='200px' editable={!this.props.state} dataField='url'>URL</TableHeaderColumn>
