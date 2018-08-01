@@ -22,6 +22,16 @@ export default class Engagement extends React.Component {
         this.handleCloseModal = this.handleCloseModal.bind(this);
     }
 
+    handleKeyDown(event) {
+        if (event.keyCode === 13) {
+            event.preventDefault(); // Let's stop this event.
+            event.stopPropagation(); // Really this time.
+            
+            alert("Is it stopped?");
+            // "Hahaha, I'm gonna submit anyway!" - Chrome
+        }
+    }
+
     componentWillMount(){
         ReactModal.setAppElement('body');
     }
@@ -149,7 +159,6 @@ export default class Engagement extends React.Component {
     }
 
     storeUpdates(event){
-        event.preventDefault();
         var row = event.target;
         var rowId = parseInt(row.attributes.engagementid.nodeValue,10);
         if(this.previousId === undefined)
@@ -272,52 +281,46 @@ export default class Engagement extends React.Component {
                         <Row>
                             <Col xs={1} md={1} lg={1}>Location:</Col>
                             <Col xs={10} md={10} lg={10}>
-                                <form>
-                                    <div className="form-group">
-                                        <input engagementid={engagements[i].id}
-                                               type='text'
-                                               onChange={this.storeUpdates.bind(this)}
-                                               readOnly={self.props.state}
-                                               className="form-control"
-                                               defaultValue={engagements[i].location}
-                                               attr="location">
-                                        </input>
-                                    </div>
-                                </form>
+                                <div className="form-group">
+                                    <input engagementid={engagements[i].id}
+                                            type='text'
+                                            onChange={this.storeUpdates.bind(this)}
+                                            readOnly={self.props.state}
+                                            className="form-control"
+                                            defaultValue={engagements[i].location}
+                                            attr="location">
+                                    </input>
+                                </div>
                             </Col>
                         </Row>
                         <Row>
                             <Col xs={1} md={1} lg={1}>Attendees:</Col>
                             <Col xs={10} md={10} lg={10}>
-                                <form>
-                                    <div className="form-group">
-                                        <input engagementid={engagements[i].id}
-                                               onChange={this.storeUpdates.bind(this)}
-                                               type='text'
-                                               readOnly={self.props.state}
-                                               className="form-control"
-                                               defaultValue={engagements[i].attendees}
-                                               attr="attendees">
-                                        </input>
-                                    </div>
-                                </form>
+                                <div className="form-group">
+                                    <input engagementid={engagements[i].id}
+                                            onChange={this.storeUpdates.bind(this)}
+                                            type='text'
+                                            readOnly={self.props.state}
+                                            className="form-control"
+                                            defaultValue={engagements[i].attendees}
+                                            attr="attendees">
+                                    </input>
+                                </div>
                             </Col>
                         </Row>
                         <Row>
                             <Col xs={1} md={1} lg={1}>Notes:</Col>
                             <Col xs={10} md={10} lg={10}>
-                                <form>
-                                    <div className="form-group">
-                                        <textarea engagementid={engagements[i].id}
-                                                  onChange={this.storeUpdates.bind(this)}
-                                                  className="form-control"
-                                                  readOnly={self.props.state}
-                                                  attr="notes"
-                                                  rows="3"
-                                                  defaultValue={engagements[i].notes}>
-                                        </textarea>
-                                    </div>
-                                </form>
+                                <div className="form-group">
+                                    <textarea engagementid={engagements[i].id}
+                                                onChange={this.storeUpdates.bind(this)}
+                                                className="form-control"
+                                                readOnly={self.props.state}
+                                                attr="notes"
+                                                rows="3"
+                                                defaultValue={engagements[i].notes}>
+                                    </textarea>
+                                </div>
                             </Col>
                         </Row>
                         <Row>
