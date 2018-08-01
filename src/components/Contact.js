@@ -203,7 +203,37 @@ export default class Contact extends React.Component {
         }
     }
 
+    //Add contact only available if logged in
+    addContactButton() {
+        var contactButton;
+        if(localStorage.getItem("isLoggedIn") === "true") {
+            contactButton = <Row className="add-contact-button">
+                                <Col xs={12} md={12} lg={12}>
+                                    <form>
+                                        <div className="form-group">
+                                            <button disabled={this.props.state} onClick={this.handleOpenModal} type="button" className="btn btn-primary">Add Contact</button>
+                                        </div>
+                                    </form>
+                                </Col> 
+                            </Row>
+        }
+        return contactButton;
+    }
+
+
     render(){
+        var className;
+        var columnClassName;
+        var width = "200px";
+        var deleteButtonWidth = "20px";
+        var updateButtonWidth = "50px";
+        if(localStorage.getItem("isLoggedIn") !== "true"){
+            className = "hidden";
+            columnClassName = "hidden";
+            width = "270px";
+            deleteButtonWidth = "0.25px";
+            updateButtonWidth = "0.25px";
+        }
         return (
             <div>
                 <Row>
@@ -212,41 +242,14 @@ export default class Contact extends React.Component {
                 <BootstrapTable data={ this.state.contacts } bordered={true} cellEdit={ this.cellEditProp} containerStyle={{width:'100%'}}>
                     <TableHeaderColumn hidden={true} dataField='id' isKey>Id</TableHeaderColumn>
                     <TableHeaderColumn width ='125px' editable={!this.props.state} dataField='name'>Name</TableHeaderColumn>
-                    <TableHeaderColumn width ='200px' editable={!this.props.state} dataField='email'>Email</TableHeaderColumn>
+                    <TableHeaderColumn width ={width} editable={!this.props.state} dataField='email'>Email</TableHeaderColumn>
                     <TableHeaderColumn width ='125px' editable={!this.props.state} dataField='role'>Role</TableHeaderColumn>
-                    <TableHeaderColumn width ='50px' editable={false} dataField="button" dataFormat={this.updateButtonFormatter.bind(this)}>Update</TableHeaderColumn>
-                    <TableHeaderColumn width ='20px' editable={false} dataField="button" dataFormat={this.deleteButtonFormatter.bind(this)}>Delete</TableHeaderColumn>
+                    <TableHeaderColumn width ={updateButtonWidth} className= {className} columnClassName= {columnClassName} editable={false} dataField="button" dataFormat={this.updateButtonFormatter.bind(this)}>Update</TableHeaderColumn>
+                    <TableHeaderColumn width ={deleteButtonWidth} className= {className} columnClassName= {columnClassName} editable={false} dataField="button" dataFormat={this.deleteButtonFormatter.bind(this)}>Delete</TableHeaderColumn>
                 </BootstrapTable>
-                <Row className="add-contact-button">
-                    <Col xs={12} md={12} lg={12}>
-                        <form>
-                            <div className="form-group">
-                                <button disabled={this.props.state} onClick={this.handleOpenModal} type="button" className="btn btn-primary">Add Contact</button>
-                            </div>
-                        </form>
-                    </Col> 
-                </Row>
-                {/*<Row className="add-contact">
-                    <Col xs={12} md={12} lg={12}>
-                        <div className="form-group">
-                            <label><h5>Add Contact:</h5></label>
-                            <form>
-                                <div className="form-group">
-                                    <input type = 'text' placeholder='Name' readOnly={this.props.state} className="form-control" id="new-name"></input>
-                                </div>
-                                <div className="form-group">
-                                    <input type = 'text'  placeholder='Email' readOnly={this.props.state} className="form-control" id="new-email"></input>
-                                </div>
-                                <div className="form-group">
-                                    <input type = 'text'  placeholder='Role' readOnly={this.props.state} className="form-control" id="new-role"></input>
-                                </div>
-                                <div className="form-group">
-                                    <button disabled={this.props.state} onClick={this.onSubmitClick.bind(this)} type="button" className="btn btn-primary">Submit</button>
-                                </div>
-                            </form>
-                        </div>
-                    </Col> 
-        </Row>*/}
+                <div>
+                    {this.addContactButton.call(this)}
+                </div>
                 <ReactModal
                     isOpen={this.state.showModal}
                     contentLabel="Red Hat tracking partners"

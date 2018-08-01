@@ -178,7 +178,34 @@ export default class Comment extends React.Component {
         }
     }
 
+    //Add comment only available if logged in
+    addCommentButton() {
+        var commentButton;
+        if(localStorage.getItem("isLoggedIn") === "true") {
+            commentButton = <Row className="add-comment">
+                                <Col xs={12} md={12} lg={12}>
+                                    <form>
+                                        <div className="form-group">
+                                            <button disabled={this.props.state} onClick={this.handleOpenModal} type="button" className="btn btn-primary">Add Comment</button>
+                                        </div>
+                                    </form>
+                                </Col> 
+                            </Row>
+        }
+        return commentButton;
+    }
+
     render(){
+        var className;
+        var columnClassName;
+        var width = "500px";
+        var deleteButtonWidth = "20px";
+        if(localStorage.getItem("isLoggedIn") !== "true"){
+            className = "hidden";
+            columnClassName = "hidden";
+            width = "520px";
+            deleteButtonWidth = "0.5px";
+        }
         return (
             <div>
                 <Row>
@@ -186,31 +213,12 @@ export default class Comment extends React.Component {
                 </Row>
                 <BootstrapTable data={ this.state.comments } bordered={true} cellEdit={ this.cellEditProp } containerStyle={{width:'100%'}}>
                     <TableHeaderColumn hidden={true} dataField='id' isKey>Id</TableHeaderColumn>
-                    <TableHeaderColumn width='500px' editable={!this.props.state} dataField='text'>Text</TableHeaderColumn>
-                    <TableHeaderColumn width='20px' editable={false} dataField="button" dataFormat={this.deleteButtonFormatter.bind(this)}>Delete</TableHeaderColumn>
+                    <TableHeaderColumn width={width} editable={!this.props.state} dataField='text'>Text</TableHeaderColumn>
+                    <TableHeaderColumn width= {deleteButtonWidth} className={className} columnClassName={columnClassName} editable={false} dataField="button" dataFormat={this.deleteButtonFormatter.bind(this)}>Delete</TableHeaderColumn>
                 </BootstrapTable>
-                <Row className="add-comment">
-                    <Col xs={12} md={12} lg={12}>
-                        <form>
-                            <div className="form-group">
-                                <button disabled={this.props.state} onClick={this.handleOpenModal} type="button" className="btn btn-primary">Add Comment</button>
-                            </div>
-                        </form>
-                    </Col> 
-                </Row>
-                {/*<Row className="add-info">
-                    <Col xs={12} md={12} lg={12}>
-                        <form>
-                            <div className="form-group">
-                                <label><h5>Add Comment:</h5></label>
-                                <input type="text" placeholder="Comment" readOnly={this.props.state} className="form-control" id="new-comment"></input>
-                            </div>
-                            <div className="form-group">
-                                <button disabled={this.props.state} onClick={this.onSubmitClick.bind(this)} type="button" className="btn btn-primary">Submit</button>
-                            </div>
-                        </form>
-                    </Col> 
-        </Row>*/}
+                <div>
+                    {this.addCommentButton.call(this)}
+                </div>
                 <ReactModal
                     isOpen={this.state.showModal}
                     contentLabel="Red Hat tracking partners"

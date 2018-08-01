@@ -204,7 +204,36 @@ export default class Links extends React.Component {
         }
     }
 
+    //Add link only available if logged in
+    addLinkButton() {
+        var linkButton;
+        if(localStorage.getItem("isLoggedIn") === "true") {
+            linkButton = <Row className="add-links-button">
+                            <Col xs={12} md={12} lg={12}>
+                                <form>
+                                    <div className="form-group">
+                                        <button disabled={this.props.state} onClick={this.handleOpenModal} type="button" className="btn btn-primary">Add Links</button>
+                                    </div>
+                                </form>
+                            </Col> 
+                        </Row>
+        }
+        return linkButton;
+    }
+
     render(){
+        var className;
+        var columnClassName;
+        var width = "200px";
+        var deleteButtonWidth = "20px";
+        var updateButtonWidth = "50px";
+        if(localStorage.getItem("isLoggedIn") !== "true"){
+            className = "hidden";
+            columnClassName = "hidden";
+            width = "270px";
+            deleteButtonWidth = "0.25px";
+            updateButtonWidth = "0.25px";
+        }
         return (
             <div>
                 <Row>
@@ -214,19 +243,13 @@ export default class Links extends React.Component {
                     <TableHeaderColumn hidden={true} dataField='id' isKey>Id</TableHeaderColumn>
                     <TableHeaderColumn width ='125px' editable={!this.props.state} dataField='name'>Name</TableHeaderColumn>
                     <TableHeaderColumn width ='200px' editable={!this.props.state} dataField='url'>URL</TableHeaderColumn>
-                    <TableHeaderColumn width ='200px' editable={!this.props.state} dataField='description'>Description</TableHeaderColumn>
-                    <TableHeaderColumn width ='50px' editable={false} dataField="button" dataFormat={this.updateButtonFormatter.bind(this)}>Update</TableHeaderColumn>
-                    <TableHeaderColumn width ='20px' editable={false} dataField="button" dataFormat={this.deleteButtonFormatter.bind(this)}>Delete</TableHeaderColumn>
+                    <TableHeaderColumn width ={width} editable={!this.props.state} dataField='description'>Description</TableHeaderColumn>
+                    <TableHeaderColumn width ={updateButtonWidth} className= {className} columnClassName= {columnClassName} editable={false} dataField="button" dataFormat={this.updateButtonFormatter.bind(this)}>Update</TableHeaderColumn>
+                    <TableHeaderColumn width ={deleteButtonWidth} className= {className} columnClassName= {columnClassName} editable={false} dataField="button" dataFormat={this.deleteButtonFormatter.bind(this)}>Delete</TableHeaderColumn>
                 </BootstrapTable>
-                <Row className="add-links-button">
-                    <Col xs={12} md={12} lg={12}>
-                        <form>
-                            <div className="form-group">
-                                <button disabled={this.props.state} onClick={this.handleOpenModal} type="button" className="btn btn-primary">Add Links</button>
-                            </div>
-                        </form>
-                    </Col> 
-                </Row>
+                <div>
+                    {this.addLinkButton.call(this)}
+                </div>
                 <ReactModal
                     isOpen={this.state.showModal}
                     contentLabel="Red Hat tracking partners"

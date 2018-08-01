@@ -64,6 +64,21 @@ class PartnerPage extends React.Component {
         console.log("Callback to handle anything after links change");
     }
 
+    addEngagementsSection(){
+        var engagementsSection;
+        if(localStorage.getItem("isLoggedIn") === "true") {
+            engagementsSection = <Row>
+                                    <Col xs={12} md={12} lg={12}>
+                                        <Engagement state={this.state.state}
+                                                    engagements={this.state.partnerData.engagements}
+                                                    partnerId={this.state.partnerData.id}
+                                                    callbackParent={this.engagementsChange.bind(this)} />
+                                    </Col>
+                                </Row>
+        }
+        return engagementsSection;
+    }
+
     render() {
         if (!this.state.hasLoadedData) {
             return <p>Loading ...</p>;
@@ -100,14 +115,9 @@ class PartnerPage extends React.Component {
                                          callbackParent={this.commentsChange.bind(this)}/>
                             </Col>
                         </Row>
-                        <Row>
-                            <Col xs={12} md={12} lg={12}>
-                                <Engagement state={this.state.state}
-                                            engagements={this.state.partnerData.engagements}
-                                            partnerId={this.state.partnerData.id}
-                                            callbackParent={this.engagementsChange.bind(this)} />
-                            </Col>
-                        </Row>
+                        <div>
+                            {this.addEngagementsSection.call(this)}
+                        </div>
                     </div>
                 </div>
             );
