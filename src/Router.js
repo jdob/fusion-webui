@@ -9,7 +9,18 @@ import PartnerPage from './components/PartnerPage';
 export default class CreateRoutes extends React.Component {
   //to protect against any user being able to edit partner details
   URLChange(){
-    if(window.location.pathname==='/')
+    
+    if(localStorage.getItem('authToken') === null && window.location.pathname!=='/login')
+    {
+      window.location.pathname = '/login';
+    }
+    else if((localStorage.getItem('isAdmin') === 'false' || 
+      localStorage.getItem('isAdmin') === null) && window.location.pathname==='/edit')
+    {
+      window.location.pathname = '/login';
+    }
+
+    /*if(window.location.pathname==='/')
     {
       window.location.pathname = '/home';
     }
@@ -23,7 +34,9 @@ export default class CreateRoutes extends React.Component {
     {
       localStorage.setItem('isAdmin',false);
       window.location.pathname = '/home';
-    }
+    }*/
+
+
     /*var isAdmin = localStorage.getItem('isAdmin');
     var isLoggedIn = localStorage.getItem('isLoggedIn');
     if(isLoggedIn === null)
@@ -67,25 +80,20 @@ export default class CreateRoutes extends React.Component {
   render(){
     const newHistory = createBrowserHistory();
     newHistory.listen((location, action) => {
-      if(window.location.pathname==='/')
-      {
-        window.location.pathname = '/home';
-      }
-      if((localStorage.getItem('isAdmin') === 'false' || 
-        localStorage.getItem('isAdmin') === null) && window.location.pathname==='/edit')
+      if(localStorage.getItem('authToken') === null)
       {
         window.location.pathname = '/login';
       }
-      else if(localStorage.getItem('isAdmin') === null)
+      else if((localStorage.getItem('isAdmin') === 'false' || 
+        localStorage.getItem('isAdmin') === null) && window.location.pathname==='/edit')
       {
-        localStorage.setItem('isAdmin',false);
-        window.location.pathname = '/home';
+        window.location.pathname = '/login';
       }
     })
     return(
       <Router history={newHistory}>
         <Switch>
-          <Route exact path="/" component={App}  onEnter={this.URLChange()}/>
+          <Route exact path="/" component={Login}  onEnter={this.URLChange()}/>
           <Route exact path="/login" component={Login}/>
           <Route exact path="/register" component={Register}/>
           <Route exact path="/home" component={App}/>
