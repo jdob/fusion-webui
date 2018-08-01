@@ -5,3 +5,22 @@
    background-color: white;
    padding-bottom:10px;
 }
+
+.home-link
+{
+    margin-left:-30%;
+    margin-top:-30%;
+    color: blue;
+}
+
+.modal-partner-image
+{
+    
+}
+
+.partner-summary-side
+{
+    margin: auto;
+    width: 100%;
+    padding: 10px;
+}

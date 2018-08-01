@@ -3,10 +3,16 @@ import { Row, Col } from 'react-bootstrap';
 import '../css/ModalLeftSide.css';
 
 export default class ModalLeftSide extends React.Component {
+    redirectToHome() {
+        window.location.pathname = '/edit'; 
+    }
     //We will get the data for the image src and badges
     render() {
         return(
-            <div>
+            <div className="partner-summary-side">
+                <div className="home-link" onClick={this.redirectToHome.bind(this)}>
+                   Home
+                </div> 
                 <Row className="modal-partner-image">
                     <Col xs={12} md={12} lg={12}>
                         <img height="200"
