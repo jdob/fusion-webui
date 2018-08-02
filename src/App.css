@@ -56,11 +56,12 @@
 
 .text-adjust
 {
-    margin-left: 3.5%;
+  margin-left: 2%;
 }
 
 .category-adjust
 {
-    width:120%;
-    font-size: 12px;
+  margin-left: -3%;
+  width:125%;
+  font-size: 11px;
 }
