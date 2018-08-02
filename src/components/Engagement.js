@@ -251,6 +251,25 @@ export default class Engagement extends React.Component {
         )
     }
 
+    addDeleteButton(engagement_id) {
+        var deleteButton;
+        if(localStorage.getItem('isReadOnly') !== null &&
+           localStorage.getItem("isReadOnly") !== "true") {
+           deleteButton = <Col xs={1} md={1} lg={1} className="delete-engagement">
+                                <button id={engagement_id}
+                                        disabled= {this.props.state}
+                                        onClick={this.onDeleteClick.bind(this)}
+                                        className="delete-button">
+                                    x
+                                </button>
+                            </Col>
+        }
+        else {
+            deleteButton = <Col xs={1} md={1} lg={1} className="delete-engagement"></Col>
+        }
+        return deleteButton
+    }
+
     populateEngagements() {
         let rows = [];
         let engagements = this.state.engagements;
@@ -273,14 +292,7 @@ export default class Engagement extends React.Component {
                     <div id={engagements[i].id} key={key} className="engagements">
                         <Row>
                             <Col xs={10} md={10} lg={10}><b>{engagementDate.toDateString()}</b></Col>
-                            <Col xs={1} md={1} lg={1} className="delete-engagement">
-                                <button id={engagements[i].id}
-                                        disabled= {self.props.state}
-                                        onClick={self.onDeleteClick.bind(this)}
-                                        className="delete-button">
-                                    x
-                                </button>
-                            </Col>
+                            {this.addDeleteButton.call(this, engagements[i].id)}
                         </Row>
                         <Row>
                             <Col xs={1} md={1} lg={1}>Location:</Col>
