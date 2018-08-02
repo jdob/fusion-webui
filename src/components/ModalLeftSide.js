@@ -1,6 +1,8 @@
 import React from 'react';
 import { Row, Col } from 'react-bootstrap';
 import '../css/ModalLeftSide.css';
+import SvgIcon from 'react-icons-kit';
+import { home } from 'react-icons-kit/icomoon/home';
 
 export default class ModalLeftSide extends React.Component {
     redirectToHome() {
@@ -11,7 +13,7 @@ export default class ModalLeftSide extends React.Component {
         return(
             <div className="partner-summary-side">
                 <div className="home-link" onClick={this.redirectToHome.bind(this)}>
-                   Home
+                    <SvgIcon size={30} icon={home}/>
                 </div> 
                 <Row className="modal-partner-image">
                     <Col xs={12} md={12} lg={12}>
