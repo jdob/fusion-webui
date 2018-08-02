@@ -70,9 +70,12 @@ class Sidemenu extends React.Component {
         navs.push(<Nav id={categories[category].name} key={categories[category].name}>
                     <NavText>
                       <div> 
-                        <input className="category-checkbox" onClick= {this.categoryCheckBoxClick.bind(this)} type="checkbox" id={categories[category].id} />
-                        {/*<label className="category-label">{categories[category].name}</label> */}
-                        {categories[category].name}
+                        <input className="category-checkbox"
+                               onClick={this.categoryCheckBoxClick.bind(this)}
+                               type="checkbox"
+                               id={categories[category].id}
+                        />
+                            {categories[category].name}
                       </div>
                     </NavText>
                   </Nav>);
