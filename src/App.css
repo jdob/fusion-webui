@@ -53,3 +53,14 @@
   border: none;
   background: none;
 }
+
+.text-adjust
+{
+    margin-left: 3.5%;
+}
+
+.category-adjust
+{
+    width:130%;
+    font-size: 12px;
+}

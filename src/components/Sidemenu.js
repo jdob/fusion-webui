@@ -5,6 +5,7 @@ import { ic_format_list_numbered } from 'react-icons-kit/md/ic_format_list_numbe
 import { ic_apps } from 'react-icons-kit/md/ic_apps';
 import '../App.css';
 import withRouter from 'react-router-dom/withRouter';
+import { Row, Col } from 'react-bootstrap';
 
 //using the code provided by react-sidenav
 class Sidemenu extends React.Component {
@@ -69,10 +70,9 @@ class Sidemenu extends React.Component {
       {
         navs.push(<Nav id={categories[category].name} key={categories[category].name}>
                     <NavText>
-                      <div> 
+                      <div className="category-adjust"> 
                         <input className="category-checkbox" onClick= {this.categoryCheckBoxClick.bind(this)} type="checkbox" id={categories[category].id} />
-                        {/*<label className="category-label">{categories[category].name}</label> */}
-                        {categories[category].name}
+                        <span className="text-adjust">{categories[category].name}</span>
                       </div>
                     </NavText>
                   </Nav>);
