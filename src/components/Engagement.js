@@ -357,6 +357,29 @@ export default class Engagement extends React.Component {
         }
     }
 
+    addEngagementButton() {
+        var engagementButton;
+        if(localStorage.getItem('isReadOnly') !== null &&
+            localStorage.getItem("isReadOnly") !== "true") {
+            engagementButton = <Row className="add-engagement-button">
+                                <Col xs={12} md={12} lg={12}>
+                                    <form>
+                                        <div className="form-group">
+                                            <button disabled={this.props.state}
+                                                    onClick={this.handleOpenModal}
+                                                    type="button"
+                                                    className="btn btn-primary">
+                                                Add Engagement
+                                            </button>
+                                        </div>
+                                    </form>
+                                </Col>
+                            </Row>
+        }
+        return engagementButton;
+    }
+
+
     render(){
         return (
             <div>
@@ -366,20 +389,9 @@ export default class Engagement extends React.Component {
                 <div className="partner-engagements">
                     {this.populateEngagements.call(this)}
                 </div>
-                <Row className="add-engagement-button">
-                    <Col xs={12} md={12} lg={12}>
-                        <form>
-                            <div className="form-group">
-                                <button disabled={this.props.state}
-                                        onClick={this.handleOpenModal}
-                                        type="button"
-                                        className="btn btn-primary">
-                                    Add Engagement
-                                </button>
-                            </div>
-                        </form>
-                    </Col> 
-                </Row>
+                <div>
+                    {this.addEngagementButton.call(this)}
+                </div>
                 <ReactModal
                     isOpen={this.state.showModal}
                     contentLabel="Red Hat tracking partners"
