@@ -62,19 +62,41 @@ export default class LinkModal extends React.Component {
                         <label><h5>Add Link:</h5></label>
                         <form>
                             <div className="form-group">
-                                <input type = 'text' placeholder='Name' readOnly={this.props.state} className="form-control" id="new-name"></input>
+                                <input type='text'
+                                       placeholder='Name'
+                                       readOnly={this.props.state}
+                                       className="form-control"
+                                       id="new-name"></input>
                             </div>
                             <div className="form-group">
-                                <input type = 'text'  placeholder='url' readOnly={this.props.state} className="form-control" id="new-url"></input>
+                                <input type='text'
+                                       placeholder='url'
+                                       readOnly={this.props.state}
+                                       className="form-control"
+                                       id="new-url"></input>
                             </div>
                             <div className="form-group">
-                                <input type = 'text'  placeholder='Description' readOnly={this.props.state} className="form-control" id="new-description"></input>
+                                <input type='text'
+                                       placeholder='Description'
+                                       readOnly={this.props.state}
+                                       className="form-control"
+                                       id="new-description"></input>
                             </div>
                             <div className="form-group" style={{display : 'inline-block',marginRight:2 + '%'}}>
-                                <button disabled={this.props.state} onClick={this.onSubmitClick.bind(this)} type="button" className="btn btn-primary">Submit</button>
+                                <button disabled={this.props.state}
+                                        onClick={this.onSubmitClick.bind(this)}
+                                        type="button"
+                                        className="btn btn-primary">
+                                    Submit
+                                </button>
                             </div>
                             <div className="form-group" style={{display : 'inline-block'}}>
-                                <button disabled={this.props.state} onClick={this.onCancelClick.bind(this)} type="button" className="btn btn-default">Cancel</button>
+                                <button disabled={this.props.state}
+                                        onClick={this.onCancelClick.bind(this)}
+                                        type="button"
+                                        className="btn btn-default">
+                                    Cancel
+                                </button>
                             </div>
                         </form>
                     </div>
