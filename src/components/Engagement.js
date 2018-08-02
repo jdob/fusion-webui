@@ -22,16 +22,6 @@ export default class Engagement extends React.Component {
         this.handleCloseModal = this.handleCloseModal.bind(this);
     }
 
-    handleKeyDown(event) {
-        if (event.keyCode === 13) {
-            event.preventDefault(); // Let's stop this event.
-            event.stopPropagation(); // Really this time.
-            
-            alert("Is it stopped?");
-            // "Hahaha, I'm gonna submit anyway!" - Chrome
-        }
-    }
-
     componentWillMount(){
         ReactModal.setAppElement('body');
     }

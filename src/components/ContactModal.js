@@ -2,6 +2,12 @@ import React from 'react';
 import { Row, Col } from 'react-bootstrap';
 
 export default class ContactModal extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            data:this.props.data
+        }
+    }
     //Sends request to add contact
     onSubmitClick(event){
         event.preventDefault();
@@ -48,6 +54,10 @@ export default class ContactModal extends React.Component {
                 });
             });
         }
+    }
+
+    componentWillReceiveProps(nextProps){
+        this.setState(nextProps);
     }
 
     onCancelClick(){

@@ -4,6 +4,9 @@ import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
 import '../css/Contact.css';
 import ContactModal from './ContactModal.js';
 import ReactModal from 'react-modal';
+import SvgIcon from 'react-icons-kit';
+import {pencil} from 'react-icons-kit/icomoon/pencil';
+import {bin} from 'react-icons-kit/icomoon/bin';
 
 export default class Contact extends React.Component {
     constructor(props) {
@@ -13,7 +16,8 @@ export default class Contact extends React.Component {
         this.nameClass = undefined;
         this.state = {
             contacts : this.props.contacts,
-            showModal: false
+            showModal: false,
+            dataForModal:undefined,
         };
         this.cellEditProp = {
             mode: 'click',
@@ -149,7 +153,7 @@ export default class Contact extends React.Component {
         }
     }
     
-    onUpdateClick(cell, row) {
+    /*onUpdateClick(cell, row) {
         var self = this;
         var contactId = parseInt(row.id,10);
         var requestString = window.App.urlConstants.serviceHost + 
@@ -176,6 +180,18 @@ export default class Contact extends React.Component {
         }
         for (var member in this.changes) delete this.changes[member];
         this.previousId = undefined;
+    }*/
+
+    /*onCopyClick(cell, row, cellValue) {
+        console.log("hi");
+    }*/
+
+    onUpdateClick(cell,row) {
+        var data = this.state.contacts.filter(function(item){
+            return item.id === row.id;
+        });
+        this.setState({ dataForModal: data });
+        this.handleOpenModal();
     }
 
     //for update button
@@ -185,7 +201,7 @@ export default class Contact extends React.Component {
                onClick={() => 
                this.onUpdateClick(cell, row)}
             >
-            update
+                <SvgIcon size={20} icon={pencil}/>
             </button>
         )
     }
@@ -197,10 +213,22 @@ export default class Contact extends React.Component {
                className="delete-button" onClick={() => 
                this.onDeleteClick(cell, row)}
             >
-            x
+                <SvgIcon size={20} icon={bin}/>
             </button>
         )
     }
+
+    //for copy button
+    /*copyButtonFormatter(cell, row){
+        return (
+            <button disabled={this.props.state}
+               className="copy-button" onClick={() => 
+               this.onCopyClick(cell, row)}
+            >
+                <SvgIcon size={30} icon={home}/>
+            </button>
+        )
+    }*/
 
     callbackParent(newContact){
         if(newContact !== 'undefined')
@@ -242,13 +270,13 @@ export default class Contact extends React.Component {
         var className;
         var columnClassName;
         var width = "200px";
-        var deleteButtonWidth = "20px";
-        var updateButtonWidth = "50px";
+        var deleteButtonWidth = "30px";
+        var updateButtonWidth = "30px";
         if(localStorage.getItem('isReadOnly') !== null && 
             localStorage.getItem("isReadOnly") === "true"){
             className = "hidden";
             columnClassName = "hidden";
-            width = "270px";
+            width = "280px";
             deleteButtonWidth = "0.25px";
             updateButtonWidth = "0.25px";
         }
@@ -257,13 +285,14 @@ export default class Contact extends React.Component {
                 <Row>
                     <Col xs={12} md={12} lg={12}><div className="detail-header">Contacts</div></Col>
                 </Row>
-                <BootstrapTable data={ this.state.contacts } bordered={true} cellEdit={ this.cellEditProp} containerStyle={{width:'100%'}} trStyle={this.rowStyleFormat.bind(this)}>
+                <BootstrapTable data={ this.state.contacts } bordered={true} containerStyle={{width:'100%'}} trStyle={this.rowStyleFormat.bind(this)}>
                     <TableHeaderColumn hidden={true} dataField='id' isKey>Id</TableHeaderColumn>
                     <TableHeaderColumn width ='125px' className={this.nameClass} columnClassName = {this.nameClass} editable={!this.props.state} dataField='name'>Name</TableHeaderColumn>
                     <TableHeaderColumn width ={width} editable={!this.props.state} dataField='email'>Email</TableHeaderColumn>
                     <TableHeaderColumn width ='125px' editable={!this.props.state} dataField='role'>Role</TableHeaderColumn>
-                    <TableHeaderColumn width ={updateButtonWidth} className= {className} columnClassName= {columnClassName} editable={false} dataField="button" dataFormat={this.updateButtonFormatter.bind(this)}>Update</TableHeaderColumn>
+                    <TableHeaderColumn width ={updateButtonWidth} className= {className} columnClassName= {columnClassName} editable={false} dataField="button" dataFormat={this.updateButtonFormatter.bind(this)}>Edit</TableHeaderColumn>
                     <TableHeaderColumn width ={deleteButtonWidth} className= {className} columnClassName= {columnClassName} editable={false} dataField="button" dataFormat={this.deleteButtonFormatter.bind(this)}>Delete</TableHeaderColumn>
+                    {/*<TableHeaderColumn width ={updateButtonWidth} className= {className} columnClassName= {columnClassName} editable={false} dataField="button" dataFormat={this.copyButtonFormatter.bind(this)}>Copy</TableHeaderColumn>*/}
                 </BootstrapTable>
                 <div>
                     {this.addContactButton.call(this)}
@@ -274,7 +303,11 @@ export default class Contact extends React.Component {
                     onRequestClose={this.handleCloseModal}
                 >
                     <div>
-                        <ContactModal state={this.props.state} callbackParent={this.callbackParent.bind(this)} partnerId={this.props.partnerId} closeModalCallback={this.handleCloseModal.bind(this)}/>
+                        <ContactModal state={this.props.state} 
+                            callbackParent={this.callbackParent.bind(this)} 
+                            partnerId={this.props.partnerId} 
+                            closeModalCallback={this.handleCloseModal.bind(this)}
+                            data={this.dataForModal}/>
                     </div>
                 </ReactModal>
             </div>
