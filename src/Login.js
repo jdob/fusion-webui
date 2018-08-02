@@ -86,7 +86,7 @@ export default class Login extends React.Component {
             {
                 localStorage.setItem('isReadOnly', false);
             }
-            //ocalStorage.setItem('firstName', authData.data.first_name);
+            localStorage.setItem('firstName', authData.data.first_name);
             localStorage.setItem('authToken', authData.data.token);
             self.redirect('/edit');
         }).catch((err) => {
