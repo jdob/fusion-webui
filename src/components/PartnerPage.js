@@ -22,7 +22,7 @@ class PartnerPage extends React.Component {
             window.App.urlConstants.serviceHost = 'http://'+ Config.serviceHost+':'+Config.servicePort+'/';
         }
         this.state = {
-            state:(this.props.location.state === undefined) ? true : this.props.location.state,
+            state:true,
             partnerData:{},
             hasLoadedData : false
         };
@@ -48,6 +48,12 @@ class PartnerPage extends React.Component {
         .catch((err) => {
             console.log(err);
         });
+    }
+
+    componentWillMount() {
+        if(JSON.parse(localStorage.getItem("groups")).indexOf("Editors") !=-1 ){
+            this.state.state = false;
+        }
     }
 
     //update the changes

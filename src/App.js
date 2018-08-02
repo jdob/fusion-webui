@@ -21,9 +21,12 @@ class App extends Component {
     }
     window.addEventListener('storage', this.storageChange.bind(this), false)
     //To check if we have to disable editable elements
-    this.stateReadOnly = (localStorage.getItem('isAdmin') === 'false' || 
+    //Deprecated, because we check with the groups property with the authToken
+    //on each partner page if the user should get a read only or write view.
+    //Can be used again if we need to fork this variable to the sidemenu
+    /*this.stateReadOnly = (localStorage.getItem('isAdmin') === 'false' || 
                           localStorage.getItem('isAdmin') === null) ? true 
-                          : false; 
+                          : false ;*/ 
     this.state = {
       filters:[],
       categoryFilters:[],
@@ -34,8 +37,8 @@ class App extends Component {
   }
 
   storageChange (event) {
-    if(localStorage.getItem('isLoggedIn')==='false') {
-        this.props.history.push('/home');
+    if(localStorage.getItem('isLoggedIn')===null) {
+        this.props.history.push('/edit');
     }
   }
 
@@ -143,8 +146,7 @@ class App extends Component {
                  data for content is all the info about partners*/}
               <div className="sidemenu">
                 <img src={logo} className="App-logo" alt="Red Hat Partner Fusion" />
-                <Sidemenu state={this.stateReadOnly}
-                          items={this.items}
+                <Sidemenu items={this.items}
                           filters={this.state.filters}
                           categoryFilters={this.state.categoryFilters}
                           callbackParent={this.onChildChanged.bind(this)}
@@ -153,8 +155,7 @@ class App extends Component {
               </div>
               <div className="main-content">
                 <br/>
-                <Content state={this.stateReadOnly}
-                         filters={this.state.filters}
+                <Content filters={this.state.filters}
                          categoryFilters={this.state.categoryFilters}
                          partners={this.state.partners}
                          categories={this.state.categories}

@@ -10,15 +10,17 @@ export default class CreateRoutes extends React.Component {
   //to protect against any user being able to edit partner details
   URLChange(){
     
-    if(localStorage.getItem('authToken') === null && window.location.pathname!=='/login')
+    if(localStorage.getItem('authToken') === null && 
+        window.location.pathname!=='/login')
     {
       window.location.pathname = '/login';
     }
-    else if((localStorage.getItem('isAdmin') === 'false' || 
-      localStorage.getItem('isAdmin') === null) && window.location.pathname==='/edit')
+    /*else if(localStorage.getItem('groups') !== null && 
+              JSON.parse(localStorage.getItem("groups")).indexOf("Read Only")!=-1 && 
+              window.location.pathname==='/edit')
     {
       window.location.pathname = '/login';
-    }
+    }*/
 
     /*if(window.location.pathname==='/')
     {
@@ -80,15 +82,17 @@ export default class CreateRoutes extends React.Component {
   render(){
     const newHistory = createBrowserHistory();
     newHistory.listen((location, action) => {
-      if(localStorage.getItem('authToken') === null)
+      if(localStorage.getItem('authToken') === null && 
+          window.location.pathname!=='/login')
       {
         window.location.pathname = '/login';
       }
-      else if((localStorage.getItem('isAdmin') === 'false' || 
-        localStorage.getItem('isAdmin') === null) && window.location.pathname==='/edit')
+      /*else if(localStorage.getItem('groups') !== null && 
+                JSON.parse(localStorage.getItem("groups")).indexOf("Read Only")!=-1 && 
+                window.location.pathname==='/edit')
       {
         window.location.pathname = '/login';
-      }
+      }*/
     })
     return(
       <Router history={newHistory}>

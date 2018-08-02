@@ -63,6 +63,8 @@ export default class Login extends React.Component {
     //normal user gets read only view
     handleSubmitClick(event){
         var self = this;
+        var username = self.state.username;
+        var groups;
         //auth token
         axios({
             method: 'post',
@@ -72,10 +74,13 @@ export default class Login extends React.Component {
                 password: self.state.password
             }
         }).then(function(authData) {
+            groups = JSON.stringify(authData.data.groups);
             self.setState({token:authData.data.token,isAdmin:true});
-            localStorage.setItem('isAdmin', true);
-            localStorage.setItem('userName', self.state.username);
+            //localStorage.setItem('isAdmin', true);
+            localStorage.setItem('userName', authData.data.username);
             localStorage.setItem('isLoggedIn', true);
+            localStorage.setItem('groups', groups);
+            //ocalStorage.setItem('firstName', authData.data.first_name);
             localStorage.setItem('authToken', authData.data.token);
             self.redirect('/edit');
         }).catch((err) => {

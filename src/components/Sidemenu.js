@@ -82,10 +82,11 @@ class Sidemenu extends React.Component {
 
     logout() {
       // clear all items
-      localStorage.setItem('isAdmin',false);
-      localStorage.setItem('isLoggedIn',false);
+      //localStorage.setItem('isAdmin',false);
+      localStorage.removeItem('isLoggedIn');
       localStorage.removeItem('authToken');
       localStorage.removeItem('userName');
+      localStorage.removeItem('groups');
       this.props.history.push('/login');
     }
 

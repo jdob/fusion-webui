@@ -91,7 +91,7 @@ class Content extends React.Component {
             }
             let sectionId = 'section-'+i;
             //creating the sections for different types of partners
-            sections.push(<Section state = {this.props.state} key={categories[keysSorted[i]].id} id={sectionId} data={filtered} type={categories[keysSorted[i]].name}/>);
+            sections.push(<Section key={categories[keysSorted[i]].id} id={sectionId} data={filtered} type={categories[keysSorted[i]].name}/>);
         }
         return sections;
     }
