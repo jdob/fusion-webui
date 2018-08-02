@@ -217,7 +217,12 @@ export default class Links extends React.Component {
                             <Col xs={12} md={12} lg={12}>
                                 <form>
                                     <div className="form-group">
-                                        <button disabled={this.props.state} onClick={this.handleOpenModal} type="button" className="btn btn-primary">Add Links</button>
+                                        <button disabled={this.props.state}
+                                                onClick={this.handleOpenModal}
+                                                type="button"
+                                                className="btn btn-primary">
+                                            Add Links
+                                        </button>
                                     </div>
                                 </form>
                             </Col> 
@@ -251,13 +256,47 @@ export default class Links extends React.Component {
                 <Row>
                     <Col xs={12} md={12} lg={12}><div className="detail-header">Links</div></Col>
                 </Row>
-                <BootstrapTable data={ this.state.links } bordered={true} cellEdit={ this.cellEditProp} containerStyle={{width:'100%'}} trStyle={this.rowStyleFormat.bind(this)}>
-                    <TableHeaderColumn hidden={true} dataField='id' isKey>Id</TableHeaderColumn>
-                    <TableHeaderColumn width ='125px' editable={!this.props.state} dataField='name'>Name</TableHeaderColumn>
-                    <TableHeaderColumn width ='200px' editable={!this.props.state} dataField='url'>URL</TableHeaderColumn>
-                    <TableHeaderColumn width ={width} editable={!this.props.state} dataField='description'>Description</TableHeaderColumn>
-                    <TableHeaderColumn width ={updateButtonWidth} className= {className} columnClassName= {columnClassName} editable={false} dataField="button" dataFormat={this.updateButtonFormatter.bind(this)}>Update</TableHeaderColumn>
-                    <TableHeaderColumn width ={deleteButtonWidth} className= {className} columnClassName= {columnClassName} editable={false} dataField="button" dataFormat={this.deleteButtonFormatter.bind(this)}>Delete</TableHeaderColumn>
+                <BootstrapTable data={ this.state.links }
+                                bordered={true}
+                                cellEdit={this.cellEditProp}
+                                containerStyle={{width:'100%'}}
+                                trStyle={this.rowStyleFormat.bind(this)}>
+                    <TableHeaderColumn hidden={true}
+                                       dataField='id'
+                                       isKey>
+                        Id
+                    </TableHeaderColumn>
+                    <TableHeaderColumn width='125px'
+                                       editable={!this.props.state}
+                                       dataField='name'>
+                        Name
+                    </TableHeaderColumn>
+                    <TableHeaderColumn width='200px'
+                                       editable={!this.props.state}
+                                       dataField='url'>
+                        URL
+                    </TableHeaderColumn>
+                    <TableHeaderColumn width={width}
+                                       editable={!this.props.state}
+                                       dataField='description'>
+                        Description
+                    </TableHeaderColumn>
+                    <TableHeaderColumn width={updateButtonWidth}
+                                       className={className}
+                                       columnClassName={columnClassName}
+                                       editable={false}
+                                       dataField="button"
+                                       dataFormat={this.updateButtonFormatter.bind(this)}>
+                        Update
+                    </TableHeaderColumn>
+                    <TableHeaderColumn width={deleteButtonWidth}
+                                       className={className}
+                                       columnClassName={columnClassName}
+                                       editable={false}
+                                       dataField="button"
+                                       dataFormat={this.deleteButtonFormatter.bind(this)}>
+                        Delete
+                    </TableHeaderColumn>
                 </BootstrapTable>
                 <div>
                     {this.addLinkButton.call(this)}
@@ -268,7 +307,10 @@ export default class Links extends React.Component {
                     onRequestClose={this.handleCloseModal}
                 >
                     <div>
-                        <LinkModal state={this.props.state} callbackParent={this.callbackParent.bind(this)} partnerId={this.props.partnerId} closeModalCallback={this.handleCloseModal.bind(this)}/>
+                        <LinkModal state={this.props.state}
+                                   callbackParent={this.callbackParent.bind(this)}
+                                   partnerId={this.props.partnerId}
+                                   closeModalCallback={this.handleCloseModal.bind(this)}/>
                     </div>
                 </ReactModal>
             </div>
