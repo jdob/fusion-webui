@@ -267,7 +267,28 @@ export default class Engagement extends React.Component {
         else {
             deleteButton = <Col xs={1} md={1} lg={1} className="delete-engagement"></Col>
         }
-        return deleteButton
+        return deleteButton;
+    }
+
+    addUpdateButtonRow(engagement_id) {
+        var updateButtonRow;
+        if(localStorage.getItem('isReadOnly') !== null &&
+            localStorage.getItem("isReadOnly") !== "true") {
+            updateButtonRow = <Row>
+                                <Col xs={12} md={12} lg={12} className="update-engagement">
+                                    <div className="form-group">
+                                        <button id={engagement_id}
+                                                disabled={this.props.state}
+                                                onClick={this.onUpdateClick.bind(this)}
+                                                type="button"
+                                                className="btn btn-primary">
+                                            Update
+                                        </button>
+                                    </div>
+                                </Col>
+                             </Row>
+        }
+        return updateButtonRow;
     }
 
     populateEngagements() {
@@ -339,19 +360,7 @@ export default class Engagement extends React.Component {
                                 </div>
                             </Col>
                         </Row>
-                        <Row>
-                            <Col xs={12} md={12} lg={12} className="update-engagement">
-                                <div className="form-group">
-                                    <button id={engagements[i].id}
-                                            disabled={this.props.state}
-                                            onClick={this.onUpdateClick.bind(this)}
-                                            type="button"
-                                            className="btn btn-primary">
-                                        Update
-                                    </button>
-                                </div>
-                            </Col>
-                        </Row>
+                        {this.addUpdateButtonRow.call(this, engagements[i].id)}
                     </div>
                 );
             }
