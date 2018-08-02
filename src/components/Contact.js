@@ -215,7 +215,8 @@ export default class Contact extends React.Component {
     //Add contact only available if logged in
     addContactButton() {
         var contactButton;
-        if(localStorage.getItem("isLoggedIn") === "true") {
+        if(localStorage.getItem('isReadOnly') !== null && 
+            localStorage.getItem("isReadOnly") !== "true") {
             contactButton = <Row className="add-contact-button">
                                 <Col xs={12} md={12} lg={12}>
                                     <form>
@@ -243,7 +244,8 @@ export default class Contact extends React.Component {
         var width = "200px";
         var deleteButtonWidth = "20px";
         var updateButtonWidth = "50px";
-        if(localStorage.getItem("isLoggedIn") !== "true"){
+        if(localStorage.getItem('isReadOnly') !== null && 
+            localStorage.getItem("isReadOnly") === "true"){
             className = "hidden";
             columnClassName = "hidden";
             width = "270px";

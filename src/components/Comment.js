@@ -187,7 +187,8 @@ export default class Comment extends React.Component {
     //Add comment only available if logged in
     addCommentButton() {
         var commentButton;
-        if(localStorage.getItem("isLoggedIn") === "true") {
+        if(localStorage.getItem('isReadOnly') !== null && 
+            localStorage.getItem("isReadOnly") !== "true") {
             commentButton = <Row className="add-comment">
                                 <Col xs={12} md={12} lg={12}>
                                     <form>
@@ -210,7 +211,8 @@ export default class Comment extends React.Component {
         var columnClassName;
         var width = "500px";
         var deleteButtonWidth = "20px";
-        if(localStorage.getItem("isLoggedIn") !== "true"){
+        if(localStorage.getItem('isReadOnly') !== null && 
+            localStorage.getItem("isReadOnly") === "true"){
             className = "hidden";
             columnClassName = "hidden";
             width = "520px";

@@ -80,7 +80,8 @@ class PartnerPage extends React.Component {
 
     addEngagementsSection(){
         var engagementsSection;
-        if(localStorage.getItem("isLoggedIn") === "true") {
+        if(localStorage.getItem('isReadOnly') !== null && 
+            localStorage.getItem("isReadOnly") !== "true") {
             engagementsSection = <Row>
                                     <Col xs={12} md={12} lg={12}>
                                         <Engagement state={this.state.state}

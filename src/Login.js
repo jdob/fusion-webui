@@ -80,6 +80,12 @@ export default class Login extends React.Component {
             localStorage.setItem('userName', authData.data.username);
             localStorage.setItem('isLoggedIn', true);
             localStorage.setItem('groups', groups);
+            localStorage.setItem('isReadOnly', true);
+            if(localStorage.getItem('groups') !== null && 
+                JSON.parse(localStorage.getItem("groups")).indexOf("Editors")!=-1)
+            {
+                localStorage.setItem('isReadOnly', false);
+            }
             //ocalStorage.setItem('firstName', authData.data.first_name);
             localStorage.setItem('authToken', authData.data.token);
             self.redirect('/edit');

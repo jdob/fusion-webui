@@ -211,7 +211,8 @@ export default class Links extends React.Component {
     //Add link only available if logged in
     addLinkButton() {
         var linkButton;
-        if(localStorage.getItem("isLoggedIn") === "true") {
+        if(localStorage.getItem('isReadOnly') !== null && 
+            localStorage.getItem("isReadOnly") !== "true") {
             linkButton = <Row className="add-links-button">
                             <Col xs={12} md={12} lg={12}>
                                 <form>
@@ -237,7 +238,8 @@ export default class Links extends React.Component {
         var width = "200px";
         var deleteButtonWidth = "20px";
         var updateButtonWidth = "50px";
-        if(localStorage.getItem("isLoggedIn") !== "true"){
+        if(localStorage.getItem('isReadOnly') !== null && 
+            localStorage.getItem("isReadOnly") === "true"){
             className = "hidden";
             columnClassName = "hidden";
             width = "270px";
