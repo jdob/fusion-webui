@@ -17,7 +17,8 @@ export default class Contact extends React.Component {
         this.state = {
             contacts : this.props.contacts,
             showModal: false,
-            dataForModal:undefined,
+            dataForModal:{},
+            title:undefined
         };
         this.cellEditProp = {
             mode: 'click',
@@ -182,16 +183,19 @@ export default class Contact extends React.Component {
         this.previousId = undefined;
     }*/
 
-    /*onCopyClick(cell, row, cellValue) {
-        console.log("hi");
-    }*/
+    afterUpdate() {
+        this.handleOpenModal();
+    }       
 
     onUpdateClick(cell,row) {
         var data = this.state.contacts.filter(function(item){
             return item.id === row.id;
         });
-        this.setState({ dataForModal: data });
-        this.handleOpenModal();
+        var self = this;
+        this.setState({ dataForModal: data[0], title: 'Edit Contact'}, 
+                            self.afterUpdate.bind(self));
+        //this.setState({ dataForModal: data[0] });
+        //this.handleOpenModal();
     }
 
     //for update button
@@ -230,14 +234,39 @@ export default class Contact extends React.Component {
         )
     }*/
 
-    callbackParent(newContact){
-        if(newContact !== 'undefined')
+    afterNewUpdate() {
+        this.props.callbackParent(this.state.contacts);
+    }
+
+    callbackParent(newContact, contactId){
+        var contacts = [];
+        if(contactId !== undefined)
+        {
+            this.state.contacts.forEach(element => {
+                if(element.id === contactId){
+                    for(var prop in newContact)
+                    {
+                        element[prop] = newContact[prop];
+                    }
+                }
+                contacts.push(element);
+            });
+            this.setState({contacts:contacts}, this.afterNewUpdate.bind(this));
+            //this.props.callbackParent(this.state.contacts);
+        }
+        else
         {
             this.setState(prevState => ({
                 contacts: prevState.contacts.concat(newContact),
             }));
             this.props.callbackParent(this.state.contacts);
         }
+    }
+
+    newContact() {
+        var self = this;
+        self.setState({ dataForModal: {}, title: "Add Contact"}, 
+                            self.afterUpdate.bind(self));
     }
 
     //Add contact only available if logged in
@@ -249,7 +278,7 @@ export default class Contact extends React.Component {
                                 <Col xs={12} md={12} lg={12}>
                                     <form>
                                         <div className="form-group">
-                                            <button disabled={this.props.state} onClick={this.handleOpenModal} type="button" className="btn btn-primary">Add Contact</button>
+                                            <button disabled={this.props.state} onClick={this.newContact.bind(this)} type="button" className="btn btn-primary">Add Contact</button>
                                         </div>
                                     </form>
                                 </Col> 
@@ -285,7 +314,7 @@ export default class Contact extends React.Component {
                 <Row>
                     <Col xs={12} md={12} lg={12}><div className="detail-header">Contacts</div></Col>
                 </Row>
-                <BootstrapTable data={ this.state.contacts } bordered={true} containerStyle={{width:'100%'}} trStyle={this.rowStyleFormat.bind(this)}>
+                <BootstrapTable data={ this.state.contacts } bordered={true} containerStyle={{width:'100%'}}>
                     <TableHeaderColumn hidden={true} dataField='id' isKey>Id</TableHeaderColumn>
                     <TableHeaderColumn width ='125px' className={this.nameClass} columnClassName = {this.nameClass} editable={!this.props.state} dataField='name'>Name</TableHeaderColumn>
                     <TableHeaderColumn width ={width} editable={!this.props.state} dataField='email'>Email</TableHeaderColumn>
@@ -307,7 +336,8 @@ export default class Contact extends React.Component {
                             callbackParent={this.callbackParent.bind(this)} 
                             partnerId={this.props.partnerId} 
                             closeModalCallback={this.handleCloseModal.bind(this)}
-                            data={this.dataForModal}/>
+                            data={this.state.dataForModal}
+                            title={this.state.title}/>
                     </div>
                 </ReactModal>
             </div>

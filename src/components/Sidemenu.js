@@ -110,7 +110,7 @@ class Sidemenu extends React.Component {
       var loginButton;
       if(localStorage.getItem("isLoggedIn") === "true") {
         loginButton = <div className="form-group">
-                      Welcome {localStorage.getItem("firstName")}
+                      Welcome {localStorage.getItem("userName")}
                     </div>
       }
       else
