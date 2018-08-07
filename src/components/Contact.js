@@ -314,13 +314,24 @@ export default class Contact extends React.Component {
                 <Row>
                     <Col xs={12} md={12} lg={12}><div className="detail-header">Contacts</div></Col>
                 </Row>
-                <BootstrapTable data={ this.state.contacts } bordered={true} containerStyle={{width:'100%'}}>
+                <BootstrapTable data={ this.state.contacts } bordered={true} 
+                    containerStyle={{width:'100%'}}>
                     <TableHeaderColumn hidden={true} dataField='id' isKey>Id</TableHeaderColumn>
-                    <TableHeaderColumn width ='125px' className={this.nameClass} columnClassName = {this.nameClass} editable={!this.props.state} dataField='name'>Name</TableHeaderColumn>
-                    <TableHeaderColumn width ={width} editable={!this.props.state} dataField='email'>Email</TableHeaderColumn>
-                    <TableHeaderColumn width ='125px' editable={!this.props.state} dataField='role'>Role</TableHeaderColumn>
-                    <TableHeaderColumn width ={updateButtonWidth} className= {className} columnClassName= {columnClassName} editable={false} dataField="button" dataFormat={this.updateButtonFormatter.bind(this)}>Edit</TableHeaderColumn>
-                    <TableHeaderColumn width ={deleteButtonWidth} className= {className} columnClassName= {columnClassName} editable={false} dataField="button" dataFormat={this.deleteButtonFormatter.bind(this)}>Delete</TableHeaderColumn>
+                    <TableHeaderColumn width ='125px' className={this.nameClass} 
+                        columnClassName = {this.nameClass} 
+                        editable={!this.props.state} dataField='name'>Name</TableHeaderColumn>
+                    <TableHeaderColumn width ={width} editable={!this.props.state} 
+                        dataField='email'>Email</TableHeaderColumn>
+                    <TableHeaderColumn width ='125px' editable={!this.props.state} 
+                        dataField='role'>Role</TableHeaderColumn>
+                    <TableHeaderColumn width ={updateButtonWidth} 
+                        className= {className} columnClassName= {columnClassName} 
+                        editable={false} dataField="button" 
+                        dataFormat={this.updateButtonFormatter.bind(this)}>Edit</TableHeaderColumn>
+                    <TableHeaderColumn width ={deleteButtonWidth} 
+                        className= {className} columnClassName= {columnClassName} 
+                        editable={false} dataField="button" 
+                        dataFormat={this.deleteButtonFormatter.bind(this)}>Delete</TableHeaderColumn>
                     {/*<TableHeaderColumn width ={updateButtonWidth} className= {className} columnClassName= {columnClassName} editable={false} dataField="button" dataFormat={this.copyButtonFormatter.bind(this)}>Copy</TableHeaderColumn>*/}
                 </BootstrapTable>
                 <div>

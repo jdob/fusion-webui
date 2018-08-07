@@ -281,9 +281,9 @@ export default class Links extends React.Component {
     render(){
         var className;
         var columnClassName;
-        var width = "200px";
-        var deleteButtonWidth = "20px";
-        var updateButtonWidth = "50px";
+        var width = "170px";
+        var deleteButtonWidth = "30px";
+        var updateButtonWidth = "30px";
         if(localStorage.getItem('isReadOnly') !== null && 
             localStorage.getItem("isReadOnly") === "true"){
             className = "hidden";
@@ -326,7 +326,7 @@ export default class Links extends React.Component {
                                        editable={false}
                                        dataField="button"
                                        dataFormat={this.updateButtonFormatter.bind(this)}>
-                        Update
+                        Edit
                     </TableHeaderColumn>
                     <TableHeaderColumn width={deleteButtonWidth}
                                        className={className}

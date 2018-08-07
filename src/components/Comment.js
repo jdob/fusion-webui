@@ -3,6 +3,8 @@ import { Row, Col } from 'react-bootstrap';
 import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
 import ReactModal from 'react-modal';
 import CommentModal from './CommentModal.js';
+import SvgIcon from 'react-icons-kit';
+import {bin} from 'react-icons-kit/icomoon/bin';
 
 export default class Comment extends React.Component {
     constructor(props) {
@@ -169,7 +171,7 @@ export default class Comment extends React.Component {
                 className='delete-button' onClick={() => 
                 this.onDeleteClick(cell, row)}
             >
-            x
+                <SvgIcon size={20} icon={bin}/>
             </button>
         )
     }
@@ -210,12 +212,12 @@ export default class Comment extends React.Component {
         var className;
         var columnClassName;
         var width = "500px";
-        var deleteButtonWidth = "20px";
+        var deleteButtonWidth = "30px";
         if(localStorage.getItem('isReadOnly') !== null && 
             localStorage.getItem("isReadOnly") === "true"){
             className = "hidden";
             columnClassName = "hidden";
-            width = "520px";
+            width = "530px";
             deleteButtonWidth = "0.5px";
         }
         return (
@@ -223,10 +225,16 @@ export default class Comment extends React.Component {
                 <Row>
                         <Col xs={12} md={12} lg={12}><div className="detail-header">Comments</div></Col>
                 </Row>
-                <BootstrapTable data={ this.state.comments } bordered={true} cellEdit={ this.cellEditProp } containerStyle={{width:'100%'}}>
+                <BootstrapTable data={ this.state.comments }
+                    bordered={true} cellEdit={ this.cellEditProp } 
+                    containerStyle={{width:'100%'}}>
                     <TableHeaderColumn hidden={true} dataField='id' isKey>Id</TableHeaderColumn>
-                    <TableHeaderColumn width={width} editable={!this.props.state} dataField='text'>Text</TableHeaderColumn>
-                    <TableHeaderColumn width= {deleteButtonWidth} className={className} columnClassName={columnClassName} editable={false} dataField="button" dataFormat={this.deleteButtonFormatter.bind(this)}>Delete</TableHeaderColumn>
+                    <TableHeaderColumn width={width} editable={!this.props.state}
+                        dataField='text'>Text</TableHeaderColumn>
+                    <TableHeaderColumn width= {deleteButtonWidth} 
+                        className={className} columnClassName={columnClassName} 
+                        editable={false} dataField="button" 
+                        dataFormat={this.deleteButtonFormatter.bind(this)}>Delete</TableHeaderColumn>
                 </BootstrapTable>
                 <div>
                     {this.addCommentButton.call(this)}
@@ -237,7 +245,10 @@ export default class Comment extends React.Component {
                     onRequestClose={this.handleCloseModal}
                 >
                     <div>
-                        <CommentModal state={this.props.state} callbackParent={this.callbackParent.bind(this)} partnerId={this.props.partnerId} closeModalCallback={this.handleCloseModal.bind(this)}/>
+                        <CommentModal state={this.props.state} 
+                            callbackParent={this.callbackParent.bind(this)} 
+                            partnerId={this.props.partnerId} 
+                            closeModalCallback={this.handleCloseModal.bind(this)}/>
                     </div>
                 </ReactModal>
             </div>
