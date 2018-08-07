@@ -263,7 +263,26 @@ export default class Engagement extends React.Component {
         return deleteButton;
     }
 
-    addUpdateButtonRow(engagement_id) {
+    addUpdateButton(engagement_id) {
+        var updateButton;
+        if(localStorage.getItem('isReadOnly') !== null &&
+           localStorage.getItem("isReadOnly") !== "true") {
+            updateButton = <Col xs={1} md={1} lg={1} className="update-engagement">
+                                <button id={engagement_id}
+                                        disabled= {this.props.state}
+                                        onClick={this.onDeleteClick.bind(this)}
+                                        className="update-button">
+                                    <SvgIcon size={20} icon={pencil}/>
+                                </button>
+                            </Col>
+        }
+        else {
+            updateButton = <Col xs={1} md={1} lg={1} className="update-engagement"></Col>
+        }
+        return updateButton;
+    }
+
+    /*addUpdateButtonRow(engagement_id) {
         var updateButtonRow;
         if(localStorage.getItem('isReadOnly') !== null &&
             localStorage.getItem("isReadOnly") !== "true") {
@@ -282,7 +301,7 @@ export default class Engagement extends React.Component {
                              </Row>
         }
         return updateButtonRow;
-    }
+    }*/
 
     populateEngagements() {
         let rows = [];
@@ -306,6 +325,7 @@ export default class Engagement extends React.Component {
                     <div id={engagements[i].id} key={key} className="engagements">
                         <Row>
                             <Col xs={10} md={10} lg={10}><b>{engagementDate.toDateString()}</b></Col>
+                            {this.addUpdateButton.call(this, engagements[i].id)}
                             {this.addDeleteButton.call(this, engagements[i].id)}
                         </Row>
                         <Row>
@@ -353,7 +373,6 @@ export default class Engagement extends React.Component {
                                 </div>
                             </Col>
                         </Row>
-                        {this.addUpdateButtonRow.call(this, engagements[i].id)}
                     </div>
                 );
             }
