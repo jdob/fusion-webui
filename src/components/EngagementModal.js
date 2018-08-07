@@ -2,12 +2,32 @@ import React from 'react';
 import { Row, Col } from 'react-bootstrap';
 
 export default class ContactModal extends React.Component {
-    //Sends request to add comment
-    onSubmitClick(event){
+    constructor(props) {
+        super(props);
+        this.state = {
+            data:this.props.data,
+            title:this.props.title
+        }
+        this.changes = {};
+    }
+
+    onSubmitClick(event) {
+        if(Object.keys(this.state.data).length === 0 && 
+            this.state.data.constructor === Object) {
+                this.addNewEngagement.call(this,event);
+        }
+        else
+        {
+            this.updateEngagement.call(this,event);
+        }
+    }
+    
+    //Sends request to add engagement
+    addNewEngagement(event){
         event.preventDefault();
-        var attendees = document.getElementById("new-attendees").value;
-        var notes = document.getElementById("new-notes").value;
-        var location = document.getElementById("new-location").value;
+        var attendees = document.getElementById("attendees").value;
+        var notes = document.getElementById("notes").value;
+        var location = document.getElementById("location").value;
         var requestString = window.App.urlConstants.serviceHost + 
                             window.App.urlConstants.partnersUrl+
                             this.props.partnerId+'/engagements/';
@@ -51,8 +71,49 @@ export default class ContactModal extends React.Component {
         }
     }
 
+    updateEngagement(event){
+        event.preventDefault();
+        var self = this;
+        var engagementId = parseInt(this.state.data.id,10);
+        var requestString = window.App.urlConstants.serviceHost + 
+                            window.App.urlConstants.partnersUrl+
+                            this.props.partnerId+'/engagements/'+engagementId+'/';
+        var request = new Request(requestString);
+        var tokenString = "Token " + localStorage.getItem("authToken");
+        if(Object.keys(this.changes).length > 0) {
+            //delete request to delete contact with the partner_id
+            fetch(request, {
+                method: 'PATCH',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'Authorization': tokenString
+                },
+                //the data being sent
+                body: JSON.stringify({
+                    'changes': self.changes,
+                })
+                //need to check the reason how its working
+            }).then(function(response){
+                if(self.props.callbackParent !== undefined)
+                {
+                    self.props.callbackParent(self.changes, engagementId);
+                }
+                self.props.closeModalCallback();
+            });
+        }
+    }
+
     onCancelClick(){
         this.props.closeModalCallback();
+    }
+
+    storeUpdates(event){
+        var row = event.target;
+        if(row.defaultValue !== row.value)
+        {
+            this.changes[row.id] = row.value;
+        }
     }
 
     render(){
@@ -60,22 +121,47 @@ export default class ContactModal extends React.Component {
             <Row className="add-engagement">
                 <Col xs={12} md={12} lg={12}>
                     <div className="form-group">
-                        <label><h5>Add Engagement:</h5></label>
+                        <label><h5>{this.state.title}</h5></label>
                         <form>
                             <div className="form-group">
-                                <input type = 'text' placeholder='Attendees' readOnly={this.props.state} className="form-control" id="new-attendees"></input>
+                                <input type = 'text' placeholder='Attendees' 
+                                    readOnly={this.props.state} 
+                                    className="form-control" 
+                                    id="attendees"
+                                    onBlur={this.storeUpdates.bind(this)}
+                                    defaultValue={this.state.data.attendees}>
+                                </input>
                             </div>
                             <div className="form-group">
-                                <textarea rows='5'  placeholder='Notes' readOnly={this.props.state} className="form-control" id="new-notes"></textarea>
+                                <textarea rows='5'  placeholder='Notes' 
+                                    readOnly={this.props.state} 
+                                    className="form-control" 
+                                    id="notes"
+                                    onBlur={this.storeUpdates.bind(this)}
+                                    defaultValue={this.state.data.notes}>
+                                </textarea>
                             </div>
                             <div className="form-group">
-                                <input type = 'text'  placeholder='Location' readOnly={this.props.state} className="form-control" id="new-location"></input>
+                                <input type = 'text'  placeholder='Location' 
+                                    readOnly={this.props.state} 
+                                    className="form-control" 
+                                    id="location"
+                                    onBlur={this.storeUpdates.bind(this)}
+                                    defaultValue={this.state.data.location}>
+                                </input>
                             </div>
-                            <div className="form-group" style={{display : 'inline-block',marginRight:2 + '%'}}>
-                                <button disabled={this.props.state} onClick={this.onSubmitClick.bind(this)} type="button" className="btn btn-primary">Submit</button>
+                            <div className="form-group" 
+                                style={{display : 'inline-block',marginRight:2 + '%'}}>
+                                <button disabled={this.props.state} 
+                                    onClick={this.onSubmitClick.bind(this)} 
+                                    type="button" className="btn btn-primary">Submit
+                                </button>
                             </div>
                             <div className="form-group" style={{display : 'inline-block'}}>
-                                <button disabled={this.props.state} onClick={this.onCancelClick.bind(this)} type="button" className="btn btn-default">Cancel</button>
+                                <button disabled={this.props.state} 
+                                    onClick={this.onCancelClick.bind(this)} 
+                                    type="button" className="btn btn-default">Cancel
+                                </button>
                             </div>
                         </form>
                     </div>

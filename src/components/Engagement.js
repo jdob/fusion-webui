@@ -15,7 +15,9 @@ export default class Engagement extends React.Component {
         this.previousId = undefined;
         this.state = {
             engagements : this.props.engagements,
-            showModal: false
+            showModal: false,
+            dataForModal:{},
+            title:undefined
         };
         this.cellEditProp = {
             mode: 'click',
@@ -264,6 +266,19 @@ export default class Engagement extends React.Component {
         return deleteButton;
     }
 
+    afterUpdate() {
+        this.handleOpenModal();
+    }       
+
+    onUpdateClick(engagementId) {
+        var data = this.state.engagements.filter(function(item){
+            return item.id === engagementId;
+        });
+        var self = this;
+        this.setState({ dataForModal: data[0], title: 'Edit Engagement'}, 
+                            self.afterUpdate.bind(self));
+    }
+
     addUpdateButton(engagement_id) {
         var updateButton;
         if(localStorage.getItem('isReadOnly') !== null &&
@@ -271,7 +286,7 @@ export default class Engagement extends React.Component {
             updateButton = <Col xs={1} md={1} lg={1} className="update-engagement">
                                 <button id={engagement_id}
                                         disabled= {this.props.state}
-                                        onClick={this.onDeleteClick.bind(this)}
+                                        onClick={this.onUpdateClick.bind(this,engagement_id)}
                                         className="update-button">
                                     <SvgIcon size={20} icon={pencil}/>
                                 </button>
@@ -387,7 +402,7 @@ export default class Engagement extends React.Component {
                                         <form>
                                             <div className="form-group">
                                                 <button disabled={this.props.state}
-                                                        onClick={this.handleOpenModal}
+                                                        onClick={this.newEngagement.bind(this)}
                                                         type="button"
                                                         className="btn btn-primary">
                                                     Add Engagement
@@ -398,6 +413,40 @@ export default class Engagement extends React.Component {
                                 </Row>
         }
         return engagementButton;
+    }
+
+    afterNewUpdate() {
+        this.props.callbackParent(this.state.engagements);
+    }
+
+    callbackParent(newEngagement, engagementId){
+        var engagements = [];
+        if(engagementId !== undefined)
+        {
+            this.state.engagements.forEach(element => {
+                if(element.id === engagementId){
+                    for(var prop in newEngagement)
+                    {
+                        element[prop] = newEngagement[prop];
+                    }
+                }
+                engagements.push(element);
+            });
+            this.setState({engagements:engagements}, this.afterNewUpdate.bind(this));
+        }
+        else
+        {
+            this.setState(prevState => ({
+                engagements: prevState.engagements.concat(newEngagement),
+            }));
+            this.props.callbackParent(this.state.engagements);
+        }
+    }
+
+    newEngagement() {
+        var self = this;
+        self.setState({ dataForModal: {}, title: "Add Engagement"}, 
+                            self.afterUpdate.bind(self));
     }
 
 
@@ -421,7 +470,10 @@ export default class Engagement extends React.Component {
                         <EngagementModal state={this.props.state}
                             callbackParent={this.callbackParent.bind(this)}
                             partnerId={this.props.partnerId}
-                            closeModalCallback={this.handleCloseModal.bind(this)}/>
+                            closeModalCallback={this.handleCloseModal.bind(this)}
+                            data={this.state.dataForModal}
+                            title={this.state.title}
+                        />
                     </div>
                 </ReactModal>
             </div>
