@@ -243,7 +243,7 @@ export default class Links extends React.Component {
         }
     }
 
-    newContact() {
+    newLink() {
         var self = this;
         self.setState({ dataForModal: {}, title: "Add Link"}, 
                             self.afterUpdate.bind(self));
@@ -259,7 +259,7 @@ export default class Links extends React.Component {
                                 <form>
                                     <div className="form-group">
                                         <button disabled={this.props.state}
-                                                onClick={this.handleOpenModal}
+                                                onClick={this.newLink.bind(this)}
                                                 type="button"
                                                 className="btn btn-primary">
                                             Add Links

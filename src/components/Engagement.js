@@ -4,6 +4,9 @@ import 'react-bootstrap-table/dist/react-bootstrap-table-all.min.css';
 import '../css/Engagement.css';
 import ReactModal from 'react-modal';
 import EngagementModal from './EngagementModal.js';
+import SvgIcon from 'react-icons-kit';
+import {pencil} from 'react-icons-kit/icomoon/pencil';
+import {bin} from 'react-icons-kit/icomoon/bin';
 
 export default class Engagement extends React.Component {
     constructor(props) {
@@ -250,7 +253,7 @@ export default class Engagement extends React.Component {
                                         disabled= {this.props.state}
                                         onClick={this.onDeleteClick.bind(this)}
                                         className="delete-button">
-                                    x
+                                    <SvgIcon size={20} icon={bin}/>
                                 </button>
                             </Col>
         }
@@ -373,19 +376,19 @@ export default class Engagement extends React.Component {
         if(localStorage.getItem('isReadOnly') !== null &&
             localStorage.getItem("isReadOnly") !== "true") {
             engagementButton = <Row className="add-engagement-button">
-                                <Col xs={12} md={12} lg={12}>
-                                    <form>
-                                        <div className="form-group">
-                                            <button disabled={this.props.state}
-                                                    onClick={this.handleOpenModal}
-                                                    type="button"
-                                                    className="btn btn-primary">
-                                                Add Engagement
-                                            </button>
-                                        </div>
-                                    </form>
-                                </Col>
-                            </Row>
+                                    <Col xs={12} md={12} lg={12}>
+                                        <form>
+                                            <div className="form-group">
+                                                <button disabled={this.props.state}
+                                                        onClick={this.handleOpenModal}
+                                                        type="button"
+                                                        className="btn btn-primary">
+                                                    Add Engagement
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </Col>
+                                </Row>
         }
         return engagementButton;
     }
@@ -409,9 +412,9 @@ export default class Engagement extends React.Component {
                     onRequestClose={this.handleCloseModal}>
                     <div>
                         <EngagementModal state={this.props.state}
-                                         callbackParent={this.callbackParent.bind(this)}
-                                         partnerId={this.props.partnerId}
-                                         closeModalCallback={this.handleCloseModal.bind(this)}/>
+                            callbackParent={this.callbackParent.bind(this)}
+                            partnerId={this.props.partnerId}
+                            closeModalCallback={this.handleCloseModal.bind(this)}/>
                     </div>
                 </ReactModal>
             </div>

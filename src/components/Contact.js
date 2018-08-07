@@ -194,8 +194,6 @@ export default class Contact extends React.Component {
         var self = this;
         this.setState({ dataForModal: data[0], title: 'Edit Contact'}, 
                             self.afterUpdate.bind(self));
-        //this.setState({ dataForModal: data[0] });
-        //this.handleOpenModal();
     }
 
     //for update button
@@ -278,7 +276,11 @@ export default class Contact extends React.Component {
                                 <Col xs={12} md={12} lg={12}>
                                     <form>
                                         <div className="form-group">
-                                            <button disabled={this.props.state} onClick={this.newContact.bind(this)} type="button" className="btn btn-primary">Add Contact</button>
+                                            <button disabled={this.props.state} 
+                                                onClick={this.newContact.bind(this)} 
+                                                type="button" className="btn btn-primary">
+                                                Add Contact
+                                            </button>
                                         </div>
                                     </form>
                                 </Col> 

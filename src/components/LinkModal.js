@@ -120,7 +120,7 @@ export default class LinkModal extends React.Component {
             <Row className="add-link">
                 <Col xs={12} md={12} lg={12}>
                     <div className="form-group">
-                        <label><h5>Add Link:</h5></label>
+                        <label><h5>{this.state.title}</h5></label>
                         <form>
                             <div className="form-group">
                                 <input type='text'
