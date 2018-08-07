@@ -332,14 +332,7 @@ export default class Engagement extends React.Component {
                             <Col xs={1} md={1} lg={1}>Location:</Col>
                             <Col xs={10} md={10} lg={10}>
                                 <div className="form-group">
-                                    <input engagementid={engagements[i].id}
-                                            type='text'
-                                            onChange={this.storeUpdates.bind(this)}
-                                            readOnly={self.props.state}
-                                            className="form-control"
-                                            defaultValue={engagements[i].location}
-                                            attr="location">
-                                    </input>
+                                    {engagements[i].location}
                                 </div>
                             </Col>
                         </Row>
@@ -347,14 +340,15 @@ export default class Engagement extends React.Component {
                             <Col xs={1} md={1} lg={1}>Attendees:</Col>
                             <Col xs={10} md={10} lg={10}>
                                 <div className="form-group">
-                                    <input engagementid={engagements[i].id}
+                                    {engagements[i].attendees}
+                                    {/*<input engagementid={engagements[i].id}
                                             onChange={this.storeUpdates.bind(this)}
                                             type='text'
                                             readOnly={self.props.state}
                                             className="form-control"
                                             defaultValue={engagements[i].attendees}
                                             attr="attendees">
-                                    </input>
+                                    </input>*/}
                                 </div>
                             </Col>
                         </Row>
@@ -362,14 +356,7 @@ export default class Engagement extends React.Component {
                             <Col xs={1} md={1} lg={1}>Notes:</Col>
                             <Col xs={10} md={10} lg={10}>
                                 <div className="form-group">
-                                    <textarea engagementid={engagements[i].id}
-                                                onChange={this.storeUpdates.bind(this)}
-                                                className="form-control"
-                                                readOnly={self.props.state}
-                                                attr="notes"
-                                                rows="3"
-                                                defaultValue={engagements[i].notes}>
-                                    </textarea>
+                                    {engagements[i].notes}
                                 </div>
                             </Col>
                         </Row>

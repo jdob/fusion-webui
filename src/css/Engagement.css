@@ -2,6 +2,10 @@
     padding:2%;
 }
 .delete-engagement{
+    padding-left: 4%;
+}
+.update-engagement{
+    padding-left: 5%;
 }
 .delete-button{
     border: none;
