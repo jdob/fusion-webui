@@ -1,5 +1,6 @@
 import React from 'react';
 import { Row, Col } from 'react-bootstrap';
+import Calendar from 'react-calendar';
 
 export default class ContactModal extends React.Component {
     constructor(props) {
@@ -108,6 +109,11 @@ export default class ContactModal extends React.Component {
         this.props.closeModalCallback();
     }
 
+    changeDate(event){
+        var eventDate = new Date(event);
+        this.changes["timestamp"] = eventDate;
+    }
+
     storeUpdates(event){
         var row = event.target;
         if(row.defaultValue !== row.value)
@@ -150,8 +156,13 @@ export default class ContactModal extends React.Component {
                                     defaultValue={this.state.data.location}>
                                 </input>
                             </div>
+                            <div>
+                                <Calendar id="timestamp" 
+                                    onChange={this.changeDate.bind(this)}/>
+                            </div>
                             <div className="form-group" 
-                                style={{display : 'inline-block',marginRight:2 + '%'}}>
+                                style={{display : 'inline-block',marginRight:2 + '%',
+                                        marginTop:2 + '%'}}>
                                 <button disabled={this.props.state} 
                                     onClick={this.onSubmitClick.bind(this)} 
                                     type="button" className="btn btn-primary">Submit
