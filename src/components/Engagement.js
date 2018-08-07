@@ -92,7 +92,8 @@ export default class Engagement extends React.Component {
     //Sends a backend request to delete /partnes/id/engagement
     onDeleteClick(event){
         var self = this;
-        var engagementId = parseInt(event.target.id,10);
+        var engagementId = parseInt(event.target.parentElement.parentElement.
+                                        parentElement.id,10);
         var requestString = window.App.urlConstants.serviceHost + 
                             window.App.urlConstants.partnersUrl+
                             this.props.partnerId+'/engagements/'+
