@@ -4,6 +4,9 @@ import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
 import '../css/Contact.css';
 import ReactModal from 'react-modal';
 import LinkModal from './LinkModal.js';
+import {pencil} from 'react-icons-kit/icomoon/pencil';
+import {bin} from 'react-icons-kit/icomoon/bin';
+import SvgIcon from 'react-icons-kit';
 
 export default class Links extends React.Component {
     constructor(props) {
@@ -12,7 +15,9 @@ export default class Links extends React.Component {
         this.previousId = undefined;
         this.state = {
             links : this.props.links,
-            showModal: false
+            showModal: false,
+            dataForModal:{},
+            title:undefined
         };
         this.cellEditProp = {
             mode: 'click',
@@ -144,7 +149,7 @@ export default class Links extends React.Component {
         }
     }
     
-    onUpdateClick(cell, row) {
+    /*onUpdateClick(cell, row) {
         var self = this;
         var linkId = parseInt(row.id,10);
         var requestString = window.App.urlConstants.serviceHost + 
@@ -171,6 +176,19 @@ export default class Links extends React.Component {
         }
         for (var member in this.changes) delete this.changes[member];
         this.previousId = undefined;
+    }*/
+
+    afterUpdate() {
+        this.handleOpenModal();
+    }       
+
+    onUpdateClick(cell,row) {
+        var data = this.state.links.filter(function(item){
+            return item.id === row.id;
+        });
+        var self = this;
+        this.setState({ dataForModal: data[0], title: 'Edit Link'}, 
+                            self.afterUpdate.bind(self));
     }
 
     //for update button
@@ -180,7 +198,7 @@ export default class Links extends React.Component {
                onClick={() => 
                this.onUpdateClick(cell, row)}
             >
-            update
+                <SvgIcon size={20} icon={pencil}/>
             </button>
         )
     }
@@ -192,20 +210,43 @@ export default class Links extends React.Component {
                className="delete-button" onClick={() => 
                this.onDeleteClick(cell, row)}
             >
-            x
+                <SvgIcon size={20} icon={bin}/>
             </button>
         )
     }
 
+    afterNewUpdate() {
+        this.props.callbackParent(this.state.links);
+    }
 
-    callbackParent(newLink){
-        if(newLink !== 'undefined')
+    callbackParent(newLink, linkId){
+        var links = [];
+        if(linkId !== undefined)
+        {
+            this.state.links.forEach(element => {
+                if(element.id === linkId){
+                    for(var prop in newLink)
+                    {
+                        element[prop] = newLink[prop];
+                    }
+                }
+                links.push(element);
+            });
+            this.setState({links:links}, this.afterNewUpdate.bind(this));
+        }
+        else
         {
             this.setState(prevState => ({
                 links: prevState.links.concat(newLink),
             }));
             this.props.callbackParent(this.state.links);
         }
+    }
+
+    newContact() {
+        var self = this;
+        self.setState({ dataForModal: {}, title: "Add Link"}, 
+                            self.afterUpdate.bind(self));
     }
 
     //Add link only available if logged in
@@ -258,9 +299,7 @@ export default class Links extends React.Component {
                 </Row>
                 <BootstrapTable data={ this.state.links }
                                 bordered={true}
-                                cellEdit={this.cellEditProp}
-                                containerStyle={{width:'100%'}}
-                                trStyle={this.rowStyleFormat.bind(this)}>
+                                containerStyle={{width:'100%'}}>
                     <TableHeaderColumn hidden={true}
                                        dataField='id'
                                        isKey>
@@ -310,7 +349,9 @@ export default class Links extends React.Component {
                         <LinkModal state={this.props.state}
                                    callbackParent={this.callbackParent.bind(this)}
                                    partnerId={this.props.partnerId}
-                                   closeModalCallback={this.handleCloseModal.bind(this)}/>
+                                   closeModalCallback={this.handleCloseModal.bind(this)}
+                                   data={this.state.dataForModal}
+                                   title={this.state.title}/>
                     </div>
                 </ReactModal>
             </div>
