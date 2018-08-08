@@ -5,9 +5,13 @@ import Calendar from 'react-calendar';
 export default class ContactModal extends React.Component {
     constructor(props) {
         super(props);
+        var now = new Date();
         this.state = {
             data:this.props.data,
-            title:this.props.title
+            title:this.props.title,
+            date:(this.props.data.timestamp === undefined || 
+                    this.props.data.timestamp === '') ? now : 
+                    new Date(this.props.data.timestamp)
         }
         this.changes = {};
     }
@@ -29,6 +33,7 @@ export default class ContactModal extends React.Component {
         var attendees = document.getElementById("attendees").value;
         var notes = document.getElementById("notes").value;
         var location = document.getElementById("location").value;
+        var timestamp = this.state.date;
         var requestString = window.App.urlConstants.serviceHost + 
                             window.App.urlConstants.partnersUrl+
                             this.props.partnerId+'/engagements/';
@@ -49,7 +54,8 @@ export default class ContactModal extends React.Component {
                 body: JSON.stringify({
                     'attendees': attendees,
                     'notes': notes,
-                    'location': location
+                    'location': location,
+                    'timestamp': timestamp
                 })
             }).then(function(response){
                 //we get the response text only like this
@@ -109,10 +115,11 @@ export default class ContactModal extends React.Component {
         this.props.closeModalCallback();
     }
 
-    changeDate(event){
-        var eventDate = new Date(event);
-        this.changes["timestamp"] = eventDate;
+    afterDateUpdate(){
+        this.changes["timestamp"] = this.state.date;
     }
+
+    changeDate = date => this.setState({ date }, this.afterDateUpdate.bind(this))
 
     storeUpdates(event){
         var row = event.target;
@@ -156,9 +163,10 @@ export default class ContactModal extends React.Component {
                                     defaultValue={this.state.data.location}>
                                 </input>
                             </div>
-                            <div>
-                                <Calendar id="timestamp" 
-                                    onChange={this.changeDate.bind(this)}/>
+                            <div id="timestamp">
+                                <Calendar 
+                                    onChange={this.changeDate.bind(this)}
+                                    value={this.state.date}/>
                             </div>
                             <div className="form-group" 
                                 style={{display : 'inline-block',marginRight:2 + '%',
