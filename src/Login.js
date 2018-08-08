@@ -63,7 +63,6 @@ export default class Login extends React.Component {
     //normal user gets read only view
     handleSubmitClick(event){
         var self = this;
-        var username = self.state.username;
         var groups;
         //auth token
         axios({
@@ -82,7 +81,7 @@ export default class Login extends React.Component {
             localStorage.setItem('groups', groups);
             localStorage.setItem('isReadOnly', true);
             if(localStorage.getItem('groups') !== null && 
-                JSON.parse(localStorage.getItem("groups")).indexOf("Editors")!=-1)
+                JSON.parse(localStorage.getItem("groups")).indexOf("Editors")!==-1)
             {
                 localStorage.setItem('isReadOnly', false);
             }

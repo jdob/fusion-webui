@@ -289,14 +289,6 @@ export default class Contact extends React.Component {
         return contactButton;
     }
 
-    rowStyleFormat(row, rowIdx) {
-        if(row!==undefined)
-        {
-            return { backgroundColor: this.previousId == row.id ? '#ffb296' : '' };
-        }
-    }
-
-
     render(){
         var className;
         var columnClassName;

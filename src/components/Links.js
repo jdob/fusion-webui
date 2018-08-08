@@ -272,12 +272,6 @@ export default class Links extends React.Component {
         return linkButton;
     }
 
-    rowStyleFormat(row, rowIdx) {
-        if(row!==undefined) {
-            return { backgroundColor: this.previousId == row.id ? '#ffb296' : '' };
-        }
-    }
-
     render(){
         var className;
         var columnClassName;

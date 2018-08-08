@@ -94,8 +94,7 @@ export default class Engagement extends React.Component {
     //Sends a backend request to delete /partnes/id/engagement
     onDeleteClick(event){
         var self = this;
-        var engagementId = parseInt(event.target.parentElement.parentElement.
-                                        parentElement.id,10);
+        var engagementId = parseInt(event.target.parentElement.parentElement.parentElement.id,10);
         var requestString = window.App.urlConstants.serviceHost + 
                             window.App.urlConstants.partnersUrl+
                             this.props.partnerId+'/engagements/'+
@@ -175,53 +174,6 @@ export default class Engagement extends React.Component {
             }
         }
     }
-    
-    onUpdateClick(event) {
-        var self = this;
-        var row = event.target;
-        var engagementId = parseInt(row.id,10);
-        var requestString = window.App.urlConstants.serviceHost + 
-                            window.App.urlConstants.partnersUrl+
-                            this.props.partnerId+'/engagements/'+
-                            engagementId+'/';
-        var request = new Request(requestString);
-        var tokenString = "Token " + localStorage.getItem("authToken");
-        if(Object.keys(this.changes).length > 0) {
-            //delete request to delete engagement with the partner_id
-            fetch(request, {
-                method: 'PATCH',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                    'Authorization': tokenString
-                },
-                //the data being sent
-                body: JSON.stringify({
-                    'changes': self.changes,
-                })
-                //need to check the reason how its working
-            }).then(function(response){
-                //we get the response text only like this
-                response.text().then(function(responseText) {
-                    //appending new engagement to the ui
-                    var returnedEngagement = JSON.parse(responseText);
-                    for(let i=0; i<self.state.engagements.length; i++)
-                        {
-                            if(self.state.engagements[i].id === parseInt(returnedEngagement.id,10))
-                            {
-                                Object.assign(self.state.engagements[i],returnedEngagement);
-                            }
-                        }
-                    if(self.props.callbackParent !== undefined)
-                    {
-                        self.props.callbackParent(self.state.engagements);
-                    }
-                });
-            });
-        }
-        for (var member in this.changes) delete this.changes[member];
-        this.previousId = undefined;
-    }
 
     //for update button
     updateButtonFormatter(cell, row){
@@ -298,32 +250,10 @@ export default class Engagement extends React.Component {
         return updateButton;
     }
 
-    /*addUpdateButtonRow(engagement_id) {
-        var updateButtonRow;
-        if(localStorage.getItem('isReadOnly') !== null &&
-            localStorage.getItem("isReadOnly") !== "true") {
-            updateButtonRow = <Row>
-                                <Col xs={12} md={12} lg={12} className="update-engagement">
-                                    <div className="form-group">
-                                        <button id={engagement_id}
-                                                disabled={this.props.state}
-                                                onClick={this.onUpdateClick.bind(this)}
-                                                type="button"
-                                                className="btn btn-primary">
-                                            Update
-                                        </button>
-                                    </div>
-                                </Col>
-                             </Row>
-        }
-        return updateButtonRow;
-    }*/
-
     populateEngagements() {
         let rows = [];
         let engagements = this.state.engagements;
         let numberOfItems = parseInt(engagements.length,10);
-        var self = this;
         if(numberOfItems === 0)
         {
             rows.push(
@@ -382,16 +312,6 @@ export default class Engagement extends React.Component {
             }
         }
         return rows;
-    }
-
-    callbackParent(newEngagement){
-        if(newEngagement !== 'undefined')
-        {
-            this.setState(prevState => ({
-                engagements: prevState.engagements.concat(newEngagement),
-            }));
-            this.props.callbackParent(this.state.engagements);
-        }
     }
 
     addEngagementButton() {

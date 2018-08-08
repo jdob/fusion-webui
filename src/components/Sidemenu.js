@@ -5,7 +5,6 @@ import { ic_format_list_numbered } from 'react-icons-kit/md/ic_format_list_numbe
 import { ic_apps } from 'react-icons-kit/md/ic_apps';
 import '../App.css';
 import withRouter from 'react-router-dom/withRouter';
-import { Row, Col } from 'react-bootstrap';
 
 //using the code provided by react-sidenav
 class Sidemenu extends React.Component {
@@ -87,6 +86,8 @@ class Sidemenu extends React.Component {
       localStorage.removeItem('authToken');
       localStorage.removeItem('userName');
       localStorage.removeItem('groups');
+      localStorage.removeItem('isReadOnly');
+      localStorage.removeItem('firstName');
       this.props.history.push('/login');
     }
 

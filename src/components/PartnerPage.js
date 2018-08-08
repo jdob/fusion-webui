@@ -51,8 +51,8 @@ class PartnerPage extends React.Component {
     }
 
     componentWillMount() {
-        if(JSON.parse(localStorage.getItem("groups")).indexOf("Editors") !=-1 ){
-            this.state.state = false;
+        if(JSON.parse(localStorage.getItem("groups")).indexOf("Editors") !==-1 ){
+            this.setState({state : false});
         }
     }
 
