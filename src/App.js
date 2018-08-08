@@ -38,7 +38,7 @@ class App extends Component {
 
   storageChange (event) {
     if(localStorage.getItem('isLoggedIn')===null) {
-        this.props.history.push('/edit');
+        this.props.history.push('/home');
     }
   }
 

@@ -340,7 +340,8 @@ export default class Engagement extends React.Component {
                 rows.push(
                     <div id={engagements[i].id} key={key} className="engagements">
                         <Row>
-                            <Col xs={10} md={10} lg={10}><b>{engagementDate.toDateString()}</b></Col>
+                            <Col xs={1} md={1} lg={1}><b>Date:</b></Col>
+                            <Col xs={9} md={9} lg={9}><b>{engagementDate.toDateString()}</b></Col>
                             {this.addUpdateButton.call(this, engagements[i].id)}
                             {this.addDeleteButton.call(this, engagements[i].id)}
                         </Row>

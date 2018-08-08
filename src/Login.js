@@ -88,8 +88,9 @@ export default class Login extends React.Component {
             }
             localStorage.setItem('firstName', authData.data.first_name);
             localStorage.setItem('authToken', authData.data.token);
-            self.redirect('/edit');
+            self.redirect('/home');
         }).catch((err) => {
+            alert("Authentication failed! Enter a valid Username and Password.")
             console.log(err);
         });
     }

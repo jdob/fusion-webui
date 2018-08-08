@@ -6,7 +6,7 @@ import { home } from 'react-icons-kit/icomoon/home';
 
 export default class ModalLeftSide extends React.Component {
     redirectToHome() {
-        window.location.pathname = '/edit'; 
+        window.location.pathname = '/home'; 
     }
     //We will get the data for the image src and badges
     render() {
