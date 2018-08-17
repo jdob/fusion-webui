@@ -7,6 +7,7 @@ import axios from 'axios';
 import ModalLeftSide from './ModalLeftSide.js';
 import '../css/PartnerPage.css';
 import Links from './Links.js';
+import Todos from './Todos.js';
 import withRouter from 'react-router-dom/withRouter';
 import Config from '../Config.js';
 
@@ -78,6 +79,10 @@ class PartnerPage extends React.Component {
         console.log("Callback to handle anything after links change");
     }
 
+    tasksChange(newsTasks) {
+        console.log("Callback to handle anything after tasks change")
+    }
+
     render() {
         if (!this.state.hasLoadedData) {
             return <p>Loading ...</p>;
@@ -120,6 +125,14 @@ class PartnerPage extends React.Component {
                                             engagements={this.state.partnerData.engagements}
                                             partnerId={this.state.partnerData.id}
                                             callbackParent={this.engagementsChange.bind(this)} />
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col xs={12} md={12} lg={12}>
+                                <Todos state={this.state.state}
+                                       tasks={this.state.partnerData.tasks}
+                                       partnerId={this.state.partnerData.id}
+                                       callbackParent={this.tasksChange.bind(this)}/>
                             </Col>
                         </Row>
                     </div>
