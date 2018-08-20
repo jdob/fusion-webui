@@ -24,6 +24,7 @@ window.App = {
     urlConstants : {
         serviceHost: '',
         categoriesUrl: 'categories/',
-        partnersUrl: 'partners/'
+        partnersUrl: 'partners/',
+        authUrl: 'api-token-auth/'
     }
 }

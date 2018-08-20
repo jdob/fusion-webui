@@ -11,14 +11,6 @@ import Config from './Config.js';
 class App extends Component {
   constructor(props) {
     super(props);
-    if(Config.serviceHost === 'localhost' || Config.serviceHost === undefined)
-    {
-      window.App.urlConstants.serviceHost = 'http://127.0.0.1:8000/';  
-    }
-    else
-    {
-      window.App.urlConstants.serviceHost = 'http://'+ Config.serviceHost+':'+Config.servicePort+'/';
-    }
     window.addEventListener('storage', this.storageChange.bind(this), false)
     //To check if we have to disable editable elements
     //Deprecated, because we check with the groups property with the authToken
@@ -27,6 +19,15 @@ class App extends Component {
     /*this.stateReadOnly = (localStorage.getItem('isAdmin') === 'false' || 
                           localStorage.getItem('isAdmin') === null) ? true 
                           : false ;*/ 
+    //added again to handle refresh of this screen
+    if(Config.serviceHost === 'localhost' || Config.serviceHost === undefined)
+    {
+        window.App.urlConstants.serviceHost = 'http://127.0.0.1:8000/';  
+    }
+    else
+    {
+        window.App.urlConstants.serviceHost = 'http://'+ Config.serviceHost+':'+Config.servicePort+'/';
+    }
     this.state = {
       filters:[],
       categoryFilters:[],
@@ -36,60 +37,29 @@ class App extends Component {
     };
   }
 
+  //logging out from all other tabs if logged out from one
   storageChange (event) {
     if(localStorage.getItem('isLoggedIn')===null) {
         this.props.history.push('/home');
     }
   }
 
-  createRequest(url)
-  {
-    var self = this;
-    var request = new Request(url);
-    fetch(request).then(function(response) {
-    // Convert to JSON
-        return response.json();
-    }).then(function(j) {
-        // Yay, `j` is a JavaScript object
-        self.setState({partnerCategories: JSON.stringify(j)}); 
-    }).catch(function(error) {  
-        console.log('Request failed', error)  
-    });
-  }
-
-  formatData(partnerCategories, categories, partners) {
-    partners.forEach(partner => {
-      partner.categories = [];
-      var categoryArray = [];
-      var partnerCategoryArray = [];
-      partnerCategoryArray = partner.partner_categories;
-      partnerCategoryArray.forEach(pcId => {
-        categoryArray = partnerCategories.filter(function(pc){
-          return pc.id === pcId;
-        })
-      });
-      categoryArray = categoryArray.map(category => category.category);
-      /*categoryItems.map(function(item){
-        return categories[item.id].name;
-      });*/
-      partner.categories = categoryArray;
-    });
-    this.setState({partners:partners,categories:categories});
-  }
-
+  //Need to use ReactModal.setAppElement('body') to set the ReactModal element
   componentWillMount() {
     document.title = 'Red Hat Partner Fusion';
     ReactModal.setAppElement('body');
   }
 
-  //Getting all the data required
+  //Gets all the data required regarding categories and partners
+  //sets it in the state
+  //All data to the sidemenu and the partner pages is passed from here
   componentDidMount() {
     var self = this;
     var categoriesUrl = window.App.urlConstants.serviceHost + 
                         window.App.urlConstants.categoriesUrl;
     var partnersUrl = window.App.urlConstants.serviceHost + 
                       window.App.urlConstants.partnersUrl;
-    var tokenString = "Token " + localStorage.getItem("authToken");
+    var tokenString = 'Token ' + localStorage.getItem('authToken');
     console.log('Calling services for:',partnersUrl);
     console.log('Calling services for:',categoriesUrl);
     Promise.all([
@@ -119,6 +89,7 @@ class App extends Component {
 
   //when state changes, render is called automatically 
   //here we can set dynamic values for the data required
+  //When the user changes the filters, the newFilters are set from here
   onChildChanged(newFilters, newCategoryFilters) {
     if(newFilters === undefined || newFilters.length === 0)
     {

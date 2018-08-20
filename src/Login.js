@@ -4,9 +4,9 @@ import AppBar from 'material-ui/AppBar';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import './Login.css';
-import { combineReducers, createStore } from 'redux';
-import { sessionReducer, sessionService } from 'redux-react-session';
 import axios from 'axios';
+import Data from './data.js';
+import Config from './Config.js';
 
 export default class Login extends React.Component {
     //properties are self explanatory
@@ -19,38 +19,15 @@ export default class Login extends React.Component {
             isAdmin:false,
             token:''
         }
-    }
-
-    //ignore for now
-    createSession(callback){
-        var self = this;
-        const reducers = {
-            // ... your other reducers here ...
-            session: sessionReducer
-        };
-        const validateSession = (session) => {
-            // check if your session is still valid
-            return true;
+        //Configure the backend address communication
+        if(Config.serviceHost === 'localhost' || Config.serviceHost === undefined)
+        {
+            window.App.urlConstants.serviceHost = 'http://127.0.0.1:8000/';  
         }
-        const options = { isAdmin: this.state.isAdmin, refreshOnCheckAuth: true, redirectPath: '/login', driver: 'COOKIES', validateSession };
-        const reducer = combineReducers(reducers);
-        const store = createStore(reducer);
-        sessionService.initSessionService(store,options)
-        .then(function(){
-            console.log(store);
-            console.log(options);
-            if(self.state.isAdmin)
-                {
-                    callback.call();
-                }
-            else
-                {
-                    callback.call();
-                }
-        })
-        .catch(() => 
-            console.log('Redux React Session is ready and there is no session in your storage')
-        );
+        else
+        {
+            window.App.urlConstants.serviceHost = 'http://'+ Config.serviceHost+':'+Config.servicePort+'/';
+        }
     }
 
     //Redirects url, to be user later
@@ -64,10 +41,12 @@ export default class Login extends React.Component {
     handleSubmitClick(event){
         var self = this;
         var groups;
+        var authUrl = window.App.urlConstants.serviceHost + 
+                      window.App.urlConstants.authUrl;
         //auth token
         axios({
             method: 'post',
-            url: "http://127.0.0.1:8000/api-token-auth/",
+            url: authUrl,
             data: {
                 username: self.state.username,
                 password: self.state.password
@@ -81,7 +60,7 @@ export default class Login extends React.Component {
             localStorage.setItem('groups', groups);
             localStorage.setItem('isReadOnly', true);
             if(localStorage.getItem('groups') !== null && 
-                JSON.parse(localStorage.getItem("groups")).indexOf("Editors")!==-1)
+                JSON.parse(localStorage.getItem('groups')).indexOf('Editors')!==-1)
             {
                 localStorage.setItem('isReadOnly', false);
             }
@@ -89,7 +68,7 @@ export default class Login extends React.Component {
             localStorage.setItem('authToken', authData.data.token);
             self.redirect('/home');
         }).catch((err) => {
-            alert("Authentication failed! Enter a valid Username and Password.")
+            alert('Authentication failed! Enter a valid Username and Password.')
             console.log(err);
         });
     }
