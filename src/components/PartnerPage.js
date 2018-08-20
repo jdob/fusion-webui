@@ -14,6 +14,7 @@ import Config from '../Config.js';
 class PartnerPage extends React.Component {
     constructor(props){
         super(props);
+        //We need it again to handle refresh
         if(Config.serviceHost === 'localhost' || Config.serviceHost === undefined)
         {
             window.App.urlConstants.serviceHost = 'http://127.0.0.1:8000/';  
@@ -29,12 +30,13 @@ class PartnerPage extends React.Component {
         };
     }
 
+    //Get the data for the partner, handles refresh and bookmark
     componentDidMount(){
         var self = this;
         var url = window.App.urlConstants.serviceHost + 
                     window.App.urlConstants.partnersUrl+
-                    parseInt(this.props.match.params.partnerId,10)+"/";
-        var tokenString = "Token " + localStorage.getItem("authToken");
+                    parseInt(this.props.match.params.partnerId,10)+'/';
+        var tokenString = 'Token ' + localStorage.getItem('authToken');
         axios.get(
             url,
             {
@@ -51,36 +53,38 @@ class PartnerPage extends React.Component {
         });
     }
 
+    //Check for read only view
     componentWillMount() {
-        if(JSON.parse(localStorage.getItem("groups")).indexOf("Editors") !==-1 ){
+        if(JSON.parse(localStorage.getItem('groups')).indexOf('Editors') !==-1 ){
             this.setState({state : false});
         }
     }
 
     //update the changes
+    //these are callbacks for future handling
     commentsChange(newComments) {
         //this.setState(this.state.partnerData.comments=newComments)
-        console.log("Callback to handle anything after comments change");
+        console.log('Callback to handle anything after comments change');
     }
 
     //Same as above
     engagementsChange(newEngagements) {
         //this.setState(this.state.partnerData.engagements=newEngagements)
-        console.log("Callback to handle anything after engagements change");
+        console.log('Callback to handle anything after engagements change');
     }
 
     contactsChange(newContacts) {
         //this.setState(this.state.partnerData.contacts=newContacts)
-        console.log("Callback to handle anything after contacts change");
+        console.log('Callback to handle anything after contacts change');
     }
 
     linksChange(newLinks) {
         //this.setState(this.state.partnerData.links=newLinks)
-        console.log("Callback to handle anything after links change");
+        console.log('Callback to handle anything after links change');
     }
 
     tasksChange(newsTasks) {
-        console.log("Callback to handle anything after tasks change")
+        console.log('Callback to handle anything after tasks change');
     }
 
     render() {
