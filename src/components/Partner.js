@@ -1,6 +1,10 @@
 import React from 'react';
+import ReactModal from 'react-modal';
 import '../css/Image.css';
 import withRouter from 'react-router-dom/withRouter';
+
+//Modal background
+ReactModal.defaultStyles.overlay.backgroundColor = 'gray';
 
 class Partner extends React.Component {
   constructor (props) {

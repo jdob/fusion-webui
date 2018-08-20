@@ -8,9 +8,11 @@ export default class ContactModal extends React.Component {
             data:this.props.data,
             title:this.props.title
         }
+        //So that we send only the changes to the backend for updation
         this.changes = {};
     }
 
+    //Decides whether we have to add the contact or update
     onSubmitClick(event) {
         if(Object.keys(this.state.data).length === 0 && 
             this.state.data.constructor === Object) {
@@ -21,19 +23,20 @@ export default class ContactModal extends React.Component {
             this.updateContact.call(this,event);
         }
     }
+
     //Sends request to add contact
     addNewContact(event){
         event.preventDefault();
-        var name = document.getElementById("name").value;
-        var email = document.getElementById("email").value;
-        var role = document.getElementById("role").value;
+        var name = document.getElementById('name').value;
+        var email = document.getElementById('email').value;
+        var role = document.getElementById('role').value;
         var requestString = window.App.urlConstants.serviceHost + 
                             window.App.urlConstants.partnersUrl+
                             this.props.partnerId+'/contacts/';
         var request = new Request(requestString);
-        var tokenString = "Token " + localStorage.getItem("authToken");
+        var tokenString = 'Token ' + localStorage.getItem('authToken');
         var self = this;
-        if (name.trim() !== "" || email.trim() !== "" || role.trim() !== "")
+        if (name.trim() !== '' || email.trim() !== '' || role.trim() !== '')
         {
             //post request to post the new contact with the partner_id
             fetch(request, {
@@ -50,7 +53,7 @@ export default class ContactModal extends React.Component {
                     'role': role
                 })
             }).then(function(response){
-                //we get the response text only like this
+                //we get the response text
                 response.text().then(function(responseText) {
                     //appending new contact to the ui
                     var returnedContact = JSON.parse(responseText);
@@ -59,16 +62,19 @@ export default class ContactModal extends React.Component {
                             'email':returnedContact.email,
                             'role':returnedContact.role
                         }
+                    //Send updates to the parent
                     if(self.props.callbackParent !== undefined)
                     {
                         self.props.callbackParent(newContact);
                     }
+                    //close modal
                     self.props.closeModalCallback();
                 });
             });
         }
     }
 
+    //sends request to update modal
     updateContact(event){
         event.preventDefault();
         var self = this;
@@ -77,7 +83,7 @@ export default class ContactModal extends React.Component {
                             window.App.urlConstants.partnersUrl+
                             this.props.partnerId+'/contacts/'+contactId+'/';
         var request = new Request(requestString);
-        var tokenString = "Token " + localStorage.getItem("authToken");
+        var tokenString = 'Token ' + localStorage.getItem('authToken');
         if(Object.keys(this.changes).length > 0) {
             //delete request to delete contact with the partner_id
             fetch(request, {
@@ -102,10 +108,12 @@ export default class ContactModal extends React.Component {
         }
     }
 
+    //Close modal when user clicks cancel
     onCancelClick(){
         this.props.closeModalCallback();
     }
 
+    //Store the changes
     storeUpdates(event){
         var row = event.target;
         if(row.defaultValue !== row.value)

@@ -20,6 +20,8 @@ export default class Contact extends React.Component {
             dataForModal:{},
             title:undefined
         };
+        //For the magical edit on click functionality
+        //we dont use it anymore, but might need it later
         this.cellEditProp = {
             mode: 'click',
             beforeSaveCell: this.onBeforeSaveCell.bind(this) // a hook for before saving cell
@@ -28,6 +30,7 @@ export default class Contact extends React.Component {
         this.handleCloseModal = this.handleCloseModal.bind(this);
     }
 
+    //Need to set  the App Element of ReactModal
     componentWillMount(){
         ReactModal.setAppElement('body');
     }
@@ -42,54 +45,6 @@ export default class Contact extends React.Component {
         this.setState({ showModal: false });
     }
 
-    //Sends request to add contact
-    onSubmitClick(event){
-        event.preventDefault();
-        var name = document.getElementById("new-name").value;
-        var email = document.getElementById("new-email").value;
-        var role = document.getElementById("new-role").value;
-        var requestString = window.App.urlConstants.serviceHost + 
-                            window.App.urlConstants.partnersUrl+
-                            this.props.partnerId+'/contacts/';
-        var request = new Request(requestString);
-        var self = this;
-        if (name.trim() !== "" || email.trim() !== "" || role.trim() !== "")
-        {
-            //post request to post the new contact with the partner_id
-            fetch(request, {
-                method: 'POST',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                },
-                //the data being sent
-                body: JSON.stringify({
-                    'name': name,
-                    'email': email,
-                    'role': role
-                })
-            }).then(function(response){
-                //we get the response text only like this
-                response.text().then(function(responseText) {
-                    //appending new contact to the ui
-                    var returnedContact = JSON.parse(responseText);
-                        var newContact = {'id':parseInt(returnedContact.id,10),
-                            'name':returnedContact.name,
-                            'email':returnedContact.email,
-                            'role':returnedContact.role
-                        }
-                        self.setState(prevState => ({
-                            contacts: prevState.contacts.concat(newContact),
-                        }));
-                    if(self.props.callbackParent !== undefined)
-                    {
-                        self.props.callbackParent(self.state.contacts);
-                    }
-                });
-            });
-        }
-    }
-
     //Sends a backend request to delete /partnes/id/contacts/contact_id
     onDeleteClick(cell, row){
         var self = this;
@@ -98,7 +53,7 @@ export default class Contact extends React.Component {
                             window.App.urlConstants.partnersUrl+
                             this.props.partnerId+'/contacts/'+contactId+'/';
         var request = new Request(requestString);
-        var tokenString = "Token " + localStorage.getItem("authToken");
+        var tokenString = 'Token ' + localStorage.getItem('authToken');
         //delete request to delete contacts with the partner_id
         fetch(request, {
             method: 'DELETE',
@@ -129,7 +84,8 @@ export default class Contact extends React.Component {
         });
     }
 
-
+    //Another futuristic function
+    //If you want to save on tab at each cell
     onBeforeSaveCell(row, cellName, cellValue){
         var rowId = parseInt(row.id,10);
         if(this.previousId === undefined)
@@ -138,7 +94,7 @@ export default class Contact extends React.Component {
         }
         if(this.previousId !== rowId)
         {
-            alert("Update previous row or you will loose data");
+            alert('Update previous row or you will loose data');
             return false;
         } 
         else
@@ -148,45 +104,19 @@ export default class Contact extends React.Component {
                 this.changes[cellName] = cellValue;
             }
         }
-        if(cellName === "name")
+        if(cellName === 'name')
         {
-            this.nameClass = "active";
+            this.nameClass = 'active';
         }
     }
     
-    /*onUpdateClick(cell, row) {
-        var self = this;
-        var contactId = parseInt(row.id,10);
-        var requestString = window.App.urlConstants.serviceHost + 
-                            window.App.urlConstants.partnersUrl+
-                            this.props.partnerId+'/contacts/'+contactId+'/';
-        var request = new Request(requestString);
-        var tokenString = "Token " + localStorage.getItem("authToken");
-        if(Object.keys(this.changes).length > 0) {
-            //delete request to delete contact with the partner_id
-            fetch(request, {
-                method: 'PATCH',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                    'Authorization': tokenString
-                },
-                //the data being sent
-                body: JSON.stringify({
-                    'changes': self.changes,
-                })
-                //need to check the reason how its working
-            }).then(function(response){
-            });
-        }
-        for (var member in this.changes) delete this.changes[member];
-        this.previousId = undefined;
-    }*/
-
+    //Called after data for modal is decided
+    //Edit View/Add View
     afterUpdate() {
         this.handleOpenModal();
     }       
 
+    //Opens the contact model that has to be edited on the modal
     onUpdateClick(cell,row) {
         var data = this.state.contacts.filter(function(item){
             return item.id === row.id;
@@ -220,24 +150,15 @@ export default class Contact extends React.Component {
         )
     }
 
-    //for copy button
-    /*copyButtonFormatter(cell, row){
-        return (
-            <button disabled={this.props.state}
-               className="copy-button" onClick={() => 
-               this.onCopyClick(cell, row)}
-            >
-                <SvgIcon size={30} icon={home}/>
-            </button>
-        )
-    }*/
-
+    //Called after contacts are updated
     afterNewUpdate() {
         this.props.callbackParent(this.state.contacts);
     }
 
+    //Updating contacts
     callbackParent(newContact, contactId){
         var contacts = [];
+        //Contact was updated
         if(contactId !== undefined)
         {
             this.state.contacts.forEach(element => {
@@ -250,8 +171,8 @@ export default class Contact extends React.Component {
                 contacts.push(element);
             });
             this.setState({contacts:contacts}, this.afterNewUpdate.bind(this));
-            //this.props.callbackParent(this.state.contacts);
         }
+        //New Contact has to be added
         else
         {
             this.setState(prevState => ({
@@ -261,9 +182,10 @@ export default class Contact extends React.Component {
         }
     }
 
+    //To handle the modal for add contact
     newContact() {
         var self = this;
-        self.setState({ dataForModal: {}, title: "Add Contact"}, 
+        self.setState({ dataForModal: {}, title: 'Add Contact'}, 
                             self.afterUpdate.bind(self));
     }
 
@@ -292,16 +214,16 @@ export default class Contact extends React.Component {
     render(){
         var className;
         var columnClassName;
-        var width = "200px";
-        var deleteButtonWidth = "30px";
-        var updateButtonWidth = "30px";
+        var width = '200px';
+        var deleteButtonWidth = '30px';
+        var updateButtonWidth = '30px';
         if(localStorage.getItem('isReadOnly') !== null && 
-            localStorage.getItem("isReadOnly") === "true"){
-            className = "hidden";
-            columnClassName = "hidden";
-            width = "280px";
-            deleteButtonWidth = "0.25px";
-            updateButtonWidth = "0.25px";
+            localStorage.getItem('isReadOnly') === 'true'){
+            className = 'hidden';
+            columnClassName = 'hidden';
+            width = '280px';
+            deleteButtonWidth = '0.25px';
+            updateButtonWidth = '0.25px';
         }
         return (
             <div>
@@ -309,15 +231,15 @@ export default class Contact extends React.Component {
                     <Col xs={12} md={12} lg={12}><div className="detail-header">Contacts</div></Col>
                 </Row>
                 <BootstrapTable data={ this.state.contacts } bordered={true} 
-                    containerStyle={{width:'100%'}}>
-                    <TableHeaderColumn hidden={true} dataField='id' isKey>Id</TableHeaderColumn>
-                    <TableHeaderColumn width ='125px' className={this.nameClass} 
+                    containerStyle={{width:"100%"}}>
+                    <TableHeaderColumn hidden={true} dataField="id" isKey>Id</TableHeaderColumn>
+                    <TableHeaderColumn width ="125px" className={this.nameClass} 
                         columnClassName = {this.nameClass} 
-                        editable={!this.props.state} dataField='name'>Name</TableHeaderColumn>
+                        editable={!this.props.state} dataField="name">Name</TableHeaderColumn>
                     <TableHeaderColumn width ={width} editable={!this.props.state} 
-                        dataField='email'>Email</TableHeaderColumn>
-                    <TableHeaderColumn width ='125px' editable={!this.props.state} 
-                        dataField='role'>Role</TableHeaderColumn>
+                        dataField="email">Email</TableHeaderColumn>
+                    <TableHeaderColumn width ="125px" editable={!this.props.state} 
+                        dataField="role">Role</TableHeaderColumn>
                     <TableHeaderColumn width ={updateButtonWidth} 
                         className= {className} columnClassName= {columnClassName} 
                         editable={false} dataField="button" 
