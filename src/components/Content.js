@@ -13,16 +13,6 @@ class Content extends React.Component {
             showModal: false
         };
         this.sortKeys = this.sortKeys.bind(this);
-        this.handleOpenModal = this.handleOpenModal.bind(this);
-        this.handleCloseModal = this.handleCloseModal.bind(this);
-    }
-
-    handleOpenModal () {
-        this.setState({ showModal: true });
-    }
-
-    handleCloseModal () {
-        this.setState({ showModal: false });
     }
 
     //Updates data after asynchronous data load
@@ -30,6 +20,7 @@ class Content extends React.Component {
         this.setState(nextProps);
     }
 
+    //Sorts the category keys
     sortKeys(categories)
     {
         var keysSorted;
@@ -43,6 +34,8 @@ class Content extends React.Component {
         return keysSorted;
     }
 
+    //Create the categories which in turn will have the details of partners in
+    //that particular category
     createSections(event){
         var self = this;
         let categories = this.state.categories;
@@ -66,19 +59,6 @@ class Content extends React.Component {
         {
             keysSorted = Object.keys(categories);
         }
-        //we will need to think of something for filters. Make shift for now
-        //since contants are set initially in App.js we don't need to import data.js
-        /*if(this.props.filters.indexOf(window.App.stringConstants.alphabetically)!==-1)
-        {
-            keysSorted  = Object.keys(categories).sort(function(a,b)
-            {
-                return (categories[a].name < categories[b].name) ? -1 : (categories[a].name > categories[b].name) ? 1 : 0;
-            });
-        }
-        else
-        {
-            keysSorted = Object.keys(categories);
-        }*/
         for (let i = 0; i < categories.length; i++) {
             var filtered = [];
             for (let j = 0; j < partners.length; j++) {

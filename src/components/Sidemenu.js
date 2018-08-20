@@ -17,22 +17,12 @@ class Sidemenu extends React.Component {
             showModal: false
         };
         this.addFilters = this.addFilters.bind(this);
-        this.handleOpenModal = this.handleOpenModal.bind(this);
-        this.handleCloseModal = this.handleCloseModal.bind(this);
-    }
-
-    handleOpenModal () {
-        this.setState({ showModal: true });
-    }
-
-    handleCloseModal () {
-        this.setState({ showModal: false });
     }
 
     addFilters(event){
       //to avoid default behavior being repeated
       event.preventDefault();
-      //makeshift for now
+      //insert a new filter
       this.props.filters.splice(0,this.props.filters.length);
       let value = event.target.innerText;
       this.state.filters.push(value);
@@ -41,7 +31,6 @@ class Sidemenu extends React.Component {
     }
 
     //Will set the state of category filters
-    //not implemented fully for now
     categoryCheckBoxClick(event){
       var checkboxList = document.getElementsByClassName('category-checkbox');
       var checkboxId;
@@ -51,10 +40,6 @@ class Sidemenu extends React.Component {
         checkboxId = parseInt(checkboxList[i].id,10);
         if(checkboxList[i].checked === true)
         {
-          /*if(this.props.categoryFilters.indexOf(checkboxId) === -1)
-          {
-            this.props.categoryFilters.push(checkboxId);
-          }*/
           this.props.categoryFilters.push(checkboxId);
         }
       }
@@ -91,6 +76,7 @@ class Sidemenu extends React.Component {
       this.props.history.push('/login');
     }
 
+    //Creates the logout button with its events
     logoutButton() {
       var logoutButton;
       if(localStorage.getItem("isLoggedIn") === "true") {
@@ -107,6 +93,7 @@ class Sidemenu extends React.Component {
       return logoutButton;
     }
 
+    //login button
     loginButton() {
       var loginButton;
       if(localStorage.getItem("isLoggedIn") === "true") {
@@ -127,10 +114,6 @@ class Sidemenu extends React.Component {
                       </div>
       }
       return loginButton;
-    }
-
-    checkLogin() {
-      this.props.history.push('/login');
     }
 
     render() {
