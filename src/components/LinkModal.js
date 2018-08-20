@@ -11,6 +11,7 @@ export default class LinkModal extends React.Component {
         this.changes = {};
     }
 
+    //Decides whether a link was added or updated
     onSubmitClick(event) {
         if(Object.keys(this.state.data).length === 0 && 
             this.state.data.constructor === Object) {
@@ -25,16 +26,16 @@ export default class LinkModal extends React.Component {
     //Sends request to add link
     addNewLink(event){
         event.preventDefault();
-        var name = document.getElementById("name").value;
-        var url = document.getElementById("url").value;
-        var description = document.getElementById("description").value;
+        var name = document.getElementById('name').value;
+        var url = document.getElementById('url').value;
+        var description = document.getElementById('description').value;
         var requestString = window.App.urlConstants.serviceHost + 
                             window.App.urlConstants.partnersUrl+
                             this.props.partnerId+'/links/';
         var request = new Request(requestString);
         var self = this;
-        var tokenString = "Token " + localStorage.getItem("authToken");
-        if (name.trim() !== "" || url.trim() !== "" || description.trim() !== "")
+        var tokenString = 'Token ' + localStorage.getItem('authToken');
+        if (name.trim() !== '' || url.trim() !== '' || description.trim() !== '')
         {
             //post request to post the new contact with the partner_id
             fetch(request, {
@@ -70,6 +71,7 @@ export default class LinkModal extends React.Component {
         }
     }
 
+    //Update the link with linkId
     updateLink(event){
         event.preventDefault();
         var self = this;
@@ -78,7 +80,7 @@ export default class LinkModal extends React.Component {
                             window.App.urlConstants.partnersUrl+
                             this.props.partnerId+'/links/'+linkId+'/';
         var request = new Request(requestString);
-        var tokenString = "Token " + localStorage.getItem("authToken");
+        var tokenString = 'Token ' + localStorage.getItem('authToken');
         if(Object.keys(this.changes).length > 0) {
             //delete request to delete contact with the partner_id
             fetch(request, {
@@ -103,10 +105,12 @@ export default class LinkModal extends React.Component {
         }
     }
 
+    //Close Modal on cancel click
     onCancelClick(){
         this.props.closeModalCallback();
     }
 
+    //Store the changes
     storeUpdates(event){
         var row = event.target;
         if(row.defaultValue !== row.value)

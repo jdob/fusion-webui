@@ -27,6 +27,7 @@ export default class Links extends React.Component {
         this.handleCloseModal = this.handleCloseModal.bind(this);
     }
 
+    //Set ReactModal AppElement
     componentWillMount(){
         ReactModal.setAppElement('body');
     }
@@ -41,55 +42,7 @@ export default class Links extends React.Component {
         this.setState({ showModal: false });
     }
 
-    //Sends request to add contact
-    onSubmitClick(event){
-        event.preventDefault();
-        var name = document.getElementById("new-name").value;
-        var email = document.getElementById("new-email").value;
-        var role = document.getElementById("new-role").value;
-        var requestString = window.App.urlConstants.serviceHost + 
-                            window.App.urlConstants.partnersUrl
-                            +this.props.partnerId+'/contacts/';
-        var request = new Request(requestString);
-        var self = this;
-        if (name.trim() !== "" || email.trim() !== "" || role.trim() !== "")
-        {
-            //post request to post the new contact with the partner_id
-            fetch(request, {
-                method: 'POST',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                },
-                //the data being sent
-                body: JSON.stringify({
-                    'name': name,
-                    'email': email,
-                    'role': role
-                })
-            }).then(function(response){
-                //we get the response text only like this
-                response.text().then(function(responseText) {
-                    //appending new contact to the ui
-                    var returnedContact = JSON.parse(responseText);
-                        var newContact = {'id':parseInt(returnedContact.id,10),
-                            'name':returnedContact.name,
-                            'email':returnedContact.email,
-                            'role':returnedContact.role
-                        }
-                        self.setState(prevState => ({
-                            contacts: prevState.contacts.concat(newContact),
-                        }));
-                    if(self.props.callbackParent !== undefined)
-                    {
-                        self.props.callbackParent(self.state.contacts);
-                    }
-                });
-            });
-        }
-    }
-
-    //Sends a backend request to delete /partnes/id/contacts/contact_id
+    //Sends a backend request to delete /partners/id/links/link_id
     onDeleteClick(cell, row){
         var self = this;
         var linkId = parseInt(row.id,10);
@@ -97,8 +50,7 @@ export default class Links extends React.Component {
                             window.App.urlConstants.partnersUrl+
                             this.props.partnerId+'/links/'+linkId+'/';
         var request = new Request(requestString);
-        var tokenString = "Token " + localStorage.getItem("authToken");
-        //delete request to delete contacts with the partner_id
+        var tokenString = 'Token ' + localStorage.getItem('authToken');
         fetch(request, {
             method: 'DELETE',
             headers: {
@@ -117,9 +69,11 @@ export default class Links extends React.Component {
                 var newLinks = self.state.links.filter(function( obj ) {
                     return obj.id !== parseInt(linkId, 10);
                 });
+                //Set state to reload view
                 self.setState(prevState => ({
                     links: newLinks,
                 }));
+                //Callback parent for any changes
                 if(self.props.callbackParent !== undefined)
                 {
                     self.props.callbackParent(self.state.links)
@@ -128,7 +82,7 @@ export default class Links extends React.Component {
         });
     }
 
-
+    //For updates on tab
     onBeforeSaveCell(row, cellName, cellValue){
         var rowId = parseInt(row.id,10);
         if(this.previousId === undefined)
@@ -137,7 +91,7 @@ export default class Links extends React.Component {
         }
         if(this.previousId !== rowId)
         {
-            alert("Update previous row or you will loose data");
+            alert('Update previous row or you will loose data');
             return false;
         } 
         else
@@ -148,40 +102,14 @@ export default class Links extends React.Component {
             }
         }
     }
-    
-    /*onUpdateClick(cell, row) {
-        var self = this;
-        var linkId = parseInt(row.id,10);
-        var requestString = window.App.urlConstants.serviceHost + 
-                            window.App.urlConstants.partnersUrl+
-                            this.props.partnerId+'/links/'+linkId+'/';
-        var request = new Request(requestString);
-        var tokenString = "Token " + localStorage.getItem("authToken");
-        if(Object.keys(this.changes).length > 0) {
-            //delete request to delete contact with the partner_id
-            fetch(request, {
-                method: 'PATCH',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                    'Authorization': tokenString
-                },
-                //the data being sent
-                body: JSON.stringify({
-                    'changes': self.changes,
-                })
-                //need to check the reason how its working
-            }).then(function(response){
-            });
-        }
-        for (var member in this.changes) delete this.changes[member];
-        this.previousId = undefined;
-    }*/
 
+    //For opening modal after deciding what kind of modal to open
+    //Edit View/Add View
     afterUpdate() {
         this.handleOpenModal();
     }       
 
+    //Decide model for the modal
     onUpdateClick(cell,row) {
         var data = this.state.links.filter(function(item){
             return item.id === row.id;
@@ -215,12 +143,15 @@ export default class Links extends React.Component {
         )
     }
 
+    //Callback parent after change of links
     afterNewUpdate() {
         this.props.callbackParent(this.state.links);
     }
 
+    //Calls back parent after changes
     callbackParent(newLink, linkId){
         var links = [];
+        //Link was updated
         if(linkId !== undefined)
         {
             this.state.links.forEach(element => {
@@ -234,6 +165,7 @@ export default class Links extends React.Component {
             });
             this.setState({links:links}, this.afterNewUpdate.bind(this));
         }
+        //link was added
         else
         {
             this.setState(prevState => ({
@@ -243,9 +175,10 @@ export default class Links extends React.Component {
         }
     }
 
+    //Add View
     newLink() {
         var self = this;
-        self.setState({ dataForModal: {}, title: "Add Link"}, 
+        self.setState({ dataForModal: {}, title: 'Add Link'}, 
                             self.afterUpdate.bind(self));
     }
 
@@ -275,16 +208,16 @@ export default class Links extends React.Component {
     render(){
         var className;
         var columnClassName;
-        var width = "170px";
-        var deleteButtonWidth = "30px";
-        var updateButtonWidth = "30px";
+        var width = '170px';
+        var deleteButtonWidth = '30px';
+        var updateButtonWidth = '30px';
         if(localStorage.getItem('isReadOnly') !== null && 
-            localStorage.getItem("isReadOnly") === "true"){
-            className = "hidden";
-            columnClassName = "hidden";
-            width = "270px";
-            deleteButtonWidth = "0.25px";
-            updateButtonWidth = "0.25px";
+            localStorage.getItem('isReadOnly') === 'true'){
+            className = 'hidden';
+            columnClassName = 'hidden';
+            width = '270px';
+            deleteButtonWidth = '0.25px';
+            updateButtonWidth = '0.25px';
         }
         return (
             <div>
@@ -293,25 +226,25 @@ export default class Links extends React.Component {
                 </Row>
                 <BootstrapTable data={ this.state.links }
                                 bordered={true}
-                                containerStyle={{width:'100%'}}>
+                                containerStyle={{width:"100%"}}>
                     <TableHeaderColumn hidden={true}
-                                       dataField='id'
+                                       dataField="id"
                                        isKey>
                         Id
                     </TableHeaderColumn>
-                    <TableHeaderColumn width='125px'
+                    <TableHeaderColumn width="125px"
                                        editable={!this.props.state}
-                                       dataField='name'>
+                                       dataField="name">
                         Name
                     </TableHeaderColumn>
-                    <TableHeaderColumn width='200px'
+                    <TableHeaderColumn width="200px"
                                        editable={!this.props.state}
-                                       dataField='url'>
+                                       dataField="url">
                         URL
                     </TableHeaderColumn>
                     <TableHeaderColumn width={width}
                                        editable={!this.props.state}
-                                       dataField='description'>
+                                       dataField="description">
                         Description
                     </TableHeaderColumn>
                     <TableHeaderColumn width={updateButtonWidth}
