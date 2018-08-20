@@ -11,3 +11,8 @@
     border: none;
     background: none;
 }
+
+.textAreas{
+    border: none;
+    background-color: inherit;
+}

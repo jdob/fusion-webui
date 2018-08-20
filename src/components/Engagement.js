@@ -227,7 +227,12 @@ export default class Engagement extends React.Component {
                             <Col xs={1} md={1} lg={1}>Notes:</Col>
                             <Col xs={10} md={10} lg={10}>
                                 <div className="form-group">
-                                    {engagements[i].notes}
+                                    <textarea rows='5'
+                                        disabled
+                                        className='textAreas'
+                                        readOnly={this.props.state} 
+                                        value={engagements[i].notes}>
+                                    </textarea>
                                 </div>
                             </Col>
                         </Row>
