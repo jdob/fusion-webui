@@ -16,7 +16,7 @@ export default class Comment extends React.Component {
         this.cellEditProp = {
             mode: 'click',
             beforeSaveCell: this.onBeforeSaveCell.bind(this), // a hook for before saving cell
-            afterSaveCell: this.onAfterSaveCell.bind(this)  // a hook for after saving cell
+            //afterSaveCell: this.onAfterSaveCell.bind(this)  // a hook for after saving cell
         };
         this.handleOpenModal = this.handleOpenModal.bind(this);
         this.handleCloseModal = this.handleCloseModal.bind(this);
@@ -36,50 +36,7 @@ export default class Comment extends React.Component {
         this.setState({ showModal: false });
     }
 
-    //Add new comment, does not allow empty string or just spaces, to save
-    //server hits and db space in the future 
-    onSubmitClick(event){
-        event.preventDefault();
-        var textVal = document.getElementById("new-comment").value;
-        var requestString = window.App.urlConstants.serviceHost + 
-                            window.App.urlConstants.partnersUrl+
-                            this.props.partnerId+'/comments/';
-        var request = new Request(requestString);
-        var self = this;
-        var tokenString = "Token " + localStorage.getItem("authToken");
-        if (textVal.trim() !== "")
-        {
-            //post request to post the new comment with the partner_id
-            fetch(request, {
-                method: 'POST',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                    'Authorization': tokenString
-                },
-                //the data being sent
-                body: JSON.stringify({
-                    'text': textVal
-                })
-            }).then(function(response){
-                //we get the response text only like this
-                response.text().then(function(responseText) {
-                    var returnedComment = JSON.parse(responseText);
-                    //appending new comment to the ui
-                        var newComment = {'id':parseInt(returnedComment.id,10),'text':returnedComment.text}
-                        self.setState(prevState => ({
-                            comments: prevState.comments.concat(newComment),
-                        }));
-                    if(self.props.callbackParent !== undefined)
-                    {
-                        self.props.callbackParent(self.state.comments);
-                    }
-                });
-            });
-        }
-    }
-
-    //Sends a backend request to deleteEngagement/engagementId
+    //Sends a backend request to comment
     onDeleteClick(cell, row){
         var self = this;
         var commentId = parseInt(row.id,10);
@@ -87,8 +44,8 @@ export default class Comment extends React.Component {
                             window.App.urlConstants.partnersUrl+
                             this.props.partnerId+'/comments/'+commentId+'/';
         var request = new Request(requestString);
-        var tokenString = "Token " + localStorage.getItem("authToken");
-        //delete request to delete engagement with the partner_id
+        var tokenString = 'Token ' + localStorage.getItem('authToken');
+        //delete request to delete comment with the partner_id
         fetch(request, {
             method: 'DELETE',
             headers: {
@@ -118,10 +75,7 @@ export default class Comment extends React.Component {
         });
     }
 
-    onAfterSaveCell(row, cellName, cellValue) {
-
-    }
-    
+    //Update the comment    
     onBeforeSaveCell(row, cellName, cellValue) {
         var self = this;
         var commentId = parseInt(row.id,10);
@@ -129,7 +83,7 @@ export default class Comment extends React.Component {
                             window.App.urlConstants.partnersUrl+
                             self.props.partnerId+'/comments/'+commentId+'/';
         var request = new Request(requestString);
-        var tokenString = "Token " + localStorage.getItem("authToken");
+        var tokenString = 'Token ' + localStorage.getItem('authToken');
         if (cellValue.trim() !== "" && row[cellName] !== cellValue)
         {
             //post request to post the new comment with the partner_id
@@ -176,6 +130,7 @@ export default class Comment extends React.Component {
         )
     }
 
+    //Call the parent after comments change
     callbackParent(newComment){
         if(newComment !== 'undefined')
         {
@@ -190,7 +145,7 @@ export default class Comment extends React.Component {
     addCommentButton() {
         var commentButton;
         if(localStorage.getItem('isReadOnly') !== null && 
-            localStorage.getItem("isReadOnly") !== "true") {
+            localStorage.getItem('isReadOnly') !== 'true') {
             commentButton = <Row className="add-comment">
                                 <Col xs={12} md={12} lg={12}>
                                     <form>
@@ -204,21 +159,17 @@ export default class Comment extends React.Component {
         return commentButton;
     }
 
-    /*multilineCell(cell, row) {
-        return "<textarea class='form-control cell' rows='3'>" + cell +"</textarea>";
-    }*/
-
     render(){
         var className;
         var columnClassName;
-        var width = "500px";
-        var deleteButtonWidth = "30px";
+        var width = '500px';
+        var deleteButtonWidth = '30px';
         if(localStorage.getItem('isReadOnly') !== null && 
-            localStorage.getItem("isReadOnly") === "true"){
-            className = "hidden";
-            columnClassName = "hidden";
-            width = "530px";
-            deleteButtonWidth = "0.5px";
+            localStorage.getItem('isReadOnly') === 'true'){
+            className = 'hidden';
+            columnClassName = 'hidden';
+            width = '530px';
+            deleteButtonWidth = '0.5px';
         }
         return (
             <div>
@@ -227,10 +178,10 @@ export default class Comment extends React.Component {
                 </Row>
                 <BootstrapTable data={ this.state.comments }
                     bordered={true} cellEdit={ this.cellEditProp } 
-                    containerStyle={{width:'100%'}}>
-                    <TableHeaderColumn hidden={true} dataField='id' isKey>Id</TableHeaderColumn>
+                    containerStyle={{width:"100%"}}>
+                    <TableHeaderColumn hidden={true} dataField="id" isKey>Id</TableHeaderColumn>
                     <TableHeaderColumn width={width} editable={!this.props.state}
-                        dataField='text'>Text</TableHeaderColumn>
+                        dataField="text">Text</TableHeaderColumn>
                     <TableHeaderColumn width= {deleteButtonWidth} 
                         className={className} columnClassName={columnClassName} 
                         editable={false} dataField="button" 
