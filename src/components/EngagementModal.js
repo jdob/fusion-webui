@@ -15,7 +15,7 @@ export default class ContactModal extends React.Component {
         }
         this.changes = {};
     }
-
+    //Decides if new engagement is to be added or an engagement has to be updated
     onSubmitClick(event) {
         if(Object.keys(this.state.data).length === 0 && 
             this.state.data.constructor === Object) {
@@ -30,17 +30,17 @@ export default class ContactModal extends React.Component {
     //Sends request to add engagement
     addNewEngagement(event){
         event.preventDefault();
-        var attendees = document.getElementById("attendees").value;
-        var notes = document.getElementById("notes").value;
-        var location = document.getElementById("location").value;
+        var attendees = document.getElementById('attendees').value;
+        var notes = document.getElementById('notes').value;
+        var location = document.getElementById('location').value;
         var timestamp = this.state.date;
         var requestString = window.App.urlConstants.serviceHost + 
                             window.App.urlConstants.partnersUrl+
                             this.props.partnerId+'/engagements/';
         var request = new Request(requestString);
         var self = this;
-        var tokenString = "Token " + localStorage.getItem("authToken");
-        if (attendees.trim() !== "" || notes.trim() !== "" || location.trim() !== "")
+        var tokenString = 'Token ' + localStorage.getItem('authToken');
+        if (attendees.trim()!=='' || notes.trim()!=='' || location.trim()!=='')
         {
             //post request to post the new engagement with the partner_id
             fetch(request, {
@@ -77,7 +77,7 @@ export default class ContactModal extends React.Component {
             });
         }
     }
-
+    //Updates the engagement
     updateEngagement(event){
         event.preventDefault();
         var self = this;
@@ -86,9 +86,8 @@ export default class ContactModal extends React.Component {
                             window.App.urlConstants.partnersUrl+
                             this.props.partnerId+'/engagements/'+engagementId+'/';
         var request = new Request(requestString);
-        var tokenString = "Token " + localStorage.getItem("authToken");
+        var tokenString = 'Token ' + localStorage.getItem('authToken');
         if(Object.keys(this.changes).length > 0) {
-            //delete request to delete contact with the partner_id
             fetch(request, {
                 method: 'PATCH',
                 headers: {
@@ -111,16 +110,22 @@ export default class ContactModal extends React.Component {
         }
     }
 
+    //Close modal on cancel
     onCancelClick(){
         this.props.closeModalCallback();
     }
 
+    //Separate function to store date changes because the Calendar widget does
+    //not accept classes
+    //Called after date is changed
     afterDateUpdate(){
         this.changes["timestamp"] = this.state.date;
     }
-
+    
+    //Changes the state when date is changed
     changeDate = date => this.setState({ date }, this.afterDateUpdate.bind(this))
 
+    //Storing rest of the changes
     storeUpdates(event){
         var row = event.target;
         if(row.defaultValue !== row.value)

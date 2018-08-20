@@ -43,96 +43,15 @@ export default class Todos extends React.Component {
         this.setState({ showModal: false });
     }
 
-    //Sends request to add contact
-    onSubmitClick(event){
-        event.preventDefault();
-        var name = document.getElementById("new-name").value;
-        var email = document.getElementById("new-email").value;
-        var role = document.getElementById("new-role").value;
-        var requestString = window.App.urlConstants.serviceHost + 
-                            window.App.urlConstants.partnersUrl+
-                            this.props.partnerId+'/contacts/';
-        var request = new Request(requestString);
-        var self = this;
-        if (name.trim() !== "" || email.trim() !== "" || role.trim() !== "")
-        {
-            //post request to post the new contact with the partner_id
-            fetch(request, {
-                method: 'POST',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                },
-                //the data being sent
-                body: JSON.stringify({
-                    'name': name,
-                    'email': email,
-                    'role': role
-                })
-            }).then(function(response){
-                //we get the response text only like this
-                response.text().then(function(responseText) {
-                    //appending new contact to the ui
-                    var returnedContact = JSON.parse(responseText);
-                        var newContact = {'id':parseInt(returnedContact.id,10),
-                            'name':returnedContact.name,
-                            'email':returnedContact.email,
-                            'role':returnedContact.role
-                        }
-                        self.setState(prevState => ({
-                            contacts: prevState.contacts.concat(newContact),
-                        }));
-                    if(self.props.callbackParent !== undefined)
-                    {
-                        self.props.callbackParent(self.state.contacts);
-                    }
-                });
-            });
-        }
-    }
-
-    //Sends a backend request to delete /partnes/id/contacts/contact_id
+    //Sends a backend request to delete todo
+    //Actually archives it by setting completed value to 2
     onDeleteClick(cell, row){
         this.changes['completed'] = 2;
         this.updateCheckbox(cell,row);
-        /*var self = this;
-        var contactId = parseInt(row.id,10);
-        var requestString = window.App.urlConstants.serviceHost + 
-                            window.App.urlConstants.partnersUrl+
-                            this.props.partnerId+'/contacts/'+contactId+'/';
-        var request = new Request(requestString);
-        var tokenString = "Token " + localStorage.getItem("authToken");
-        //delete request to delete contacts with the partner_id
-        fetch(request, {
-            method: 'DELETE',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'Authorization': tokenString
-            },
-            //the data being sent
-            body: JSON.stringify({
-                'contactId': contactId,
-            })
-        }).then(function(response){
-            //we get the response text only like this
-            response.text().then(function() {
-                //appending new contact to the ui
-                var newContacts = self.state.contacts.filter(function( obj ) {
-                    return obj.id !== parseInt(contactId, 10);
-                });
-                self.setState(prevState => ({
-                    contacts: newContacts,
-                }));
-                if(self.props.callbackParent !== undefined)
-                {
-                    self.props.callbackParent(self.state.contacts)
-                } 
-            });
-        });*/
     }
 
-
+    //for future changes
+    //store changes on tab
     onBeforeSaveCell(row, cellName, cellValue){
         var rowId = parseInt(row.id,10);
         if(this.previousId === undefined)
@@ -141,7 +60,7 @@ export default class Todos extends React.Component {
         }
         if(this.previousId !== rowId)
         {
-            alert("Update previous row or you will loose data");
+            alert('Update previous row or you will loose data');
             return false;
         } 
         else
@@ -151,12 +70,13 @@ export default class Todos extends React.Component {
                 this.changes[cellName] = cellValue;
             }
         }
-        if(cellName === "name")
+        if(cellName === 'name')
         {
-            this.nameClass = "active";
+            this.nameClass = 'active';
         }
     }
     
+    //Sets state of checkbox to either 1 (completed) or 2 (archived)
     updateCheckbox(cell, row) {
         var self = this;
         var taskId = parseInt(row.id,10);
@@ -164,7 +84,7 @@ export default class Todos extends React.Component {
                             window.App.urlConstants.partnersUrl+
                             this.props.partnerId+'/tasks/'+taskId+'/';
         var request = new Request(requestString);
-        var tokenString = "Token " + localStorage.getItem("authToken");
+        var tokenString = 'Token ' + localStorage.getItem('authToken');
         fetch(request, {
             method: 'PATCH',
             headers: {
@@ -189,10 +109,12 @@ export default class Todos extends React.Component {
         });
     }
 
+    //Edit/Add View of todo
     afterUpdate() {
         this.handleOpenModal();
     }       
 
+    //Edit View
     onUpdateClick(cell,row) {
         var data = this.state.tasks.filter(function(item){
             return item.id === row.id;
@@ -226,22 +148,12 @@ export default class Todos extends React.Component {
         )
     }
 
-    //for copy button
-    /*copyButtonFormatter(cell, row){
-        return (
-            <button disabled={this.props.state}
-               className="copy-button" onClick={() => 
-               this.onCopyClick(cell, row)}
-            >
-                <SvgIcon size={30} icon={home}/>
-            </button>
-        )
-    }*/
-
+    //Call Parent after todo changes
     afterNewUpdate() {
         this.props.callbackParent(this.state.tasks);
     }
 
+    //Adds/Edits todo and calls function on parent
     callbackParent(newTask, taskId){
         var tasks = [];
         if(taskId !== undefined)
@@ -256,7 +168,6 @@ export default class Todos extends React.Component {
                 tasks.push(element);
             });
             this.setState({tasks:tasks}, this.afterNewUpdate.bind(this));
-            //this.props.callbackParent(this.state.contacts);
         }
         else
         {
@@ -267,6 +178,7 @@ export default class Todos extends React.Component {
         }
     }
 
+    //Add Todo view
     newTask() {
         var self = this;
         self.setState({ dataForModal: {}, title: "Add Task"}, 
@@ -277,7 +189,7 @@ export default class Todos extends React.Component {
     addTaskButton() {
         var taskButton;
         if(localStorage.getItem('isReadOnly') !== null && 
-            localStorage.getItem("isReadOnly") !== "true") {
+            localStorage.getItem('isReadOnly') !== 'true') {
                 taskButton = <Row className="add-contact-button">
                                 <Col xs={12} md={12} lg={12}>
                                     <form>
@@ -295,11 +207,13 @@ export default class Todos extends React.Component {
         return taskButton;
     }
 
+    //marks todo as completed
     checkBoxClick(cell,row) {
         this.changes['completed'] = 1;
         this.updateCheckbox(cell,row);
     }
 
+    //checkbox html
     checkBoxFormater(cell, row) {
         return (
             <div className="form-check">
@@ -314,16 +228,16 @@ export default class Todos extends React.Component {
     render(){
         var className;
         var columnClassName;
-        var deleteButtonWidth = "30px";
-        var updateButtonWidth = "30px";
-        var checkboxWidth = "30px";
+        var deleteButtonWidth = '30px';
+        var updateButtonWidth = '30px';
+        var checkboxWidth = '30px';
         if(localStorage.getItem('isReadOnly') !== null && 
-            localStorage.getItem("isReadOnly") === "true"){
-            className = "hidden";
-            columnClassName = "hidden";
-            deleteButtonWidth = "0.25px";
-            updateButtonWidth = "0.25px";
-            checkboxWidth = "0.25px";
+            localStorage.getItem('isReadOnly') === 'true'){
+            className = 'hidden';
+            columnClassName = 'hidden';
+            deleteButtonWidth = '0.25px';
+            updateButtonWidth = '0.25px';
+            checkboxWidth = '0.25px';
         }
         return (
             <div>
@@ -331,15 +245,15 @@ export default class Todos extends React.Component {
                     <Col xs={12} md={12} lg={12}><div className="detail-header">To Do</div></Col>
                 </Row>
                 <BootstrapTable data={ this.state.tasks } bordered={true} 
-                    containerStyle={{width:'100%'}}>
-                    <TableHeaderColumn hidden={true} dataField='id' isKey>Id</TableHeaderColumn>
+                    containerStyle={{width:"100%"}}>
+                    <TableHeaderColumn hidden={true} dataField="id" isKey>Id</TableHeaderColumn>
                     <TableHeaderColumn width= {checkboxWidth}
-                        dataField='completed'
+                        dataField="completed"
                         dataFormat={this.checkBoxFormater.bind(this)}>Completed</TableHeaderColumn>
-                    <TableHeaderColumn width ='125px' 
+                    <TableHeaderColumn width ="125px" 
                         className={this.nameClass} 
                         columnClassName = {this.nameClass} 
-                        editable={!this.props.state} dataField='text'>Text</TableHeaderColumn>
+                        editable={!this.props.state} dataField="text">Text</TableHeaderColumn>
                     <TableHeaderColumn width ={updateButtonWidth} 
                         className= {className} columnClassName= {columnClassName} 
                         editable={false} dataField="button" 

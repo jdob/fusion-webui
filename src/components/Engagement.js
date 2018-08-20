@@ -41,56 +41,6 @@ export default class Engagement extends React.Component {
         this.setState({ showModal: false });
     }
 
-    //Sends request to add comment
-    onSubmitClick(event){
-        event.preventDefault();
-        var attendees = document.getElementById("new-attendees").value;
-        var notes = document.getElementById("new-notes").value;
-        var location = document.getElementById("new-location").value;
-        var requestString = window.App.urlConstants.serviceHost + 
-                            window.App.urlConstants.partnersUrl+
-                            this.props.partnerId+'/engagements/';
-        var request = new Request(requestString);
-        var self = this;
-        if (attendees.trim() !== "" || notes.trim() !== "" || location.trim() !== "")
-        {
-            //post request to post the new engagement with the partner_id
-            fetch(request, {
-                method: 'POST',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                },
-                //the data being sent
-                body: JSON.stringify({
-                    'attendees': attendees,
-                    'notes': notes,
-                    'location': location
-                })
-            }).then(function(response){
-                //we get the response text only like this
-                response.text().then(function(responseText) {
-                    //appending new comment to the ui
-                    var returnedEngagement = JSON.parse(responseText);
-                        var newEngagement = {'id':parseInt(returnedEngagement.id,10),
-                            'attendees':returnedEngagement.attendees,
-                            'notes':returnedEngagement.notes,
-                            'location':returnedEngagement.location,
-                            'timestamp':returnedEngagement.timestamp
-                        }
-                        self.setState(prevState => ({
-                            engagements: prevState.engagements.concat(newEngagement),
-                        }));
-                    if(self.props.callbackParent !== undefined)
-                    {
-                        self.props.callbackParent(self.state.engagements);
-                    }
-                    //self.render();
-                });
-            });
-        }
-    }
-
     //Sends a backend request to delete /partnes/id/engagement
     onDeleteClick(event){
         var self = this;
@@ -100,7 +50,7 @@ export default class Engagement extends React.Component {
                             this.props.partnerId+'/engagements/'+
                             engagementId+'/';
         var request = new Request(requestString);
-        var tokenString = "Token " + localStorage.getItem("authToken");
+        var tokenString = 'Token ' + localStorage.getItem('authToken');
         //delete request to delete engagement with the partner_id
         fetch(request, {
             method: 'DELETE',
@@ -116,9 +66,6 @@ export default class Engagement extends React.Component {
         }).then(function(response){
             //we get the response text only like this
             response.text().then(function() {
-                /*var elementId = ''+engagementId;
-                var elem = document.getElementById(elementId);
-                elem.parentNode.removeChild(elem);*/
                 //appending new comment to the ui
                 var newEngagements = self.state.engagements.filter(function( obj ) {
                     return obj.id !== parseInt(engagementId, 10);
@@ -134,7 +81,7 @@ export default class Engagement extends React.Component {
         });
     }
 
-
+    //If we want changes to be stored on tab
     onBeforeSaveCell(row, cellName, cellValue){
         var rowId = parseInt(row.id,10);
         if(this.previousId === undefined)
@@ -143,7 +90,7 @@ export default class Engagement extends React.Component {
         }
         if(this.previousId !== rowId)
         {
-            alert("Update previous row or you will loose data");
+            alert('Update previous row or you will loose data');
             return false;
         } 
         else
@@ -151,26 +98,6 @@ export default class Engagement extends React.Component {
             if(row[cellName] !== cellValue)
             {
                 this.changes[cellName] = cellValue;
-            }
-        }
-    }
-
-    storeUpdates(event){
-        var row = event.target;
-        var rowId = parseInt(row.attributes.engagementid.nodeValue,10);
-        if(this.previousId === undefined)
-        {
-            this.previousId = rowId;
-        }
-        if(this.previousId !== rowId)
-        {
-            alert("Update previous row or you will loose data");
-        } 
-        else
-        {
-            if(row.defaultValue !== row.value)
-            {
-                this.changes[row.attributes.attr.nodeValue] = row.value;
             }
         }
     }
@@ -202,7 +129,7 @@ export default class Engagement extends React.Component {
     addDeleteButton(engagement_id) {
         var deleteButton;
         if(localStorage.getItem('isReadOnly') !== null &&
-           localStorage.getItem("isReadOnly") !== "true") {
+           localStorage.getItem('isReadOnly') !== 'true') {
            deleteButton = <Col xs={1} md={1} lg={1} className="delete-engagement">
                                 <button id={engagement_id}
                                         disabled= {this.props.state}
@@ -218,10 +145,13 @@ export default class Engagement extends React.Component {
         return deleteButton;
     }
 
+    //Open Modal after Modal view is decided
+    //Edit/Add View
     afterUpdate() {
         this.handleOpenModal();
     }       
 
+    //Open Edit View in modal
     onUpdateClick(engagementId) {
         var data = this.state.engagements.filter(function(item){
             return item.id === engagementId;
@@ -231,10 +161,11 @@ export default class Engagement extends React.Component {
                             self.afterUpdate.bind(self));
     }
 
+    //Update button html
     addUpdateButton(engagement_id) {
         var updateButton;
         if(localStorage.getItem('isReadOnly') !== null &&
-           localStorage.getItem("isReadOnly") !== "true") {
+           localStorage.getItem('isReadOnly') !== 'true') {
             updateButton = <Col xs={1} md={1} lg={1} className="update-engagement">
                                 <button id={engagement_id}
                                         disabled= {this.props.state}
@@ -250,6 +181,7 @@ export default class Engagement extends React.Component {
         return updateButton;
     }
 
+    //Show engagements in the format that we require
     populateEngagements() {
         let rows = [];
         let engagements = this.state.engagements;
@@ -288,14 +220,6 @@ export default class Engagement extends React.Component {
                             <Col xs={10} md={10} lg={10}>
                                 <div className="form-group">
                                     {engagements[i].attendees}
-                                    {/*<input engagementid={engagements[i].id}
-                                            onChange={this.storeUpdates.bind(this)}
-                                            type='text'
-                                            readOnly={self.props.state}
-                                            className="form-control"
-                                            defaultValue={engagements[i].attendees}
-                                            attr="attendees">
-                                    </input>*/}
                                 </div>
                             </Col>
                         </Row>
@@ -314,10 +238,11 @@ export default class Engagement extends React.Component {
         return rows;
     }
 
+    //Add Engagement button html
     addEngagementButton() {
         var engagementButton;
         if(localStorage.getItem('isReadOnly') !== null &&
-            localStorage.getItem("isReadOnly") !== "true") {
+            localStorage.getItem('isReadOnly') !== 'true') {
             engagementButton = <Row className="add-engagement-button">
                                     <Col xs={12} md={12} lg={12}>
                                         <form>
@@ -336,10 +261,13 @@ export default class Engagement extends React.Component {
         return engagementButton;
     }
 
+    //Call parent after change in engagements
     afterNewUpdate() {
         this.props.callbackParent(this.state.engagements);
     }
 
+    //Decides if new engagement was added or an engagment was updated
+    //Calls the function in parent
     callbackParent(newEngagement, engagementId){
         var engagements = [];
         if(engagementId !== undefined)
@@ -364,6 +292,7 @@ export default class Engagement extends React.Component {
         }
     }
 
+    //Open View Engagement in modal
     newEngagement() {
         var self = this;
         self.setState({ dataForModal: {}, title: "Add Engagement"}, 

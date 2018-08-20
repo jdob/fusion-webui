@@ -11,6 +11,7 @@ export default class ContactModal extends React.Component {
         this.changes = {};
     }
 
+    //Decides if a new task is added or a task is updated
     onSubmitClick(event) {
         if(Object.keys(this.state.data).length === 0 && 
             this.state.data.constructor === Object) {
@@ -21,21 +22,18 @@ export default class ContactModal extends React.Component {
             this.updateTask.call(this,event);
         }
     }
-    //Sends request to add contact
+    //Sends request to add task
     addNewTask(event){
         event.preventDefault();
-        var text = document.getElementById("text").value;
-        //var email = document.getElementById("email").value;
-        //var role = document.getElementById("role").value;
+        var text = document.getElementById('text').value;
         var requestString = window.App.urlConstants.serviceHost + 
                             window.App.urlConstants.partnersUrl+
                             this.props.partnerId+'/tasks/';
         var request = new Request(requestString);
-        var tokenString = "Token " + localStorage.getItem("authToken");
+        var tokenString = 'Token ' + localStorage.getItem('authToken');
         var self = this;
-        if (text.trim() !== "")
+        if (text.trim() !== '')
         {
-            //post request to post the new contact with the partner_id
             fetch(request, {
                 method: 'POST',
                 headers: {
@@ -66,6 +64,7 @@ export default class ContactModal extends React.Component {
         }
     }
 
+    //Update task
     updateTask(event){
         event.preventDefault();
         var self = this;
@@ -74,9 +73,9 @@ export default class ContactModal extends React.Component {
                             window.App.urlConstants.partnersUrl+
                             this.props.partnerId+'/tasks/'+taskId+'/';
         var request = new Request(requestString);
-        var tokenString = "Token " + localStorage.getItem("authToken");
+        var tokenString = 'Token ' + localStorage.getItem('authToken');
         if(Object.keys(this.changes).length > 0) {
-            //delete request to delete contact with the partner_id
+            //delete request to delete task with the partner_id
             fetch(request, {
                 method: 'PATCH',
                 headers: {
@@ -99,10 +98,12 @@ export default class ContactModal extends React.Component {
         }
     }
 
+    //close modal on cancel
     onCancelClick(){
         this.props.closeModalCallback();
     }
 
+    //store the changes for the task
     storeUpdates(event){
         var row = event.target;
         if(row.defaultValue !== row.value)
